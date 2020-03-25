@@ -1,0 +1,18 @@
+Index: app/src/main/java/com/peteleco/appet/CadastrarActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.peteleco.appet;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\n\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\npublic class CadastrarActivity extends AppCompatActivity {\r\n\r\n    private Button cadastrar;\r\n    private EditText nome, senha, grr, email, cpf;\r\n\r\n    private FirebaseAuth mAuth;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_cadastrar);\r\n\r\n        cadastrar = findViewById(R.id.btCadastro);\r\n        cadastrar.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                nome = findViewById(R.id.editNome);\r\n                String pegarNome = nome.getText().toString();\r\n\r\n                senha = findViewById(R.id.editSenha);\r\n                String pegarSenha = senha.getText().toString();\r\n\r\n                grr = findViewById(R.id.editGRR);\r\n                String pegarGRR = grr.getText().toString();\r\n\r\n                email = findViewById(R.id.editEmail);\r\n                String pegarEmail = email.getText().toString();\r\n\r\n                cpf = findViewById(R.id.editCPF);\r\n                String pegarCPF = cpf.getText().toString();\r\n\r\n            }\r\n        });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/peteleco/appet/CadastrarActivity.java	(date 1585150321000)
++++ app/src/main/java/com/peteleco/appet/CadastrarActivity.java	(date 1585151113056)
+@@ -15,7 +15,7 @@
+     private EditText nome, senha, grr, email, cpf;
+ 
+     private FirebaseAuth mAuth;
+-
++//aaa
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
