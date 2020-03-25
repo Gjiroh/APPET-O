@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".EsqueceuSenhaActivity">
+
+        <TextView
+            android:id="@+id/textEsqCPF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp"
+            android:text="Insira seu CPF: "
+            android:textColor="@color/textcolor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextE" />
+
+        <EditText
+            android:id="@+id/editTextCPF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Digite seu CPF aqui"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toStartOf="@+id/textEsqCPF"
+            app:layout_constraintTop_toBottomOf="@+id/textEsqCPF" />
+
+        <TextView
+            android:id="@+id/textEsqEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:text="Insira seu E-mail: "
+            android:textColor="@color/textcolor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Digite seu E-mail aqui"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toStartOf="@+id/textEsqEmail"
+            app:layout_constraintTop_toBottomOf="@+id/textEsqEmail" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Recuperar senha"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCPF" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

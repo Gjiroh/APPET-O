@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "794746886165",
+    "firebase_url": "https://appet-organizacao-projetos.firebaseio.com",
+    "project_id": "appet-organizacao-projetos",
+    "storage_bucket": "appet-organizacao-projetos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794746886165:android:124648fc74824673c0961c",
+        "android_client_info": {
+          "package_name": "com.peteleco.appet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794746886165-ga9j2dddnkiv8jdbhp3rbl760uhb1270.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.peteleco.appet",
+            "certificate_hash": "83106ebe1117fa87caba92b1a84006c12af0b0ab"
+          }
+        },
+        {
+          "client_id": "794746886165-3kgeccsb6cfpqqlal9eoglndhen10isb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMypg25U-ZBU8h-Hc4I0Ut3k82r43_F1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794746886165-3kgeccsb6cfpqqlal9eoglndhen10isb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
