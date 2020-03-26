@@ -1,0 +1,12 @@
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.gitignore	(date 1585151144951)
++++ .idea/.gitignore	(date 1585151144951)
+@@ -0,0 +1,3 @@
++
++# Default ignored files
++/shelf/
+\ No newline at end of file
