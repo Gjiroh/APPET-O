@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textEsqEmail" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btRecuperarSenha"
             android:layout_width="409dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"

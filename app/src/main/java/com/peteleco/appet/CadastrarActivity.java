@@ -128,7 +128,7 @@ public class CadastrarActivity extends AppCompatActivity {
         if (!validateForm(email, password, nome, grr, cpf, telefone)) {
             return;
         }
-//        showProgressBar();
+        showProgressBar();
         try {
             // [START create_user_with_email]
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -142,6 +142,7 @@ public class CadastrarActivity extends AppCompatActivity {
                                 updateUI(user);
                                 Toast.makeText(CadastrarActivity.this, " Cadastro realizado com sucesso! ",
                                         Toast.LENGTH_SHORT).show();
+//                                confirma_email();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -166,7 +167,7 @@ public class CadastrarActivity extends AppCompatActivity {
                             }
 
                             // [START_EXCLUDE]
-//                        hideProgressBar();
+                            hideProgressBar();
                             // [END_EXCLUDE]
                         }
                     });
@@ -184,10 +185,28 @@ public class CadastrarActivity extends AppCompatActivity {
     }
 
     private void showProgressBar() {
-        //TODO: mostrar barra de progresso
+        View dados_cadastro;
+        dados_cadastro = findViewById(R.id.dados_cadastro);
+
+        View progressBar;
+        progressBar = findViewById(R.id.progressBarCadastro);
+
+        dados_cadastro.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
-        //TODO: esconder barra de progresso
+        View dados_cadastro;
+        dados_cadastro = findViewById(R.id.dados_cadastro);
+
+        View progressBar;
+        progressBar = findViewById(R.id.progressBarCadastro);
+
+        dados_cadastro.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void confirma_email() {
+//        mAuth.sendSignInLinkToEmail();
     }
 }
