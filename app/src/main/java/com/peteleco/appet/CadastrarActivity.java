@@ -28,6 +28,8 @@ public class CadastrarActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    // exemplo de uma alteração no código
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
