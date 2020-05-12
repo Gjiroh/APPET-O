@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CadastrarActivity extends AppCompatActivity {
 
@@ -28,7 +30,8 @@ public class CadastrarActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    // exemplo de uma alteração no código 2
+    private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,12 @@ public class CadastrarActivity extends AppCompatActivity {
                 campo_telefone = findViewById(R.id.editTel);
                 String pegarTelefone = campo_telefone.getText().toString();
 
-                createAccount(pegarEmail, pegarSenha, pegarGRR, pegarNome, pegarCPF, pegarTelefone);
+                createAccount(pegarEmail, pegarSenha, pegarNome, pegarGRR, pegarCPF, pegarTelefone);
 
             }
         });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -173,10 +178,14 @@ public class CadastrarActivity extends AppCompatActivity {
                             // [END_EXCLUDE]
                         }
                     });
+                User user = new User(nome, password, email, cpf, telefone);
+
+                mDatabase.child("users").child("userId").setValue(user);
             // [END create_user_with_email]
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //  TODO: enviar link de confirmação do e-mail
 
     }
 
@@ -206,9 +215,5 @@ public class CadastrarActivity extends AppCompatActivity {
 
         dados_cadastro.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-    }
-
-    private void confirma_email() {
-//        mAuth.sendSignInLinkToEmail();
     }
 }
