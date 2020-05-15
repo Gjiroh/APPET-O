@@ -70,11 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 String senhaSalvar = campo_senha.getText().toString();
 
                 signIn(loginSalvar, senhaSalvar);
-
                 Log.d(TAG, "botão clicado");
 //                Intent intencao2 = new Intent(getApplicationContext(), FragmentsActivity.class);
 //                startActivity(intencao2);
-
             }
         });
 
@@ -98,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intencao2 = new Intent(getApplicationContext(), FragmentsActivity.class);
-                            startActivity(intencao2);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

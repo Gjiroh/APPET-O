@@ -180,12 +180,14 @@ public class CadastrarActivity extends AppCompatActivity {
                     });
                 User user = new User(nome, password, email, cpf, telefone);
 
-                mDatabase.child("users").child("userId").setValue(user);
+                mDatabase.child("users").push().setValue(user);
             // [END create_user_with_email]
         } catch (Exception e) {
             e.printStackTrace();
         }
         //  TODO: enviar link de confirmação do e-mail
+
+        mAuth
 
     }
 
