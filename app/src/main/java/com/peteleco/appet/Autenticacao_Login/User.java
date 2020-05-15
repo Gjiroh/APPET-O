@@ -1,4 +1,4 @@
-package com.peteleco.appet;
+package com.peteleco.appet.Autenticacao_Login;
 
 public class User {
     public String nome;
@@ -12,17 +12,17 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String nome, String senha, String email, String cpf, String telefone) {
+    public User(String nome, String email, String cpf, String telefone) {
         this.nome = nome;
-        this.senha = senha;
+//        this.senha = senha;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;
     }
 
-    public User(String nome, String senha, String email, String cpf, String telefone, String grr) {
+    public User(String nome, String email, String cpf, String telefone, String grr) {
         this.nome = nome;
-        this.senha = senha;
+//        this.senha = senha;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;

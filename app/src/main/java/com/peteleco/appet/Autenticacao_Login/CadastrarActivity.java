@@ -1,4 +1,4 @@
-package com.peteleco.appet;
+package com.peteleco.appet.Autenticacao_Login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +22,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.regex.Pattern;
+import com.peteleco.appet.R;
 
 public class CadastrarActivity extends AppCompatActivity {
 
@@ -238,7 +237,7 @@ public class CadastrarActivity extends AppCompatActivity {
                             // [END_EXCLUDE]
                         }
                     });
-                User user = new User(nome, password, email, cpf, telefone);
+                User user = new User(nome, email, cpf, telefone, grr);
 
                 mDatabase.child("users").push().setValue(user);
             // [END create_user_with_email]

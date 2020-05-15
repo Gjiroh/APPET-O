@@ -1,4 +1,4 @@
-package com.peteleco.appet;
+package com.peteleco.appet.Autenticacao_Login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.peteleco.appet.MenuInicial.ProjetosActivity;
+import com.peteleco.appet.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,14 +68,11 @@ public class MainActivity extends AppCompatActivity {
                 campo_login = findViewById(R.id.edt_login);
                 String loginSalvar = campo_login.getText().toString();
 
-
                 campo_senha = findViewById(R.id.edt_password);
                 String senhaSalvar = campo_senha.getText().toString();
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
-//                Intent intencao2 = new Intent(getApplicationContext(), FragmentsActivity.class);
-//                startActivity(intencao2);
             }
         });
 
@@ -97,10 +97,14 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            if (user != null && user.isEmailVerified()) {
+                                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                                startActivity(intent);
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Autenticação falhou.",
+                            Toast.makeText(MainActivity.this, "Login ou Senha incorreto.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                             // [START_EXCLUDE]
@@ -127,13 +131,22 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(login)) {
             campo_login.setError("Este campo é obrigatório");
             campo_login.requestFocus();
+
             return false;
-        } else {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(login).matches()) {
+            campo_login.setError("Digite um formato de e-mail válido");
+            campo_login.requestFocus();
+            return false;
+        }else {
             campo_login.setError(null);
         }
 
         if (TextUtils.isEmpty(senha)) {
             campo_senha.setError("Este campo é obrigatório");
+            campo_senha.requestFocus();
+            return false;
+        } else if (senha.length() < 6) {
+            campo_senha.setError("A senha deve ter, no mínimo, 6 caracteres");
             campo_senha.requestFocus();
             return false;
         } else {

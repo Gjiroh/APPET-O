@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".EsqueceuSenhaActivity">
+        tools:context=".Autenticacao_Login.EsqueceuSenhaActivity">
 
         <TextView
             android:id="@+id/textEsqCPF"

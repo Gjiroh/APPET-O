@@ -1,4 +1,4 @@
-package com.peteleco.appet;
+package com.peteleco.appet.Autenticacao_Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.peteleco.appet.R;
 
 public class EsqueceuSenhaActivity extends AppCompatActivity {
     private Button btNovaSenha;
