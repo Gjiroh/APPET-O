@@ -205,9 +205,11 @@ public class CadastrarActivity extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
+                                assert user != null;
+                                user.sendEmailVerification();
                                 Toast.makeText(CadastrarActivity.this, " Cadastro realizado com sucesso! ",
                                         Toast.LENGTH_SHORT).show();
-//                                confirma_email();
+//                               confirma_email();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
