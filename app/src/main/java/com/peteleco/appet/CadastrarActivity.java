@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.regex.Pattern;
 
 public class CadastrarActivity extends AppCompatActivity {
 
@@ -112,21 +115,76 @@ public class CadastrarActivity extends AppCompatActivity {
 
 //        String email = mEmailField.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
-            campo_email.setError("Este campo é obrigatório");
-            campo_email.requestFocus();
+        if (TextUtils.isEmpty(nome)) {
+            campo_nome.setError("Este campo é obrigatório");
+            campo_nome.requestFocus();
             return false;
-        } else {
-            campo_email.setError(null);
+        }else {
+            campo_nome.setError(null);
         }
 
         if (TextUtils.isEmpty(password)) {
             campo_senha.setError("Este campo é obrigatório");
             campo_senha.requestFocus();
             return false;
+        } else if (password.length() < 6) {
+            campo_senha.setError("A senha deve ter, no mínimo, 6 caracteres");
+            campo_senha.requestFocus();
+            return false;
         } else {
             campo_senha.setError(null);
         }
+
+        if (TextUtils.isEmpty(email)) {
+            campo_email.setError("Este campo é obrigatório");
+            campo_email.requestFocus();
+
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            campo_email.setError("Digite um formato de e-mail válido");
+            campo_email.requestFocus();
+            return false;
+        }else {
+            campo_email.setError(null);
+        }
+
+        if (TextUtils.isEmpty(cpf)) {
+            campo_cpf.setError("Este campo é obrigatório");
+            campo_cpf.requestFocus();
+            return false;
+        }else if (cpf.length() != 11) {
+            campo_cpf.setError("O CPF deve ter 11 caracteres, exemplo: 12345678900");
+            campo_cpf.requestFocus();
+            return false;
+        }else {
+            campo_cpf.setError(null);
+        }
+
+        if (TextUtils.isEmpty(telefone)) {
+            campo_telefone.setError("Este campo é obrigatório");
+            campo_telefone.requestFocus();
+            return false;
+        }else if  (telefone.length() != 11) { //41 9 9999 9999 ou 041 3333-3333
+            campo_telefone.setError("O Telefone deve ser um numero válido," +
+                    " exemplo: 41999887766 ou 4133223322");
+            campo_telefone.requestFocus();
+            return false;
+        }else {
+            campo_telefone.setError(null);
+        }
+
+        if (TextUtils.isEmpty(grr)) {
+            campo_grr.setError("Este campo é obrigatório");
+            campo_grr.requestFocus();
+            return false;
+        }else if (grr.length() != 8) {
+            campo_grr.setError("O GRR deve ter 8 caracteres, exemplo: 20209999");
+            campo_grr.requestFocus();
+            return false;
+        }else {
+            campo_grr.setError(null);
+        }
+
         return true;
     }
 
@@ -186,7 +244,7 @@ public class CadastrarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //  TODO: enviar link de confirmação do e-mail
-        
+
     }
 
     // desloga o usuário
