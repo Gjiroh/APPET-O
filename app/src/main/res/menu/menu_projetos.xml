@@ -4,10 +4,10 @@
 
     <item
         android:id="@+id/item"
-        android:title="Item"
+        android:title="Adicionar novo projeto"
         app:showAsAction="never" />
     <item
         android:id="@+id/itemItem2"
-        android:title="Item2"
+        android:title="Info Pessoais"
         app:showAsAction="never" />
 </menu>

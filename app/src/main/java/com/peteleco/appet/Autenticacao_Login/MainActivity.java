@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
+
+
+                 // Mudar para o evento de signIn depois que acabar de arrumar o projeto pra n precisar ficar logando toda vez
+                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -98,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                                startActivity(intent);
+
                             }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -120,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         // [END sign_in_with_email]
+
     }
 
     private boolean validateForm(String login, String senha) {

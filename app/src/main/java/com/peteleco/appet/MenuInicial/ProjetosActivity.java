@@ -68,8 +68,20 @@ public class ProjetosActivity extends AppCompatActivity {
     }
 
     public void AdicionarProjeto(String nomeProjeto) {
-        ModeloProjetos modeloProjetos = new ModeloProjetos(nomeProjeto);
-        this.listProjetos.add( modeloProjetos );
+        ModeloProjetos APPET = new ModeloProjetos("APPET");
+        this.listProjetos.add( APPET );
+
+        ModeloProjetos PET_MIND = new ModeloProjetos("PET_MIND");
+        this.listProjetos.add( PET_MIND );
+
+        ModeloProjetos PET_INDICA = new ModeloProjetos("PET_INDICA");
+        this.listProjetos.add( PET_INDICA );
+
+        ModeloProjetos OFICINAS = new ModeloProjetos("OFICINAS");
+        this.listProjetos.add( OFICINAS );
+
+        ModeloProjetos VAI_COM_PET = new ModeloProjetos("Vai_com_PET");
+        this.listProjetos.add( VAI_COM_PET );
 
     }
 }
