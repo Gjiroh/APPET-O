@@ -186,9 +186,7 @@ public class CadastrarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //  TODO: enviar link de confirmação do e-mail
-
-        mAuth
-
+        
     }
 
     // desloga o usuário
