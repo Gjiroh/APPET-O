@@ -39,9 +39,11 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     //mAuth é null
+                    // TODO: Precisa verificar se o e-mail já esta cadastrado...
                     mAuth.sendPasswordResetEmail(campoEmail.getText().toString());
                     Toast.makeText(EsqueceuSenhaActivity.this, "Um e-mail foi enviado para uma nova senha",
                             Toast.LENGTH_SHORT).show();
+                    finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(EsqueceuSenhaActivity.this, "Alguma coisa deu errado",
