@@ -1,5 +1,6 @@
 package com.peteleco.appet.MenuInicial;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,10 +10,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
+import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.R;
 
@@ -65,6 +70,35 @@ public class ProjetosActivity extends AppCompatActivity {
         mostrarProjetos.addItemDecoration(
                 new DividerItemDecoration(this, LinearLayout.VERTICAL));
         mostrarProjetos.setAdapter(adapter);
+
+        // Evento de click
+        mostrarProjetos.addOnItemTouchListener(new RecyclerItemClickListener(
+                getApplicationContext(),
+                mostrarProjetos,
+                new RecyclerItemClickListener.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        ModeloProjetos projetos = listProjetos.get(position);
+                        Toast.makeText(ProjetosActivity.this
+                                , "Item clicado" + projetos.getNomeProjeto()
+                                , Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        ModeloProjetos projetos = listProjetos.get(position);
+                        Toast.makeText(ProjetosActivity.this
+                                , "Item clicado longo" + projetos.getNomeProjeto()
+                                , Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
     }
 
     public void AdicionarProjeto(String nomeProjeto) {

@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-
+                                // A intent é para vir pra ca
                             }
                         } else {
                             // If sign in fails, display a message to the user.
