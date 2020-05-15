@@ -40,10 +40,10 @@ public class ProjetosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.item:
+            case R.id.itemAddProjeto:
                 Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
 
-            case R.id.itemItem2:
+            case R.id.itemInfoPessoal:
                 Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
 
             default:
