@@ -57,6 +57,8 @@ public class ProjetosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_projetos);
         mostrarProjetos = findViewById(R.id.RecyclerViewProjetos);
 
+        getSupportActionBar().setTitle("Seus projetos");
+
         // Listar projetos
         this.AdicionarProjeto("APPET");
         this.AdicionarProjeto("PET Mind");

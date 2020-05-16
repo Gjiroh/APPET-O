@@ -40,6 +40,8 @@ public class CadastrarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar);
 
+        getSupportActionBar().setTitle("Cadastro");
+
         mAuth = FirebaseAuth.getInstance();
 
         cadastrar = findViewById(R.id.btCadastro);
