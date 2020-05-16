@@ -18,7 +18,7 @@ import com.peteleco.appet.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_todo, R.string.tab_text_done, R.string.tab_text_doing,
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_done, R.string.tab_text_doing, R.string.tab_text_todo,
     R.string.tab_text_ideas};
     private final Context mContext;
 
