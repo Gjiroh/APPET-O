@@ -3,4 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_projeto_especifico">ProjetoEspecifico</string>
+    <string name="tab_text_todo">TO DO</string>
+    <string name="tab_text_done">DONE</string>
+    <string name="tab_text_doing">DOING</string>
+    <string name="tab_text_ideas">IDEAS</string>
 </resources>

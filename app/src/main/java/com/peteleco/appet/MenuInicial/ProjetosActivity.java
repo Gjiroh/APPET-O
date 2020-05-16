@@ -1,16 +1,15 @@
 package com.peteleco.appet.MenuInicial;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
 
 import java.util.ArrayList;
@@ -86,8 +86,14 @@ public class ProjetosActivity extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         ModeloProjetos projetos = listProjetos.get(position);
                         Toast.makeText(ProjetosActivity.this
-                                , "Item clicado" + projetos.getNomeProjeto()
+                                , "Item clicado " + projetos.getNomeProjeto()
                                 , Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), ModeloProjetoEspecificoActivity.class);
+//                        EditText editText = (EditText) findViewById(R.id.editText);
+//                        String message = editText.getText().toString();
+                        intent.putExtra("NOME_PROJETO", projetos.getNomeProjeto());
+                        startActivity(intent);
                     }
 
                     @Override
