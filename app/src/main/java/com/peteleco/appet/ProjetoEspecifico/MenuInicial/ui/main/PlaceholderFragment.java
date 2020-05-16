@@ -33,6 +33,8 @@ public class PlaceholderFragment extends Fragment {
 
     private PageViewModel pageViewModel;
 
+    int index;
+
     TextView txtView;
 
     Tarefa tarefa;
@@ -49,7 +51,7 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 1;
+        index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
@@ -63,7 +65,20 @@ public class PlaceholderFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_projeto_especifico, container, false);
 
         txtView = root.findViewById(R.id.section_label);
-        ler_dados_Firebase();
+        switch (index){
+            case 1:
+                ler_dados_Firebase("DONE");
+                break;
+            case 2:
+                ler_dados_Firebase("DOING");
+                break;
+            case 3:
+                ler_dados_Firebase("TO DO");
+                break;
+            case 4:
+                ler_dados_Firebase("IDEAS");
+                break;
+        }
 //        final TextView textView = root.findViewById(R.id.section_label);
 //        pageViewModel.getText().observe(this, new Observer<String>() {
 //            @Override
@@ -73,9 +88,11 @@ public class PlaceholderFragment extends Fragment {
 //        });
         return root;
     }
-    private Tarefa ler_dados_Firebase(){
+    private Tarefa ler_dados_Firebase(String status){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("projetos/APPET/DOING/tarefa2");
+        DatabaseReference myRef = database.getReference("projetos/APPET/" +status);
+        //TODO: falta alguma coisa aqui ainda
+//        DatabaseReference myRef = database.getReference("projetos/APPET/DOING/tarefa2");
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -84,7 +101,6 @@ public class PlaceholderFragment extends Fragment {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 tarefa = dataSnapshot.getValue(Tarefa.class);
-                Log.d(TAG, "a Tarefa é " + tarefa.getDescricao());
                 txtView.setText(" Descrição " +tarefa.getDescricao() + "\n responsável é " +
                         tarefa.getResponsavel() + "\n prazo é " + tarefa.getPrazo());
             }
