@@ -64,10 +64,6 @@ public class PlaceholderFragment extends Fragment {
 
         txtView = root.findViewById(R.id.section_label);
         ler_dados_Firebase();
-        // TODO: aqui tem um bug, vou ver depois
-            txtView.setText("Descrição " +tarefa.getDescricao() + " responsável é " +
-                    tarefa.getResponsavel() + " prazo é " + tarefa.getPrazo());
-
 //        final TextView textView = root.findViewById(R.id.section_label);
 //        pageViewModel.getText().observe(this, new Observer<String>() {
 //            @Override
@@ -89,6 +85,8 @@ public class PlaceholderFragment extends Fragment {
                 // whenever data at this location is updated.
                 tarefa = dataSnapshot.getValue(Tarefa.class);
                 Log.d(TAG, "a Tarefa é " + tarefa.getDescricao());
+                txtView.setText(" Descrição " +tarefa.getDescricao() + "\n responsável é " +
+                        tarefa.getResponsavel() + "\n prazo é " + tarefa.getPrazo());
             }
 
             @Override
