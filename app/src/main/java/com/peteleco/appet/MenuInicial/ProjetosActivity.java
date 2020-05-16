@@ -105,16 +105,16 @@ public class ProjetosActivity extends AppCompatActivity {
         ModeloProjetos APPET = new ModeloProjetos("APPET");
         this.listProjetos.add( APPET );
 
-        ModeloProjetos PET_MIND = new ModeloProjetos("PET_MIND");
+        ModeloProjetos PET_MIND = new ModeloProjetos("PET MIND");
         this.listProjetos.add( PET_MIND );
 
-        ModeloProjetos PET_INDICA = new ModeloProjetos("PET_INDICA");
+        ModeloProjetos PET_INDICA = new ModeloProjetos("PET INDICA");
         this.listProjetos.add( PET_INDICA );
 
         ModeloProjetos OFICINAS = new ModeloProjetos("OFICINAS");
         this.listProjetos.add( OFICINAS );
 
-        ModeloProjetos VAI_COM_PET = new ModeloProjetos("Vai_com_PET");
+        ModeloProjetos VAI_COM_PET = new ModeloProjetos("Vai com o PET");
         this.listProjetos.add( VAI_COM_PET );
 
     }
