@@ -18,7 +18,8 @@ import com.peteleco.appet.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_todo, R.string.tab_text_done};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_todo, R.string.tab_text_done, R.string.tab_text_doing,
+    R.string.tab_text_ideas};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -41,7 +42,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 2;
+        // Show 4 total pages.
+        return 4;
     }
 }
