@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.R;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private Button irCadastrar, logar, esqSenha, enter;
     private EditText campo_login;
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Login ou Senha incorreto.",
+                            Toast.makeText(LoginActivity.this, "Login ou Senha incorreto.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                             // [START_EXCLUDE]

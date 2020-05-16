@@ -12,7 +12,7 @@
         <activity android:name=".MenuInicial.ProjetosActivity"></activity>
         <activity android:name=".Autenticacao_Login.EsqueceuSenhaActivity" />
         <activity android:name=".Autenticacao_Login.CadastrarActivity" />
-        <activity android:name=".Autenticacao_Login.MainActivity">
+        <activity android:name=".Autenticacao_Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
