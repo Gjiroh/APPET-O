@@ -12,7 +12,12 @@
         <activity
             android:name=".ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity"
             android:label="@string/title_activity_projeto_especifico"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName="com.peteleco.appet.MenuInicial.ProjetosActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.peteleco.appet.MenuInicial.ProjetosActivity" />
+        </activity>
         <activity android:name=".MenuInicial.ProjetosActivity" />
         <activity android:name=".Autenticacao_Login.EsqueceuSenhaActivity" />
         <activity android:name=".Autenticacao_Login.CadastrarActivity" />

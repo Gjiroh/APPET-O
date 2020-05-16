@@ -1,5 +1,6 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
 
@@ -36,5 +38,10 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String nomeProjeto = intent.getStringExtra("NOME_PROJETO");
+        getSupportActionBar().setTitle(nomeProjeto);
+
     }
 }
