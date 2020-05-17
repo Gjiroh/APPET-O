@@ -9,10 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".addNovoProjeto.NovoProjetoActivity"
+            android:parentActivityName=".MenuInicial.ProjetosActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.peteleco.appet.MenuInicial.ProjetosActivity" />
+        </activity>
         <activity
             android:name=".ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity"
             android:label="@string/title_activity_projeto_especifico"
-            android:parentActivityName="com.peteleco.appet.MenuInicial.ProjetosActivity" >
+            android:parentActivityName=".MenuInicial.ProjetosActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

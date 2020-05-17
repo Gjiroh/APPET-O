@@ -20,6 +20,7 @@ import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
+import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +43,12 @@ public class ProjetosActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.itemAddProjeto:
                 Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), NovoProjetoActivity.class);
+                startActivity(intent);
 
             case R.id.itemInfoPessoal:
                 Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
+                // TODO: autoexplicativo, mostrar informações pessoais e possibilitar que o usuário atualize.
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,7 +106,7 @@ public class ProjetosActivity extends AppCompatActivity {
                     public void onLongItemClick(View view, int position) {
                         ModeloProjetos projetos = listProjetos.get(position);
                         Toast.makeText(ProjetosActivity.this
-                                , "Item clicado longo" + projetos.getNomeProjeto()
+                                , "Item clicado longo " + projetos.getNomeProjeto()
                                 , Toast.LENGTH_SHORT).show();
                     }
 
