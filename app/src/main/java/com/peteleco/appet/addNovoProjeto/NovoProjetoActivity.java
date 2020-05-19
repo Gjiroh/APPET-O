@@ -62,6 +62,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
     }
 
     public void Colaboradores() {
+        /* TODO: Ver o método users!! */
         User user = new User(this.reference);
         List<String> listaNomes = user.nomesMembros();
         Log.i("Teste", "Lista: "+listaNomes.toString());
