@@ -23,25 +23,28 @@ Como o próprio nome sugere aqui o usuário irá inserir o E-mail e o CPF dele p
 Essa será a primeira tela a ser exibida após o login, nela será disponibilizado para visualização todos os projetos nos quais o usuário participa. Os projetos serão mostrados em forma de lista.
                     
 ### TELA DE PROJETOS ESPECÍFICOS
-Cada projeto terá uma tela específica, cada uma seguindo um modelo base, no qual será exibido:
-* Atividades             (Exibe barra de progresso)
-* Atividades em andamento    
-* Atividades feitas 
-* Ideias
+Cada projeto terá uma tela específica, cada uma seguindo um modelo base, no qual será exibido o status de cada atividade:
+* TO DO 
+* DOING 
+* DONE
+* IDEAS
 Além desses itens de layout será utilizado uma barra de ação na qual será exibia as opções de:
 * Visualizar Membros
 * Administrar Membros (Apenas para coordenadores de projetos)
 
-### TELA DE ATIVIDADES / ATIVIDADES EM ANDAMENTO / ATIVIDADES FEITAS / IDEIAS
-* TELA ATIVIDADES
+### TELA DE ATIVIDADES
 
-  Nessa tela será exibida todas as atividades proposta no projeto com informações como: Tarefa, Prazo, Responsável. Ao lado de cada atividade terá um checkbox para marcar quando está sendo feita. 
-* TELA ATIVIDADES EM ANDAMENTO
+Nessa tela, há abas com o status de cada uma das atividades. 
+* TO DO 
 
-  Nessa tela será exibida as atividades marcadas na tela de atividades em andamento. Também irão possuir uma checkbox que ao marcar indicará que a atividade foi finalizada, fazendo com que essa atividade seja excluída da tela de andamento e seja adicionada com atividade concluída.
-* TELA DE ATIVIDADES CONCLUIDAS
+  Nessa tela serão exibidas as atividades que devem ser feitas, com a descrição, o responsável e o prazo.
+  
+* DOING
 
-  Nessa tela irão aparecer as atividades que já foram feitas, cada atividade presente nessa tela irá influenciar na barra de progresso que foi citada anteriormente.
+  Nessa tela será exibida as atividades marcadas na tela de atividades em andamento. Também irão possuir uma checkbox que ao marcar indicará que a atividade foi finalizada, fazendo com que essa atividade seja passada para a aba DONE.
+  
+* DONE
+  Nessa tela irão aparecer as atividades que já foram feitas. As atividades presentes aqui influenciarão na barra de progresso do projeto. 
 
 * TELA VISUALIZAR MEMBROS
  
@@ -49,7 +52,7 @@ Aqui serão mostrados os membros presentes no projeto
 
 * TELA ADMINISTRAR membros
 
-Aqui será possível manipular os membros, adicionar ou retirar.
+Aqui será possível manipular os membros, adicionar ou retirar. Apenas o coordenador do projeto conseguirá realizar tais ações. 
 
 ### Autores do projeto
 * [Gabriel Jiro](https://github.com/Gjiroh)
