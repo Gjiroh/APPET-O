@@ -6,35 +6,50 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
 
 ## O APLICATIVO
    ### TELA INICIAL
+   <p align="center">
+  <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-54-215_com.peteleco.appet.jpg" width="240"  />
+   </p>
+    
    Nesta tela inicial, o membro terá três possibilidades, a primeira e principal que é fazer o Login para o aplicativo, a segunda opção é a de se cadastrar que direciona o usuário para outra tela (tela de cadastro) e a terceira opção que direciona para outra tela para resgatar a senha, caso seja esquecida (tela de esqueceu a senha).
                   
    ### TELA CADASTRO
-   Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
+   
+   <p align="center">
+   <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-59-866_com.peteleco.appet.jpg" width="240" />
+   </p>
+     Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
+     
 * Nome Completo
 * Senha desejada
 * E-mail 
 * CPF
 * Telefone
 * GRR
-### TELA ESQUECEU A SENHA
+
+### TELA ESQUECI A SENHA
+<p align="center">
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-03-303_com.peteleco.appet.jpg" width="240" />
+   </p>
 Como o próprio nome sugere aqui o usuário irá inserir o E-mail e o CPF dele para receber um e-mail automático de recuperar a senha.
 
 ### TELA DE EXIBIÇÃO DE PROJETOS
+<p align="center">
+  <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-10-346_com.peteleco.appet.jpg" width="240" />
+  </p>
 Essa será a primeira tela a ser exibida após o login, nela será disponibilizado para visualização todos os projetos nos quais o usuário participa. Os projetos serão mostrados em forma de lista.
                     
-### TELA DE PROJETOS ESPECÍFICOS
-Cada projeto terá uma tela específica, cada uma seguindo um modelo base, no qual será exibido o status de cada atividade:
-* TO DO 
-* DOING 
-* DONE
-* IDEAS
-Além desses itens de layout será utilizado uma barra de ação na qual será exibia as opções de:
-* Visualizar Membros
-* Administrar Membros (Apenas para coordenadores de projetos)
+### TELA PARA CRIAR NOVO PROJETO
+<p align="center">
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-22-322_com.peteleco.appet.jpg" width="240" />
+</p>
+Aqui, será possível criar um novo projeto, adicionar uma descrição e os colaboradores do projeto. 
 
 ### TELA DE ATIVIDADES
-
+<p align="center">
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-14-799_com.peteleco.appet.jpg" width="240" />
+   </p>
 Nessa tela, há abas com o status de cada uma das atividades. 
+
 * TO DO 
 
   Nessa tela serão exibidas as atividades que devem ser feitas, com a descrição, o responsável e o prazo.
