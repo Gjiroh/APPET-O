@@ -44,15 +44,16 @@ Nessa tela, há abas com o status de cada uma das atividades.
   Nessa tela será exibida as atividades marcadas na tela de atividades em andamento. Também irão possuir uma checkbox que ao marcar indicará que a atividade foi finalizada, fazendo com que essa atividade seja passada para a aba DONE.
   
 * DONE
+
   Nessa tela irão aparecer as atividades que já foram feitas. As atividades presentes aqui influenciarão na barra de progresso do projeto. 
 
 * TELA VISUALIZAR MEMBROS
  
-Aqui serão mostrados os membros presentes no projeto
+   Aqui serão mostrados os membros presentes no projeto
 
-* TELA ADMINISTRAR membros
+* TELA ADMINISTRAR MEMBROS
 
-Aqui será possível manipular os membros, adicionar ou retirar. Apenas o coordenador do projeto conseguirá realizar tais ações. 
+   Aqui será possível manipular os membros, adicionar ou retirar. Apenas o coordenador do projeto conseguirá realizar tais ações. 
 
 ### Autores do projeto
 * [Gabriel Jiro](https://github.com/Gjiroh)
