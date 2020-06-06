@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,8 @@ import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
 
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -88,21 +91,47 @@ public class PlaceholderFragment extends Fragment {
 //        });
         return root;
     }
+    String listaTarefas;
     private Tarefa ler_dados_Firebase(String status){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("projetos/APPET/" +status);
+        // TODO: no caso, tem que mudar para status
+        // TODO: mudar conforme projeto
+        DatabaseReference listaRef = database.getReference("projetos/APPET/DOING/lista");
         //TODO: falta alguma coisa aqui ainda
 //        DatabaseReference myRef = database.getReference("projetos/APPET/DOING/tarefa2");
 
+        listaRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaTarefas = (String) dataSnapshot.getValue();
+                String[] vetorTarefas = listaTarefas.split(",");
+                int numeroTarefas = vetorTarefas.length;
+                for (int i = 0; i < numeroTarefas; i++){
+                    Log.d(TAG, "As tarefas são: " + vetorTarefas[i]);
+                }
+                Log.d(TAG, "lista das tarefa é " + dataSnapshot.getValue() );
+                Log.d(TAG, "tipo da variável é : "  + dataSnapshot.getValue().getClass());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
+            }
+        });
+
+        String nomeTarefa = "tarefa2";
+        DatabaseReference myRef = database.getReference("projetos/APPET/" +status+ "/" + nomeTarefa);
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                /*
                 tarefa = dataSnapshot.getValue(Tarefa.class);
                 txtView.setText(" Descrição " +tarefa.getDescricao() + "\n responsável é " +
                         tarefa.getResponsavel() + "\n prazo é " + tarefa.getPrazo());
+                 */
             }
 
             @Override
