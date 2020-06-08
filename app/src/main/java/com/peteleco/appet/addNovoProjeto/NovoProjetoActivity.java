@@ -11,9 +11,12 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,11 +39,14 @@ import java.util.Set;
 
 public class NovoProjetoActivity extends AppCompatActivity {
 
-    private EditText nomeProjetoNovo, descriçãoProjetoNovo;
+    private EditText nomeProjetoNovo, descricaoProjetoNovo;
+    private Button btCriaProjeto;
     private RecyclerView mostrarColabs;
     private List<ModelTeste> listaColabs = new ArrayList<>();
-    private String TAG = "NovoProjeto";
+    public final static String TAG = "teste";
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+    private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("projetos");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,8 @@ public class NovoProjetoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_projeto);
         mostrarColabs = findViewById(R.id.RecyclerTeste);
+        nomeProjetoNovo = findViewById(R.id.editTextNomeProjeto);
+        descricaoProjetoNovo = findViewById(R.id.editTextDescrição);
 
         //Listar colaboradores
         Colaboradores();
@@ -62,33 +70,80 @@ public class NovoProjetoActivity extends AppCompatActivity {
         mostrarColabs.addItemDecoration(
                 new DividerItemDecoration(this, LinearLayout.VERTICAL));
         mostrarColabs.setAdapter(adapterTeste);
+
+        // Evento de clique no botao Criar Projeto
+        btCriaProjeto = findViewById(R.id.buttonCriarProjeto);
+        btCriaProjeto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nomeProjeto = nomeProjetoNovo.getText().toString();
+                String descricaoProjeto = descricaoProjetoNovo.getText().toString();
+                if (validarDados(nomeProjeto, descricaoProjeto)){
+                    try {
+                        projetobd.child(nomeProjeto).child("descricaoProjeto").setValue(descricaoProjeto);
+                        Toast.makeText(NovoProjetoActivity.this, "Projeto Criado", Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Log.e("Error", e.toString());
+                    }
+                }
+            }
+        });
     }
 
     public void Colaboradores() {
-        SharedPreferences preferences = getSharedPreferences("Nomes",0);
-        User user = new User(this.reference, preferences);
-        user.nomesMembros();
 
-        // Recuperando o nome dos membros que foram salvos
-        Set<String> set = preferences.getStringSet("nomes", null);
+        // TODO: Problema com o método "user.nomesMembros", onDataChange tem um "delay". Identificar uma possível solução.
 
-        // Converção do set<String> para uma List<String>
-        int n = set.size();
-        List<String> listaNomes = new ArrayList<String>(n);
-        for (String x : set)
-            listaNomes.add(x);
-        Log.i("Teste", "Lista Nomes: "+listaNomes.toString());
+        try {
 
-        // Adicionando o nome dos membros para serem mostrados na tela do usuário
-        int aux = 0;
-        while (aux < listaNomes.size()){
-            ModelTeste Colab = new ModelTeste(listaNomes.get(aux));
-            this.listaColabs.add(Colab);
-            aux += 1;
+            SharedPreferences preferences = getSharedPreferences("Nomes",0);
+            User user = new User(this.reference, preferences);
+            user.nomesMembros();
+
+            // Recuperando o nome dos membros que foram salvos
+            Set<String> set = preferences.getStringSet("nomes", null);
+            Log.i(TAG, "NovoProjetoActivity set: "+ set);
+
+            // Converção do set<String> para uma List<String>
+            assert set != null;
+            int n = set.size();
+            List<String> listaNomes = new ArrayList<String>(n);
+            listaNomes.addAll(set);
+            Log.i(TAG, "NovoProjetoActivity listaNomes: "+ listaNomes);
+
+            // Adicionando o nome dos membros para serem mostrados na tela do usuário
+            int aux = 0;
+            while (aux < listaNomes.size()){
+                ModelTeste Colab = new ModelTeste(listaNomes.get(aux));
+                this.listaColabs.add(Colab);
+                aux += 1;
+            }
+
+            // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
+            preferences.edit().remove("nomes").apply();
+            Log.i(TAG, "NovoProjetoActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
+
+            Log.i(TAG, "NPA: Conectou");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "NPA: Não Conectou");
         }
 
-        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-        preferences.edit().remove("nomes").apply();
+    }
 
+    public boolean validarDados (String nome, String descricao){
+        boolean valiDados = false;
+        if(nome.isEmpty()){
+            nomeProjetoNovo.requestFocus();
+            Toast.makeText(this, "Insira um nome de projeto", Toast.LENGTH_SHORT).show();
+        } else { valiDados = true; }
+
+        if (descricao.isEmpty()){
+            descricaoProjetoNovo.requestFocus();
+            Toast.makeText(this, "Insira uma breve descrição de projeto", Toast.LENGTH_SHORT).show();
+        } else { valiDados = true; }
+
+        return valiDados;
     }
 }

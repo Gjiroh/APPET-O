@@ -17,7 +17,6 @@ import java.util.Set;
 
 public class User {
     public String nome;
-//    public String senha;
     public String email;
     public String cpf;
     public String telefone;
@@ -25,6 +24,7 @@ public class User {
     List<String> listaNomes = new ArrayList<>();
     private DatabaseReference reference;
     private SharedPreferences preferences;
+    private static final String TAG = "teste";
 
 
     public User(DatabaseReference reference, SharedPreferences preferences) {
@@ -34,7 +34,6 @@ public class User {
 
     public User(String nome, String email, String cpf, String telefone, String grr) {
         this.nome = nome;
-//        this.senha = senha;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;
@@ -42,7 +41,7 @@ public class User {
     }
 
     public void nomesMembros() {
-        // TODO: Recuperar nomes do banco de dados ou colocar manualmente aqui?
+        // TODO: Recuperar nomes do banco de dados (criar uma lista la)
         this.reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -52,14 +51,14 @@ public class User {
                         .child("nome").getValue().toString()); // João Turra
 
                 //Set the values
-                Set<String> set = new HashSet<String>(listaNomes);
-
+                Set<String> set = new HashSet<>(listaNomes);
+                Log.i(TAG, "User: "+ set);
                 // Salvando os nomes dos membros em uma SharedPreference
                 preferences.edit().putStringSet("nomes", set).apply();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Teste", "Deu RUim");
+                Log.e("Teste", "Deu Ruim");
             }
         });
     }

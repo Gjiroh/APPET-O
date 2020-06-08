@@ -1,9 +1,11 @@
 package com.peteleco.appet.addNovoProjeto.RecyclerTeste.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,14 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.connection.util.StringListReader;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AdapterTeste extends RecyclerView.Adapter<AdapterTeste.MyViewHolder> {
 
+    final static private String TAG = "AdapterTeste";
     private List<ModelTeste> listaColab;
 
     public AdapterTeste(List<ModelTeste> listaColab) {
@@ -45,17 +50,26 @@ public class AdapterTeste extends RecyclerView.Adapter<AdapterTeste.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         ModelTeste colabs = listaColab.get(position);
         holder.nomeColab.setText(colabs.getNomeColab());
 
+        holder.nomeColab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    String s = holder.nomeColab.getText().toString();
+                    Log.i(TAG, "String: "+ s);
+                    
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return listaColab.size();
     }
-
 
 }
