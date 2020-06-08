@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,8 +29,10 @@ import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class NovoProjetoActivity extends AppCompatActivity {
 
@@ -41,6 +44,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO: Adicionar o evento de clique do botão "Criar Projeto", recuperar os dados inseridos/selecioandos e Adicionar o Projeto ao bd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_projeto);
         mostrarColabs = findViewById(R.id.RecyclerTeste);
@@ -48,7 +52,6 @@ public class NovoProjetoActivity extends AppCompatActivity {
         //Listar colaboradores
         Colaboradores();
 
-        //Configurando RecyclerView:
         //Adapter
         AdapterTeste adapterTeste = new AdapterTeste(listaColabs);
 
@@ -62,15 +65,30 @@ public class NovoProjetoActivity extends AppCompatActivity {
     }
 
     public void Colaboradores() {
-        /* TODO: Ver o método users!! */
-        User user = new User(this.reference);
-        List<String> listaNomes = user.nomesMembros();
-        Log.i("Teste", "Lista: "+listaNomes.toString());
+        SharedPreferences preferences = getSharedPreferences("Nomes",0);
+        User user = new User(this.reference, preferences);
+        user.nomesMembros();
+
+        // Recuperando o nome dos membros que foram salvos
+        Set<String> set = preferences.getStringSet("nomes", null);
+
+        // Converção do set<String> para uma List<String>
+        int n = set.size();
+        List<String> listaNomes = new ArrayList<String>(n);
+        for (String x : set)
+            listaNomes.add(x);
+        Log.i("Teste", "Lista Nomes: "+listaNomes.toString());
+
+        // Adicionando o nome dos membros para serem mostrados na tela do usuário
         int aux = 0;
         while (aux < listaNomes.size()){
             ModelTeste Colab = new ModelTeste(listaNomes.get(aux));
-            Log.i("Teste", "Nome: "+listaNomes.get(aux));
             this.listaColabs.add(Colab);
+            aux += 1;
         }
+
+        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
+        preferences.edit().remove("nomes").apply();
+
     }
 }

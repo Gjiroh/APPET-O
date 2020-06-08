@@ -1,5 +1,6 @@
 package com.peteleco.appet.Autenticacao_Login;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class User {
     public String nome;
@@ -21,9 +24,12 @@ public class User {
     public String grr;
     List<String> listaNomes = new ArrayList<>();
     private DatabaseReference reference;
+    private SharedPreferences preferences;
 
-    public User(DatabaseReference reference) {
+
+    public User(DatabaseReference reference, SharedPreferences preferences) {
         this.reference = reference;
+        this.preferences = preferences;
     }
 
     public User(String nome, String email, String cpf, String telefone, String grr) {
@@ -35,9 +41,8 @@ public class User {
         this.grr = grr;
     }
 
-    public List<String> nomesMembros() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        // TODO: Não esta retornando a listaNomes, tem algo de errado
+    public void nomesMembros() {
+        // TODO: Recuperar nomes do banco de dados ou colocar manualmente aqui?
         this.reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -45,16 +50,17 @@ public class User {
                         .child("nome").getValue().toString()); // Gabriel Jiro
                 listaNomes.add(dataSnapshot.child("-M7NoNe1P0ZkCNbCuNbY")
                         .child("nome").getValue().toString()); // João Turra
-                Log.i("Teste", "Lista User: "+listaNomes.toString());
+
+                //Set the values
+                Set<String> set = new HashSet<String>(listaNomes);
+
+                // Salvando os nomes dos membros em uma SharedPreference
+                preferences.edit().putStringSet("nomes", set).apply();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Teste", "Deu RUim");
             }
         });
-        Log.i("Teste", "Lista User2: "+listaNomes.toString());
-        return listaNomes;
-
-
     }
 }
