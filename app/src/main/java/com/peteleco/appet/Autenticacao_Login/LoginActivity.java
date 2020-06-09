@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
-                
+
             }
         });
 

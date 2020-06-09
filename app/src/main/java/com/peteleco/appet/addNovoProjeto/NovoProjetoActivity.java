@@ -51,7 +51,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: Adicionar o evento de clique do botão "Criar Projeto", recuperar os dados inseridos/selecioandos e Adicionar o Projeto ao bd
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_projeto);
         mostrarColabs = findViewById(R.id.RecyclerTeste);
@@ -88,8 +88,10 @@ public class NovoProjetoActivity extends AppCompatActivity {
                         projetobd.child(nomeProjeto).child("descricaoProjeto").setValue(descricaoProjeto);
                         projetobd.child(nomeProjeto).child("membros").setValue(listaColabSelec);
                         Toast.makeText(NovoProjetoActivity.this, "Projeto Criado", Toast.LENGTH_SHORT).show();
+                        finish();
                     }catch (Exception e){
                         Log.e("error", e.toString());
+                        Toast.makeText(NovoProjetoActivity.this, "Erro ao criar o projeto", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
