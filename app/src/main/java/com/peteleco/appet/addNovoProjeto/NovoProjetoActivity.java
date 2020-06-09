@@ -58,12 +58,14 @@ public class NovoProjetoActivity extends AppCompatActivity {
         nomeProjetoNovo = findViewById(R.id.editTextNomeProjeto);
         descricaoProjetoNovo = findViewById(R.id.editTextDescrição);
 
+        getSupportActionBar().setTitle("Novo Projeto");
+
         //Listar colaboradores
         preferences = getSharedPreferences("Nomes",0);
         Colaboradores(preferences);
 
         //Adapter
-        AdapterTeste adapterTeste = new AdapterTeste(listaColabs);
+        final AdapterTeste adapterTeste = new AdapterTeste(listaColabs);
 
         // Configurando o RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -82,10 +84,12 @@ public class NovoProjetoActivity extends AppCompatActivity {
                 String descricaoProjeto = descricaoProjetoNovo.getText().toString();
                 if (validarDados(nomeProjeto, descricaoProjeto)){
                     try {
+                        List<String> listaColabSelec= adapterTeste.listaColabSelec;
                         projetobd.child(nomeProjeto).child("descricaoProjeto").setValue(descricaoProjeto);
+                        projetobd.child(nomeProjeto).child("membros").setValue(listaColabSelec);
                         Toast.makeText(NovoProjetoActivity.this, "Projeto Criado", Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
-                        Log.e("Error", e.toString());
+                        Log.e("error", e.toString());
                     }
                 }
             }

@@ -18,13 +18,15 @@ import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class AdapterTeste extends RecyclerView.Adapter<AdapterTeste.MyViewHolder> {
 
-    final static private String TAG = "AdapterTeste";
+    final static private String TAG = "teste";
     private List<ModelTeste> listaColab;
+    public List<String> listaColabSelec = new ArrayList<>();
 
     public AdapterTeste(List<ModelTeste> listaColab) {
         this.listaColab = listaColab;
@@ -61,7 +63,12 @@ public class AdapterTeste extends RecyclerView.Adapter<AdapterTeste.MyViewHolder
                 if(isChecked){
                     String s = holder.nomeColab.getText().toString();
                     Log.i(TAG, "String: "+ s);
-                    
+                    listaColabSelec.add(s);
+                    Log.i(TAG, "AdapterTeste listaColabSelec: "+ listaColabSelec);
+                }else{
+                    String s = holder.nomeColab.getText().toString();
+                    listaColabSelec.remove(s);
+                    Log.i(TAG, "AdapterTeste listaColabSelec: "+ listaColabSelec);
                 }
             }
         });

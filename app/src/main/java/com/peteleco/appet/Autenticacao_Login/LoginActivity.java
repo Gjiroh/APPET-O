@@ -73,11 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
-
-
-                 // Mudar para o evento de signIn depois que acabar de arrumar o projeto pra n precisar ficar logando toda vez
-                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                startActivity(intent);
+                
             }
         });
 
@@ -103,7 +99,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                // A intent é para vir pra ca
+                                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                                startActivity(intent);
                             }
                         } else {
                             // If sign in fails, display a message to the user.
