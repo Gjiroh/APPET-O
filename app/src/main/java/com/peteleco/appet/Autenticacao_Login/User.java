@@ -41,15 +41,20 @@ public class User {
     }
 
     public void nomesMembros() {
-        // TODO: Recuperar nomes do banco de dados (criar uma lista la)
+
         this.reference.addValueEventListener(new ValueEventListener() {
+            final String NOME = "listaNome";
+            int i = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaNomes.add(dataSnapshot.child("-M7T3Spd8_VcTLzBqJJJ")
-                        .child("nome").getValue().toString()); // Gabriel Jiro
-                listaNomes.add(dataSnapshot.child("-M7NoNe1P0ZkCNbCuNbY")
-                        .child("nome").getValue().toString()); // João Turra
-
+                double aux = Double.parseDouble(dataSnapshot.child(NOME).child("contador").getValue().toString());
+                Log.i(TAG,"aux = "+aux);
+                int cont = (int) aux;
+                for ( i = 0 ; i < cont; i+=1 ) {
+                    String s = String.valueOf(i);
+                    listaNomes.add(dataSnapshot.child(NOME).child(s).getValue().toString());
+                }
+                Log.i(TAG, " i = "+ i);
                 //Set the values
                 Set<String> set = new HashSet<>(listaNomes);
                 Log.i(TAG, "User: "+ set);

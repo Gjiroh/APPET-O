@@ -3,6 +3,7 @@ package com.peteleco.appet.Autenticacao_Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,15 +21,19 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.R;
 
 public class CadastrarActivity extends AppCompatActivity {
 
     private Button cadastrar;
-    private static final String TAG = "CadastrarActivity";
+    private static final String TAG = "teste";
     private EditText campo_nome, campo_senha, campo_grr, campo_email, campo_cpf, campo_telefone;
+    private boolean teste = false;
 
     private FirebaseAuth mAuth;
 
@@ -67,6 +72,7 @@ public class CadastrarActivity extends AppCompatActivity {
                 campo_telefone = findViewById(R.id.editTel);
                 String pegarTelefone = campo_telefone.getText().toString();
 
+//                Log.i(TAG, "test: "+teste);
                 createAccount(pegarEmail, pegarSenha, pegarNome, pegarGRR, pegarCPF, pegarTelefone);
 
             }
@@ -189,7 +195,7 @@ public class CadastrarActivity extends AppCompatActivity {
         return true;
     }
 
-    private void createAccount(String email, String password, String nome, String grr, String cpf, String telefone) {
+    private void createAccount(final String email, String password, final String nome, final String grr, final String cpf, final String telefone) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm(email, password, nome, grr, cpf, telefone)) {
             return;
@@ -210,7 +216,8 @@ public class CadastrarActivity extends AppCompatActivity {
                                 user.sendEmailVerification();
                                 Toast.makeText(CadastrarActivity.this, " Cadastro realizado com sucesso! ",
                                         Toast.LENGTH_SHORT).show();
-//                               confirma_email();
+                                teste = true;
+//                                Log.i(TAG, "test task.isSuccessful: "+teste);
                                 finish();
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -238,17 +245,21 @@ public class CadastrarActivity extends AppCompatActivity {
                             // [START_EXCLUDE]
                             hideProgressBar();
                             // [END_EXCLUDE]
+
+                            // Verifica se o cadastro foi realizado com sucesso (atraves de "teste")
+                            // e cadastra o nome do usuario na listaNome e em users no Banco de Dados
+                            if (teste){
+                                adicionarNaListaNomesBD(nome);
+                                User user = new User(nome, email, cpf, telefone, grr);
+                                mDatabase.child("users").push().setValue(user);
+                            }
                         }
                     });
-                User user = new User(nome, email, cpf, telefone, grr);
 
-                mDatabase.child("users").push().setValue(user);
             // [END create_user_with_email]
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //  TODO: enviar link de confirmação do e-mail
-
     }
 
     // desloga o usuário
@@ -277,5 +288,42 @@ public class CadastrarActivity extends AppCompatActivity {
 
         dados_cadastro.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    public void adicionarNaListaNomesBD (final String s) {
+        final DatabaseReference users = FirebaseDatabase.getInstance().getReference("users");
+        final String NOMES = "listaNome";
+        final String TAG = "teste";
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                // Recupera a posição do contador e converte para um tipo double
+                double cont = Double.parseDouble(String.valueOf(dataSnapshot.child(NOMES).child("contador").getValue()));
+
+                // Converte o tipo double em int, pois o Banco de dados não aceita certos caracteres como: "." , "&" ....
+                int num = (int) cont;
+
+                // Converte o tipo int em String
+                String aux = String.valueOf(num);
+
+                // Verifica se o teste é real. Teste representa que foi realizado o cadstro com sucesso
+                if (teste) {
+//                    Log.i(TAG, "CadastrarActivity cont = "+ num);
+                    users.child(NOMES).child(aux).setValue(s);
+//                    Log.i(TAG, "CadastrarActivity child = "+ dataSnapshot.child(NOMES).child(aux).getValue());
+                    num += 1;
+//                    Log.i(TAG, "CadastrarActivity contAtualizado = "+ num);
+                    users.child(NOMES).child("contador").setValue(num);
+                    teste = false;
+//                     Log.i(TAG, "testFinal: "+teste);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Erro", "Erro ao consultar ou recuperar um valor no banco de dados");
+                Toast.makeText(CadastrarActivity.this, "Erro ao consultar o Banco de Dados. " +
+                        "Verifique a sua conexão", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

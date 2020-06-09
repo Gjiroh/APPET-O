@@ -97,7 +97,7 @@ public class ProjetosActivity extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         ModeloProjetos projetos = listProjetos.get(position);
                         Toast.makeText(ProjetosActivity.this
-                                , "Item clicado " + projetos.getNomeProjeto()
+                                , "Projeto " + projetos.getNomeProjeto()
                                 , Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), ModeloProjetoEspecificoActivity.class);

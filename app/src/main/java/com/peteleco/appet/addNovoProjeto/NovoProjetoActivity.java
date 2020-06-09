@@ -106,8 +106,6 @@ public class NovoProjetoActivity extends AppCompatActivity {
     }
 
     public void Colaboradores(SharedPreferences preferences) {
-
-        // TODO: Problema com o método "user.nomesMembros", onDataChange tem um "delay". Identificar uma possível solução.
         try {
             Thread.sleep(500);
             // Recuperando o nome dos membros que foram salvos
