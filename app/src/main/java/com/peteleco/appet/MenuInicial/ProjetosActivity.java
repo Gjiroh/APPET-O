@@ -131,18 +131,14 @@ public class ProjetosActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        limparPreferences();
+        SharedPreferences preferences = getSharedPreferences("Nomes",0);
+        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
+        preferences.edit().remove("nomes").apply();
+        Log.i("teste", "ProjetosActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
     }
 
     public void AdicionarProjeto(String nomeProjeto) {
         ModeloProjetos Projeto = new ModeloProjetos(nomeProjeto);
         this.listProjetos.add( Projeto );
-    }
-
-    public void limparPreferences () {
-        SharedPreferences preferences = getSharedPreferences("Nomes",0);
-        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-        preferences.edit().remove("nomes").apply();
-        Log.i("teste", "ProjetosActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
     }
 }

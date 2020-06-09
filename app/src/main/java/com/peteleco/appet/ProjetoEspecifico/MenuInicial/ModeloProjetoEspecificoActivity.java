@@ -45,15 +45,5 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String nomeProjeto = intent.getStringExtra("NOME_PROJETO");
         getSupportActionBar().setTitle(nomeProjeto);
-
-        limparPreferences();
-
-    }
-
-    public void limparPreferences () {
-        SharedPreferences preferences = getSharedPreferences("Nomes",0);
-        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-        preferences.edit().remove("nomes").apply();
-        Log.i("teste", "ModeloProjetoEspecificoActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
     }
 }
