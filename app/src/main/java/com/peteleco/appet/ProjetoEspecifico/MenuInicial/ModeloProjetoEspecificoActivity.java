@@ -1,6 +1,7 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -10,6 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.View;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
+import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
 
 public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
@@ -43,5 +46,14 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         String nomeProjeto = intent.getStringExtra("NOME_PROJETO");
         getSupportActionBar().setTitle(nomeProjeto);
 
+        limparPreferences();
+
+    }
+
+    public void limparPreferences () {
+        SharedPreferences preferences = getSharedPreferences("Nomes",0);
+        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
+        preferences.edit().remove("nomes").apply();
+        Log.i("teste", "ModeloProjetoEspecificoActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
     }
 }

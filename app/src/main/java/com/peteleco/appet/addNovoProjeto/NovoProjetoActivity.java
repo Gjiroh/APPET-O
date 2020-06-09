@@ -46,6 +46,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
     public final static String TAG = "teste";
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
     private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("projetos");
+    private SharedPreferences preferences;
 
 
     @Override
@@ -58,7 +59,8 @@ public class NovoProjetoActivity extends AppCompatActivity {
         descricaoProjetoNovo = findViewById(R.id.editTextDescrição);
 
         //Listar colaboradores
-        Colaboradores();
+        preferences = getSharedPreferences("Nomes",0);
+        Colaboradores(preferences);
 
         //Adapter
         AdapterTeste adapterTeste = new AdapterTeste(listaColabs);
@@ -88,18 +90,22 @@ public class NovoProjetoActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
-    public void Colaboradores() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
+        NovoProjetoActivity.this.preferences.edit().remove("nomes").apply();
+        Log.i(TAG, "NovoProjetoActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
+    }
+
+    public void Colaboradores(SharedPreferences preferences) {
 
         // TODO: Problema com o método "user.nomesMembros", onDataChange tem um "delay". Identificar uma possível solução.
-
         try {
-
-            SharedPreferences preferences = getSharedPreferences("Nomes",0);
-            User user = new User(this.reference, preferences);
-            user.nomesMembros();
-
+            Thread.sleep(500);
             // Recuperando o nome dos membros que foram salvos
             Set<String> set = preferences.getStringSet("nomes", null);
             Log.i(TAG, "NovoProjetoActivity set: "+ set);
@@ -118,10 +124,6 @@ public class NovoProjetoActivity extends AppCompatActivity {
                 this.listaColabs.add(Colab);
                 aux += 1;
             }
-
-            // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-            preferences.edit().remove("nomes").apply();
-            Log.i(TAG, "NovoProjetoActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
 
             Log.i(TAG, "NPA: Conectou");
 

@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
@@ -116,10 +121,28 @@ public class ProjetosActivity extends AppCompatActivity {
                     }
                 }
         ));
+        SharedPreferences preferences = getSharedPreferences("Nomes",0);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        User user = new User(reference, preferences);
+        user.nomesMembros();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        limparPreferences();
     }
 
     public void AdicionarProjeto(String nomeProjeto) {
         ModeloProjetos Projeto = new ModeloProjetos(nomeProjeto);
         this.listProjetos.add( Projeto );
+    }
+
+    public void limparPreferences () {
+        SharedPreferences preferences = getSharedPreferences("Nomes",0);
+        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
+        preferences.edit().remove("nomes").apply();
+        Log.i("teste", "ProjetosActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
     }
 }
