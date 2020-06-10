@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,6 +59,10 @@ public class ProjetosActivity extends AppCompatActivity {
             case R.id.itemInfoPessoal:
                 Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
                 // TODO: autoexplicativo, mostrar informações pessoais e possibilitar que o usuário atualize.
+                
+            case R.id.itemLogOut:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -72,17 +77,9 @@ public class ProjetosActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Seus projetos");
 
-        // TODO: Adicionar projetos baseado no banco de dados
+        // TODO: Fazer com que seja mostrado apenas os projetos que o usuário é membro
         // Listar projetos
         this.AdicionarProjeto();
-
-
-        /*this.AdicionarProjeto("APPET");
-        this.AdicionarProjeto("PET Mind");
-        this.AdicionarProjeto("PET Indica");
-        this.AdicionarProjeto("Oficinas para calouros");
-        this.AdicionarProjeto("Vai com o PET");*/
-//        this.AdicionarProjeto("Nome do Projeto");
 
         // Adapter
         AdapterProjetos adapter = new AdapterProjetos(listProjetos);
@@ -112,7 +109,7 @@ public class ProjetosActivity extends AppCompatActivity {
 //                        EditText editText = (EditText) findViewById(R.id.editText);
 //                        String message = editText.getText().toString();
                         intent.putExtra("NOME_PROJETO", projetos.getNomeProjeto());
-                        Log.i("teste", projetos.getNomeProjeto());
+
                         startActivity(intent);
                     }
 
@@ -142,8 +139,7 @@ public class ProjetosActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("Nomes",0);
         // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-        preferences.edit().remove("nomes").apply();
-        Log.i("teste", "ProjetosActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
+        preferences.edit().clear().apply();
     }
 
     public void AdicionarProjeto() {
@@ -152,32 +148,8 @@ public class ProjetosActivity extends AppCompatActivity {
         for (int i = 0; i <= contador; i++){
             String nomeProjeto = preferences.getString(String.valueOf(i),null);
             ModeloProjetos Projeto = new ModeloProjetos(nomeProjeto);
-            Log.i("teste", "ProjetosActivityADDPROJETO: "+ Projeto.getNomeProjeto());
+//            Log.i("teste", "ProjetosActivityADDPROJETO: "+ Projeto.getNomeProjeto());
             this.listProjetos.add( Projeto );
         }
     }
-
-    /*public void listagemProjeto() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos");
-        reference.addValueEventListener(new ValueEventListener() {
-            int i = 0;
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                    Log.i("teste", "ProjetosActivityLISTAGEMPROJETO: "+ child.getKey());
-                    //AdicionarProjeto(child.getKey());
-                    SharedPreferences preferences = getSharedPreferences("PROJETOS", 0);
-                    String s = String.valueOf(i);
-                    preferences.edit().putString(s,child.getKey()).apply();
-                    i++;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
 }

@@ -10,4 +10,8 @@
         android:id="@+id/itemInfoPessoal"
         android:title="Info Pessoais"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/itemLogOut"
+        android:title="Desconectar"
+        app:showAsAction="never" />
 </menu>

@@ -194,15 +194,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void listagemProjeto() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("projetos");
         reference.addValueEventListener(new ValueEventListener() {
             int i = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
-                    Log.i("teste", "ProjetosActivityLISTAGEMPROJETO: "+ child.getKey());
-                    //AdicionarProjeto(child.getKey());
+                    //Log.i("teste", "ProjetosActivityLISTAGEMPROJETO: "+ child.getKey());
                     SharedPreferences preferences = getSharedPreferences("PROJETOS", 0);
                     String s = String.valueOf(i);
                     preferences.edit().putString(s,child.getKey()).apply();

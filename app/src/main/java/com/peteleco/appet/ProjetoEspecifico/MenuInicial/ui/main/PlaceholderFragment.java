@@ -112,7 +112,6 @@ public class PlaceholderFragment extends Fragment {
 
         Log.i("teste", "PlaceHolder nomeProjeto:"+nomeProjeto);
         DatabaseReference listaRef = database.getReference("projetos/"+nomeProjeto+"/"+status+"/lista");
-        //DatabaseReference listaRef = database.getReference("projetos/APPET/DOING/lista");
 
         // TODO: Verificar o motivo que quando entra no caso 1 do switch, muda para o caso 2 sem fazer
         //  a leitura dos Logs ("As tarefas sao:... bla,bla")
