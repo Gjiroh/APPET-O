@@ -1,5 +1,6 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,18 +20,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
 
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment extends Fragment {
     String TAG="PlaceholderFragment";
+    String nomeProjeto;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -41,6 +47,8 @@ public class PlaceholderFragment extends Fragment {
     TextView txtView;
 
     Tarefa tarefa;
+
+    String listaTarefas;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -59,6 +67,8 @@ public class PlaceholderFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
+        nomeProjeto = preferences.getString("nomeProjeto",null);
     }
 
     @Override
@@ -71,15 +81,19 @@ public class PlaceholderFragment extends Fragment {
         switch (index){
             case 1:
                 ler_dados_Firebase("DONE");
+                Log.i("teste", "Caso 1");
                 break;
             case 2:
                 ler_dados_Firebase("DOING");
+                Log.i("teste", "Caso 2");
                 break;
             case 3:
                 ler_dados_Firebase("TO DO");
+                Log.i("teste", "Caso 3");
                 break;
             case 4:
                 ler_dados_Firebase("IDEAS");
+                Log.i("teste", "Caso 4");
                 break;
         }
 //        final TextView textView = root.findViewById(R.id.section_label);
@@ -91,19 +105,22 @@ public class PlaceholderFragment extends Fragment {
 //        });
         return root;
     }
-    String listaTarefas;
-    private Tarefa ler_dados_Firebase(String status){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        // TODO: no caso, tem que mudar para status
-        // TODO: mudar conforme projeto
-        DatabaseReference listaRef = database.getReference("projetos/APPET/DOING/lista");
-        //TODO: falta alguma coisa aqui ainda
-//        DatabaseReference myRef = database.getReference("projetos/APPET/DOING/tarefa2");
 
+    private Tarefa ler_dados_Firebase(String status){
+        Log.i("teste", "lerDados Status: "+status);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        Log.i("teste", "PlaceHolder nomeProjeto:"+nomeProjeto);
+        DatabaseReference listaRef = database.getReference("projetos/"+nomeProjeto+"/"+status+"/lista");
+        //DatabaseReference listaRef = database.getReference("projetos/APPET/DOING/lista");
+
+        // TODO: Verificar o motivo que quando entra no caso 1 do switch, muda para o caso 2 sem fazer
+        //  a leitura dos Logs ("As tarefas sao:... bla,bla")
         listaRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaTarefas = (String) dataSnapshot.getValue();
+                assert listaTarefas != null;
                 String[] vetorTarefas = listaTarefas.split(",");
                 int numeroTarefas = vetorTarefas.length;
                 for (int i = 0; i < numeroTarefas; i++){

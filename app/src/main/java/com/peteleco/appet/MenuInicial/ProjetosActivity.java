@@ -68,6 +68,7 @@ public class ProjetosActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Seus projetos");
 
+        // TODO: Adicionar projetos baseado no banco de dados
         // Listar projetos
         this.AdicionarProjeto("APPET");
         this.AdicionarProjeto("PET Mind");
@@ -104,6 +105,7 @@ public class ProjetosActivity extends AppCompatActivity {
 //                        EditText editText = (EditText) findViewById(R.id.editText);
 //                        String message = editText.getText().toString();
                         intent.putExtra("NOME_PROJETO", projetos.getNomeProjeto());
+                        Log.i("teste", projetos.getNomeProjeto());
                         startActivity(intent);
                     }
 

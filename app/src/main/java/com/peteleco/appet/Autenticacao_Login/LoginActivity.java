@@ -73,7 +73,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
-
+                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -99,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                                startActivity(intent);
+                                /*Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                                startActivity(intent);*/
                             }
                         } else {
                             // If sign in fails, display a message to the user.

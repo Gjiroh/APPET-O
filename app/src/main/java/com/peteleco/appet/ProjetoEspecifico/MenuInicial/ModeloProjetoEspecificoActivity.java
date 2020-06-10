@@ -23,6 +23,8 @@ import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
 
 public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
+    public String nomeProjeto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,10 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String nomeProjeto = intent.getStringExtra("NOME_PROJETO");
+        SharedPreferences preferences = getSharedPreferences("Activity", 0);
+        preferences.edit().putString("nomeProjeto", nomeProjeto).apply();
         getSupportActionBar().setTitle(nomeProjeto);
     }
+
+
 }

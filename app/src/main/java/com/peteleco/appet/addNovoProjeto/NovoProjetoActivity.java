@@ -99,17 +99,8 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-        NovoProjetoActivity.this.preferences.edit().remove("nomes").apply();
-        Log.i(TAG, "NovoProjetoActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
-    }
-
     public void Colaboradores(SharedPreferences preferences) {
         try {
-            Thread.sleep(500);
             // Recuperando o nome dos membros que foram salvos
             Set<String> set = preferences.getStringSet("nomes", null);
             Log.i(TAG, "NovoProjetoActivity set: "+ set);
