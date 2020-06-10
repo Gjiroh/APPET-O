@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.R;
 
@@ -77,6 +83,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listagemProjeto();
 
     }
 
@@ -183,5 +191,30 @@ public class LoginActivity extends AppCompatActivity {
 //            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
 
         }
+    }
+
+    public void listagemProjeto() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos");
+        reference.addValueEventListener(new ValueEventListener() {
+            int i = 0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                    Log.i("teste", "ProjetosActivityLISTAGEMPROJETO: "+ child.getKey());
+                    //AdicionarProjeto(child.getKey());
+                    SharedPreferences preferences = getSharedPreferences("PROJETOS", 0);
+                    String s = String.valueOf(i);
+                    preferences.edit().putString(s,child.getKey()).apply();
+                    preferences.edit().putInt("contador",i).apply();
+                    i++;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

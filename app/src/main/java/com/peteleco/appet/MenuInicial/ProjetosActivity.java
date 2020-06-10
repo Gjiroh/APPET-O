@@ -1,5 +1,6 @@
 package com.peteleco.appet.MenuInicial;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,8 +18,11 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
@@ -33,7 +37,7 @@ import java.util.List;
 public class ProjetosActivity extends AppCompatActivity {
 
     private RecyclerView mostrarProjetos;
-    private List<ModeloProjetos> listProjetos = new ArrayList<>();
+    public List<ModeloProjetos> listProjetos = new ArrayList<>();
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
@@ -70,11 +74,14 @@ public class ProjetosActivity extends AppCompatActivity {
 
         // TODO: Adicionar projetos baseado no banco de dados
         // Listar projetos
-        this.AdicionarProjeto("APPET");
+        this.AdicionarProjeto();
+
+
+        /*this.AdicionarProjeto("APPET");
         this.AdicionarProjeto("PET Mind");
         this.AdicionarProjeto("PET Indica");
         this.AdicionarProjeto("Oficinas para calouros");
-        this.AdicionarProjeto("Vai com o PET");
+        this.AdicionarProjeto("Vai com o PET");*/
 //        this.AdicionarProjeto("Nome do Projeto");
 
         // Adapter
@@ -139,8 +146,38 @@ public class ProjetosActivity extends AppCompatActivity {
         Log.i("teste", "ProjetosActivity listaNomesApagada: "+ preferences.getStringSet("nomes", null));
     }
 
-    public void AdicionarProjeto(String nomeProjeto) {
-        ModeloProjetos Projeto = new ModeloProjetos(nomeProjeto);
-        this.listProjetos.add( Projeto );
+    public void AdicionarProjeto() {
+        SharedPreferences preferences = getSharedPreferences("PROJETOS",0);
+        int contador = preferences.getInt("contador", 0);
+        for (int i = 0; i <= contador; i++){
+            String nomeProjeto = preferences.getString(String.valueOf(i),null);
+            ModeloProjetos Projeto = new ModeloProjetos(nomeProjeto);
+            Log.i("teste", "ProjetosActivityADDPROJETO: "+ Projeto.getNomeProjeto());
+            this.listProjetos.add( Projeto );
+        }
     }
+
+    /*public void listagemProjeto() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos");
+        reference.addValueEventListener(new ValueEventListener() {
+            int i = 0;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                    Log.i("teste", "ProjetosActivityLISTAGEMPROJETO: "+ child.getKey());
+                    //AdicionarProjeto(child.getKey());
+                    SharedPreferences preferences = getSharedPreferences("PROJETOS", 0);
+                    String s = String.valueOf(i);
+                    preferences.edit().putString(s,child.getKey()).apply();
+                    i++;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
 }
