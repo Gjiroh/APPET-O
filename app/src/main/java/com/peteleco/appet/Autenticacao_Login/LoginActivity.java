@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void listagemProjeto() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("projetos");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos");
         reference.addValueEventListener(new ValueEventListener() {
             int i = 0;
             @Override

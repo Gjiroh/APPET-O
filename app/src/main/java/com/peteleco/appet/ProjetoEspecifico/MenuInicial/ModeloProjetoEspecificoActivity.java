@@ -8,27 +8,36 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
-import com.peteleco.appet.MenuInicial.ProjetosActivity;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
-import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
-    public String nomeProjeto;
+    private String nomeProjeto;
+    public RecyclerView recyclerViewTarefa;
+
+    List<Tarefa> listaTarefas = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projeto_especifico);
+
+        recyclerViewTarefa = findViewById(R.id.recyclerViewTarefas);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -51,6 +60,7 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         preferences.edit().putString("nomeProjeto", nomeProjeto).apply();
 
         getSupportActionBar().setTitle(nomeProjeto);
+
     }
 
 
