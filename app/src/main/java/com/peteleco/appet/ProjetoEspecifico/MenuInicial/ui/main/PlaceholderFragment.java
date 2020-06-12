@@ -42,8 +42,6 @@ public class PlaceholderFragment extends Fragment {
 
     int index;
 
-    TextView txtView;
-
     Tarefa tarefa;
     List<Tarefa> listaTarefa = new ArrayList<>();
 
@@ -51,6 +49,7 @@ public class PlaceholderFragment extends Fragment {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
+        Log.i("teste", "index newInstance: "+index);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,8 +61,7 @@ public class PlaceholderFragment extends Fragment {
 
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
-            index = index-1;
-            Log.i("teste", "Index: "+ index);
+            Log.i("teste", "Index: "+ (index));
         }
         pageViewModel.setIndex(index);
         SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
@@ -78,7 +76,7 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_projeto_especifico, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerViewTarefas);
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerViewTarefas);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
@@ -92,22 +90,25 @@ public class PlaceholderFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         //txtView = root.findViewById(R.id.section_label);
         switch (index){
-            case 0:
-                ler_dados_Firebase("DONE");
-                Log.i("teste", "Caso 0");
-                break;
+            // TODO: ver o bug quando seleciona o index = 4, buga
             case 1:
-                ler_dados_Firebase("DOING");
+                ler_dados_Firebase("DONE");
                 Log.i("teste", "Caso 1");
                 break;
             case 2:
-                ler_dados_Firebase("TO DO");
+                ler_dados_Firebase("DOING");
                 Log.i("teste", "Caso 2");
                 break;
             case 3:
-                ler_dados_Firebase("IDEAS");
+                ler_dados_Firebase("TO DO");
                 Log.i("teste", "Caso 3");
                 break;
+            case 4:
+                ler_dados_Firebase("IDEAS");
+                Log.i("teste", "Caso 4");
+                break;
+            default:
+                Log.i("teste","entrou no defaut");
         }
 //        final TextView textView = root.findViewById(R.id.section_label);
 //        pageViewModel.getText().observe(this, new Observer<String>() {
@@ -155,71 +156,6 @@ public class PlaceholderFragment extends Fragment {
             }
         });
 
-
-        /*listaRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaTarefas = (String) dataSnapshot.getValue();
-                assert listaTarefas != null;
-                vetorTarefas[0] = listaTarefas.split(",");
-                int numeroTarefas = vetorTarefas[0].length;
-                for (int i = 0; i < numeroTarefas; i++){
-                    Log.d(TAG, "As tarefas são: " + vetorTarefas[0][i]);
-
-                    String nomeTarefa = vetorTarefas[0][i];
-                    DatabaseReference myRef = database.getReference("projetos/"+nomeProjeto+"/" +status+ "/" + nomeTarefa);
-                    myRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
-
-                            tarefa = dataSnapshot.getValue(Tarefa.class);
-                            txtView.setText(" Descrição " +tarefa.getDescricao() + "\n Responsável é " +
-                                    tarefa.getResponsavel() + "\n Prazo é " + tarefa.getPrazo());
-                            Log.i("teste", "Entrou no segundo onDataChange");
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-                Log.d(TAG, "lista das tarefa é " + dataSnapshot.getValue() );
-                Log.d(TAG, "tipo da variável é : "  + dataSnapshot.getValue().getClass());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
-            }
-        });*/
-
-        /*nomeTarefa = "tarefa2";
-        DatabaseReference myRef = database.getReference("projetos/"+nomeProjeto+"/" +status+ "/" + nomeTarefa);
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                /*
-                tarefa = dataSnapshot.getValue(Tarefa.class);
-                txtView.setText(" Descrição " +tarefa.getDescricao() + "\n responsável é " +
-                        tarefa.getResponsavel() + "\n prazo é " + tarefa.getPrazo());
-                 */
-            /*}
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });*/
         return tarefa;
     }
 }

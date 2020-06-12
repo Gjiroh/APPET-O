@@ -27,7 +27,7 @@ import java.util.List;
 public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
     private String nomeProjeto;
-    public RecyclerView recyclerViewTarefa;
+
 
     List<Tarefa> listaTarefas = new ArrayList<>();
 
@@ -37,7 +37,6 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projeto_especifico);
 
-        recyclerViewTarefa = findViewById(R.id.recyclerViewTarefas);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);

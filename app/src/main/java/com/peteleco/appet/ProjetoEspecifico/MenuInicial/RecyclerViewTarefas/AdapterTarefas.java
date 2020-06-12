@@ -1,5 +1,6 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,11 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
         this.tarefaList = tarefaList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nomeTarefa, descricao, prazo, responsavel;
         CheckBox tarefaFeita;
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             nomeTarefa = itemView.findViewById(R.id.textNomeTarefa);
@@ -51,6 +52,7 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
         return new MyViewHolder(itemLista);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
