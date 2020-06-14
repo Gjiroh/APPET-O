@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,11 +25,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.peteleco.appet.Autenticacao_Login.LoginActivity;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.Adapter.AdapterTeste;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
+import com.peteleco.appet.bancoDados;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -46,7 +49,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
     public final static String TAG = "teste";
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
     private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("projetos");
-    private SharedPreferences preferences;
+    private bancoDados bancoDados;
 
 
     @Override
@@ -57,12 +60,12 @@ public class NovoProjetoActivity extends AppCompatActivity {
         mostrarColabs = findViewById(R.id.RecyclerTeste);
         nomeProjetoNovo = findViewById(R.id.editTextNomeProjeto);
         descricaoProjetoNovo = findViewById(R.id.editTextDescrição);
+        bancoDados = new bancoDados(getBaseContext());
 
         getSupportActionBar().setTitle("Novo Projeto");
 
         //Listar colaboradores
-        preferences = getSharedPreferences("Nomes",0);
-        Colaboradores(preferences);
+        Colaboradores();
 
         //Adapter
         final AdapterTeste adapterTeste = new AdapterTeste(listaColabs);
@@ -99,17 +102,12 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
     }
 
-    public void Colaboradores(SharedPreferences preferences) {
+    public void Colaboradores() {
+
         try {
             // Recuperando o nome dos membros que foram salvos
-            Set<String> set = preferences.getStringSet("nomes", null);
-            Log.i(TAG, "NovoProjetoActivity set: "+ set);
-
-            // Converção do set<String> para uma List<String>
-            assert set != null;
-            int n = set.size();
-            List<String> listaNomes = new ArrayList<String>(n);
-            listaNomes.addAll(set);
+            List<String> listaNomes;
+            listaNomes = bancoDados.getInfos("nome");
             Log.i(TAG, "NovoProjetoActivity listaNomes: "+ listaNomes);
 
             // Adicionando o nome dos membros para serem mostrados na tela do usuário

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".addNovoProjeto.NovoProjetoActivity"
+        <activity
+            android:name=".addNovoProjeto.NovoProjetoActivity"
             android:parentActivityName=".MenuInicial.ProjetosActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -19,6 +20,7 @@
             android:name=".ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity"
             android:label="@string/title_activity_projeto_especifico"
             android:parentActivityName=".MenuInicial.ProjetosActivity">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

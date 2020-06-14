@@ -35,12 +35,11 @@ import java.util.List;
 public class PlaceholderFragment extends Fragment {
     String TAG="PlaceholderFragment";
     String nomeProjeto;
+    private int aux;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-
-    int index;
 
     Tarefa tarefa;
     List<Tarefa> listaTarefa = new ArrayList<>();
@@ -58,9 +57,10 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-
+        int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
+            aux = index;
             Log.i("teste", "Index: "+ (index));
         }
         pageViewModel.setIndex(index);
@@ -89,8 +89,8 @@ public class PlaceholderFragment extends Fragment {
                 DividerItemDecoration.VERTICAL));
         recyclerView.setHasFixedSize(true);
         //txtView = root.findViewById(R.id.section_label);
-        switch (index){
-            // TODO: ver o bug quando seleciona o index = 4, buga
+        switch (aux){
+            // TODO: ver o bug quando seleciona o index = 1, repete o acesso ao index
             case 1:
                 ler_dados_Firebase("DONE");
                 Log.i("teste", "Caso 1");

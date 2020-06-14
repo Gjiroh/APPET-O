@@ -26,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.R;
+import com.peteleco.appet.bancoDados;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
-
-    private boolean sucesso = false;
+    public bancoDados bancoDados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +86,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        listagemProjeto();
+        bancoDados = new bancoDados(this.getApplicationContext());
+        bancoDados.carregarUsuarios();
+        bancoDados.carregarProjetos();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //Limpando espaço ocupado por Activity e Dados de users dutante o uso da aplicação
+        SharedPreferences preferences = getSharedPreferences("Activity",0);
+        preferences.edit().clear().apply();
+        SharedPreferences preferences1 = getSharedPreferences("Dados",0);
+        preferences1.edit().clear().apply();
     }
 
     private void signIn(String email, String password) {
@@ -124,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
 //                            mStatusTextView.setText(R.string.auth_failed);
+                            Toast.makeText(LoginActivity.this, "Falha ao acessar a TASK", Toast.LENGTH_SHORT).show();
                         }
 //                        hideProgressBar();
                         // [END_EXCLUDE]

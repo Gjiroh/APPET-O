@@ -127,10 +127,6 @@ public class ProjetosActivity extends AppCompatActivity {
                     }
                 }
         ));
-        SharedPreferences preferences = getSharedPreferences("Nomes",0);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        User user = new User(reference, preferences);
-        user.nomesMembros();
     }
 
     @Override

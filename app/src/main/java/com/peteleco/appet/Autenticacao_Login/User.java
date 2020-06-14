@@ -54,7 +54,6 @@ public class User {
                     String s = String.valueOf(i);
                     listaNomes.add(dataSnapshot.child(NOME).child(s).getValue().toString());
                 }
-                Log.i(TAG, " i = "+ i);
                 //Set the values
                 Set<String> set = new HashSet<>(listaNomes);
                 Log.i(TAG, "User: "+ set);
