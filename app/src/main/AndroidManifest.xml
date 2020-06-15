@@ -27,8 +27,12 @@
                 android:value="com.peteleco.appet.MenuInicial.ProjetosActivity" />
         </activity>
         <activity android:name=".MenuInicial.ProjetosActivity" />
-        <activity android:name=".Autenticacao_Login.EsqueceuSenhaActivity" />
-        <activity android:name=".Autenticacao_Login.CadastrarActivity" />
+        <activity
+            android:name=".Autenticacao_Login.EsqueceuSenhaActivity"
+            android:parentActivityName=".Autenticacao_Login.LoginActivity"/>
+        <activity
+            android:name=".Autenticacao_Login.CadastrarActivity"
+            android:parentActivityName=".Autenticacao_Login.LoginActivity"/>
         <activity android:name=".Autenticacao_Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
