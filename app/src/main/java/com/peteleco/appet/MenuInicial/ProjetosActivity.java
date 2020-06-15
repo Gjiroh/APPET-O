@@ -31,6 +31,7 @@ import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
+import com.peteleco.appet.bancoDados;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ProjetosActivity extends AppCompatActivity {
 
     private RecyclerView mostrarProjetos;
     public List<ModeloProjetos> listProjetos = new ArrayList<>();
+    private bancoDados bancoDados;
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
@@ -74,6 +76,7 @@ public class ProjetosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projetos);
         mostrarProjetos = findViewById(R.id.RecyclerViewProjetos);
+        bancoDados = new bancoDados(this.getApplicationContext());
 
         getSupportActionBar().setTitle("Seus projetos");
 
@@ -129,22 +132,10 @@ public class ProjetosActivity extends AppCompatActivity {
         ));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        SharedPreferences preferences = getSharedPreferences("Nomes",0);
-        // Limpando a SharedPreferences do usuário para não ficar ocupando espaço na memória
-        preferences.edit().clear().apply();
-    }
-
     public void AdicionarProjeto() {
-        SharedPreferences preferences = getSharedPreferences("PROJETOS",0);
-        int contador = preferences.getInt("contador", 0);
-        for (int i = 0; i <= contador; i++){
-            String nomeProjeto = preferences.getString(String.valueOf(i),null);
-            ModeloProjetos Projeto = new ModeloProjetos(nomeProjeto);
-//            Log.i("teste", "ProjetosActivityADDPROJETO: "+ Projeto.getNomeProjeto());
+        List<String> listaAux = bancoDados.listaProjetos();
+        for (int i = 0; i < listaAux.size(); i++){
+            ModeloProjetos Projeto = new ModeloProjetos(listaAux.get(i));
             this.listProjetos.add( Projeto );
         }
     }

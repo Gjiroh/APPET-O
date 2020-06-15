@@ -89,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         bancoDados = new bancoDados(this.getApplicationContext());
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
-
     }
 
     @Override
@@ -101,6 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         preferences.edit().clear().apply();
         SharedPreferences preferences1 = getSharedPreferences("Dados",0);
         preferences1.edit().clear().apply();
+        SharedPreferences preferences2 = getSharedPreferences("PROJETOS", 0);
+        preferences2.edit().clear().apply();
     }
 
     private void signIn(String email, String password) {

@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
+import com.peteleco.appet.bancoDados;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ import java.util.List;
 public class PlaceholderFragment extends Fragment {
     String TAG="PlaceholderFragment";
     String nomeProjeto;
+    bancoDados bancoDados;
     private int aux;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -56,6 +58,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bancoDados = new bancoDados(getActivity().getApplicationContext());
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
@@ -66,6 +69,7 @@ public class PlaceholderFragment extends Fragment {
         pageViewModel.setIndex(index);
         SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
         nomeProjeto = preferences.getString("nomeProjeto",null);
+
     }
     @Override
     public View onCreateView(
@@ -92,19 +96,23 @@ public class PlaceholderFragment extends Fragment {
         switch (aux){
             // TODO: ver o bug quando seleciona o index = 1, repete o acesso ao index
             case 1:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "DONE");
                 ler_dados_Firebase("DONE");
                 Log.i("teste", "Caso 1");
                 break;
             case 2:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
                 ler_dados_Firebase("DOING");
                 Log.i("teste", "Caso 2");
                 break;
             case 3:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
                 ler_dados_Firebase("TO DO");
                 Log.i("teste", "Caso 3");
                 break;
             case 4:
-                ler_dados_Firebase("IDEAS");
+                //bancoDados.loadNomeTarefas(nomeProjeto, "IDEIA");
+                ler_dados_Firebase("IDEIA");
                 Log.i("teste", "Caso 4");
                 break;
             default:
@@ -134,16 +142,10 @@ public class PlaceholderFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     List<String> list = new ArrayList<>();
-
                     list.add(child.getKey());
-                    Log.i("teste", "ProjetosActivityLISTAGEMTarefa: "+ list.toString());
-
-
                     nomeTarefa[i] = list.get(i);
                     tarefa = dataSnapshot.child(nomeTarefa[i]).getValue(Tarefa.class);
                     listaTarefa.add(tarefa);
-                    //txtView.setText(" Descrição " +tarefa.getDescricao() + "\n Responsável é " +
-                    //        tarefa.getResponsavel() + "\n Prazo é " + tarefa.getPrazo());
 
                     i++;
                 }

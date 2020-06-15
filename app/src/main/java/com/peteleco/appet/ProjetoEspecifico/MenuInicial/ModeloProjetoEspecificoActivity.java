@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
+import com.peteleco.appet.bancoDados;
 
 import java.util.ArrayList;
 import java.util.List;

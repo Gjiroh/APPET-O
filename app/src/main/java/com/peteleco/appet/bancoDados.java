@@ -13,9 +13,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -140,12 +143,54 @@ public class bancoDados {
             listaProjetos = new ArrayList<>(n);
             listaProjetos.addAll(set);
 
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Erro ao listar Projetos");
         }
 
-
+        Collections.sort(listaProjetos);
         return listaProjetos;
     }
+
+    //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio
+    /*public void loadNomeTarefas (final String nomeProjeto, final String status) {
+
+        final Tarefa[] tarefa = {new Tarefa()};
+        final List<String> list = new ArrayList<>();
+        final List<String> listaProjetos = listaProjetos();
+
+        for (int a = 0; a < 4; a++){
+
+            //final String[] status = {"DONE", "DOING", "TO DO", "IDEIA"};
+
+            for (int i = 0; i < listaProjetos.size(); i++){
+
+                //final String nomeProjeto = listaProjetos.get(i);
+                DatabaseReference projetoReference = reference.getDatabase().getReference(
+                        "testeProjetos/" + nomeProjeto + "/" + status);
+
+                //final int finalA = a;
+                projetoReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            list.add(child.getKey());
+
+                            tarefa[0] = dataSnapshot.child(child.getKey()).getValue(Tarefa.class);
+                        }
+                        Collections.sort(list);
+                        HashSet<String> set = new HashSet<>(list);
+                        preferences.edit().putStringSet(nomeProjeto.toLowerCase()+status, set).apply();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "Não foi possível carregar os nomes das tarefas");
+                    }
+                });
+            }
+        }
+    }*/
 }
