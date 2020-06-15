@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         preferences1.edit().clear().apply();
     }
 
-    private void signIn(String email, String password) {
+    private void signIn(final String email, String password) {
 
         Log.d(TAG, "signIn:" + email);
 
@@ -122,7 +122,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                /*Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                                /*bancoDados.loadNomeLogado(email);
+                                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 startActivity(intent);*/
                             }
                         } else {

@@ -153,10 +153,33 @@ public class bancoDados {
         return listaProjetos;
     }
 
-    public void getNomeLogado (String email) {
+    public void loadNomeLogado (final String email) {
 
-        reference
+        DatabaseReference user = reference.getDatabase().getReference("users");
+        user.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    if (email.equals(child.child("email").getValue().toString())){
+                        preferences.edit().putString("nomeLogado", child.child("nome").getValue().toString()).apply();
+                        preferences.edit().putString("nomeLogadoGRR", child.child("grr").getValue().toString()).apply();
+                        preferences.edit().putString("nomeLogadoCPF", child.child("cpf").getValue().toString()).apply();
+                        preferences.edit().putString("nomeLogadoTelefone", child.child("telefone").getValue().toString()).apply();
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public String getInfoNomeLogado ( String infokey ) {
+        String nomeLogado = preferences.getString(infokey, null);
+        return nomeLogado;
     }
 
     //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio
