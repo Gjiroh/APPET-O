@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AdapterTeste extends RecyclerView.Adapter<AdapterTeste.MyViewHolder> {
 
-    final static private String TAG = "teste";
+    final static private String TAG = "AdapterTeste.class";
     private List<ModelTeste> listaColab;
     public List<String> listaColabSelec = new ArrayList<>();
 
@@ -62,13 +62,10 @@ public class AdapterTeste extends RecyclerView.Adapter<AdapterTeste.MyViewHolder
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     String s = holder.nomeColab.getText().toString();
-                    Log.i(TAG, "String: "+ s);
                     listaColabSelec.add(s);
-                    Log.i(TAG, "AdapterTeste listaColabSelec: "+ listaColabSelec);
                 }else{
                     String s = holder.nomeColab.getText().toString();
                     listaColabSelec.remove(s);
-                    Log.i(TAG, "AdapterTeste listaColabSelec: "+ listaColabSelec);
                 }
             }
         });

@@ -36,13 +36,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText campo_login;
     private EditText campo_senha;
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     public bancoDados bancoDados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,"Criado MainActivity");
+        Log.d(TAG, "Criado MainActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
@@ -96,12 +96,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
 
         //Limpando espaço ocupado por Activity e Dados de users dutante o uso da aplicação
-        SharedPreferences preferences = getSharedPreferences("Activity",0);
+        SharedPreferences preferences = getSharedPreferences("Activity", 0);
         preferences.edit().clear().apply();
-        SharedPreferences preferences1 = getSharedPreferences("Dados",0);
+        SharedPreferences preferences1 = getSharedPreferences("Dados", 0);
         preferences1.edit().clear().apply();
-        SharedPreferences preferences2 = getSharedPreferences("PROJETOS", 0);
-        preferences2.edit().clear().apply();
     }
 
     private void signIn(String email, String password) {
@@ -165,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
             campo_login.setError("Digite um formato de e-mail válido");
             campo_login.requestFocus();
             return false;
-        }else {
+        } else {
             campo_login.setError(null);
         }
 
@@ -208,29 +206,5 @@ public class LoginActivity extends AppCompatActivity {
 //            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
 
         }
-    }
-
-    public void listagemProjeto() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos");
-        reference.addValueEventListener(new ValueEventListener() {
-            int i = 0;
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                    //Log.i("teste", "ProjetosActivityLISTAGEMPROJETO: "+ child.getKey());
-                    SharedPreferences preferences = getSharedPreferences("PROJETOS", 0);
-                    String s = String.valueOf(i);
-                    preferences.edit().putString(s,child.getKey()).apply();
-                    preferences.edit().putInt("contador",i).apply();
-                    i++;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 }

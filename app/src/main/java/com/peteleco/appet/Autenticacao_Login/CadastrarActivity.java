@@ -117,10 +117,6 @@ public class CadastrarActivity extends AppCompatActivity {
     }
 
     private boolean validateForm(String email, String password, String nome, String grr, String cpf, String telefone) {
-        // TODO: validação dos dados do usuário
-        // Exemplo: senha com 8 caracteres, e-mail contém @, etc
-
-//        String email = mEmailField.getText().toString();
 
         if (TextUtils.isEmpty(nome)) {
             campo_nome.setError("Este campo é obrigatório");
@@ -234,7 +230,7 @@ public class CadastrarActivity extends AppCompatActivity {
                                     campo_email.setError("Usuário já existe");
                                     campo_email.requestFocus();
                                 } catch (Exception e) {
-                                    Log.e(TAG, e.getMessage());
+                                    Log.e(TAG, "Erro: " + e.getMessage());
                                     Toast.makeText(CadastrarActivity.this, "Autenticação falhou. Procure ajuda! ",
                                             Toast.LENGTH_SHORT).show();
                                 }
@@ -249,7 +245,6 @@ public class CadastrarActivity extends AppCompatActivity {
                             // Verifica se o cadastro foi realizado com sucesso (atraves de "teste")
                             // e cadastra o nome do usuario na listaNome e em users no Banco de Dados
                             if (teste){
-                                adicionarNaListaNomesBD(nome);
                                 User user = new User(nome, email, cpf, telefone, grr);
                                 mDatabase.child("users").push().setValue(user);
                             }
@@ -289,41 +284,5 @@ public class CadastrarActivity extends AppCompatActivity {
         dados_cadastro.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
-
-    public void adicionarNaListaNomesBD (final String s) {
-        final DatabaseReference users = FirebaseDatabase.getInstance().getReference("users");
-        final String NOMES = "listaNome";
-        final String TAG = "teste";
-        users.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                // Recupera a posição do contador e converte para um tipo double
-                double cont = Double.parseDouble(String.valueOf(dataSnapshot.child(NOMES).child("contador").getValue()));
-
-                // Converte o tipo double em int, pois o Banco de dados não aceita certos caracteres como: "." , "&" ....
-                int num = (int) cont;
-
-                // Converte o tipo int em String
-                String aux = String.valueOf(num);
-
-                // Verifica se o teste é real. Teste representa que foi realizado o cadstro com sucesso
-                if (teste) {
-//                    Log.i(TAG, "CadastrarActivity cont = "+ num);
-                    users.child(NOMES).child(aux).setValue(s);
-//                    Log.i(TAG, "CadastrarActivity child = "+ dataSnapshot.child(NOMES).child(aux).getValue());
-                    num += 1;
-//                    Log.i(TAG, "CadastrarActivity contAtualizado = "+ num);
-                    users.child(NOMES).child("contador").setValue(num);
-                    teste = false;
-//                     Log.i(TAG, "testFinal: "+teste);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Erro", "Erro ao consultar ou recuperar um valor no banco de dados");
-                Toast.makeText(CadastrarActivity.this, "Erro ao consultar o Banco de Dados. " +
-                        "Verifique a sua conexão", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
+

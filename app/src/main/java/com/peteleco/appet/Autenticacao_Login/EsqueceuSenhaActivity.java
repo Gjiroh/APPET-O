@@ -3,6 +3,9 @@ package com.peteleco.appet.Autenticacao_Login;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,12 +14,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.peteleco.appet.R;
+import com.peteleco.appet.bancoDados;
+
+import java.util.List;
 
 public class EsqueceuSenhaActivity extends AppCompatActivity {
     private Button btNovaSenha;
     private EditText campoCpf, campoEmail;
     private FirebaseAuth mAuth;
     private TextView textoCpf;
+    private final static String TAG = "EsqueceuSenhaActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,27 +37,80 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        //TODO: depois tirar isso
-        campoCpf.setVisibility(View.GONE);
-        textoCpf.setVisibility(View.GONE);
-
         btNovaSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     //mAuth é null
-                    // TODO: Precisa verificar se o e-mail já esta cadastrado...
-                    mAuth.sendPasswordResetEmail(campoEmail.getText().toString());
-                    Toast.makeText(EsqueceuSenhaActivity.this, "Um e-mail foi enviado para uma nova senha",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    String email = campoEmail.getText().toString();
+                    String cpf = campoCpf.getText().toString();
+                    boolean formatoDados = validateForm(email,cpf);
+
+                    if (formatoDados && verificarDado("email", email) && verificarDado("cpf", cpf)){
+                        mAuth.sendPasswordResetEmail(campoEmail.getText().toString());
+                        Toast.makeText(EsqueceuSenhaActivity.this, "Um e-mail foi enviado para uma nova senha",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(EsqueceuSenhaActivity.this, "Alguma coisa deu errado",
+                    Toast.makeText(EsqueceuSenhaActivity.this, "Algo deu errado",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+    public boolean verificarDado (String tipoDado, String dadoInserido) {
+        boolean verificar = false;
 
+        bancoDados bancoDados = new bancoDados(this.getApplicationContext());
+        List<String> dadosCadastrados = bancoDados.getInfos(tipoDado);
+
+        for (int i = 0; i < dadosCadastrados.size(); i++){
+            if (dadoInserido.equals(dadosCadastrados.get(i))){
+                verificar = true;
+            }
+        }
+        if (!verificar){
+            Toast.makeText(
+                    this,
+                    "Algo deu errado, por favor, verifique os dados inseridos",
+                    Toast.LENGTH_LONG
+            ).show();
+        }
+
+        return verificar;
+    }
+
+    private boolean validateForm(String email, String cpf) {
+
+        if (TextUtils.isEmpty(email)) {
+            campoEmail.setError("Este campo é obrigatório");
+            campoEmail.requestFocus();
+
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            campoEmail.setError("Digite um formato de e-mail válido");
+            campoEmail.requestFocus();
+            return false;
+        }else {
+            campoEmail.setError(null);
+        }
+
+        if (TextUtils.isEmpty(cpf)) {
+            campoCpf.setError("Este campo é obrigatório");
+            campoCpf.requestFocus();
+            return false;
+        }else if (cpf.length() != 11) {
+            campoCpf.setError("CPF inválido. Por Favor insira um CPF válido");
+            campoCpf.requestFocus();
+            return false;
+        }else {
+            campoCpf.setError(null);
+        }
+
+        return true;
     }
 }

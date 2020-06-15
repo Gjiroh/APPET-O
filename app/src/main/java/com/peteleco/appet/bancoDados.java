@@ -153,6 +153,12 @@ public class bancoDados {
         return listaProjetos;
     }
 
+    public void getNomeLogado (String email) {
+
+        reference
+
+    }
+
     //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio
     /*public void loadNomeTarefas (final String nomeProjeto, final String status) {
 

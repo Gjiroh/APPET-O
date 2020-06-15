@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".InformacaoPessoal.InformacaoPessoalActivity"></activity>
         <activity
             android:name=".addNovoProjeto.NovoProjetoActivity"
             android:parentActivityName=".MenuInicial.ProjetosActivity">
@@ -29,10 +30,10 @@
         <activity android:name=".MenuInicial.ProjetosActivity" />
         <activity
             android:name=".Autenticacao_Login.EsqueceuSenhaActivity"
-            android:parentActivityName=".Autenticacao_Login.LoginActivity"/>
+            android:parentActivityName=".Autenticacao_Login.LoginActivity" />
         <activity
             android:name=".Autenticacao_Login.CadastrarActivity"
-            android:parentActivityName=".Autenticacao_Login.LoginActivity"/>
+            android:parentActivityName=".Autenticacao_Login.LoginActivity" />
         <activity android:name=".Autenticacao_Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

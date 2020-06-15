@@ -83,8 +83,10 @@ public class NovoProjetoActivity extends AppCompatActivity {
         btCriaProjeto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String nomeProjeto = nomeProjetoNovo.getText().toString();
                 String descricaoProjeto = descricaoProjetoNovo.getText().toString();
+
                 if (validarDados(nomeProjeto, descricaoProjeto)){
                     try {
                         List<String> listaColabSelec= adapterTeste.listaColabSelec;
@@ -111,18 +113,13 @@ public class NovoProjetoActivity extends AppCompatActivity {
             Log.i(TAG, "NovoProjetoActivity listaNomes: "+ listaNomes);
 
             // Adicionando o nome dos membros para serem mostrados na tela do usuário
-            int aux = 0;
-            while (aux < listaNomes.size()){
-                ModelTeste Colab = new ModelTeste(listaNomes.get(aux));
+            for (int i = 0; i < listaNomes.size(); i++){
+                ModelTeste Colab = new ModelTeste(listaNomes.get(i));
                 this.listaColabs.add(Colab);
-                aux += 1;
             }
-
-            Log.i(TAG, "NPA: Conectou");
-
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "NPA: Não Conectou");
+            Log.e(TAG, "Erro: " + e.getMessage());
         }
 
     }

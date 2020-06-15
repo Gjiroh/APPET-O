@@ -19,12 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.Autenticacao_Login.User;
+import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
@@ -54,17 +56,19 @@ public class ProjetosActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.itemAddProjeto:
-                Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), NovoProjetoActivity.class);
                 startActivity(intent);
 
             case R.id.itemInfoPessoal:
                 Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(getApplicationContext(), InformacaoPessoalActivity.class);
+                startActivity(intent2);
                 // TODO: autoexplicativo, mostrar informações pessoais e possibilitar que o usuário atualize.
                 
             case R.id.itemLogOut:
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
+                // TODO: Deslogar o usuário e voltar a tela inicial
+                //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                //firebaseAuth.signOut();
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,6 +85,8 @@ public class ProjetosActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Seus projetos");
 
         // TODO: Fazer com que seja mostrado apenas os projetos que o usuário é membro
+        //  Fazer isso na função "AdicionarProjeto" (Acho)
+
         // Listar projetos
         this.AdicionarProjeto();
 
@@ -120,7 +126,7 @@ public class ProjetosActivity extends AppCompatActivity {
                     public void onLongItemClick(View view, int position) {
                         ModeloProjetos projetos = listProjetos.get(position);
                         Toast.makeText(ProjetosActivity.this
-                                , "Item clicado longo " + projetos.getNomeProjeto()
+                                , "Projeto: " + projetos.getNomeProjeto()
                                 , Toast.LENGTH_SHORT).show();
                     }
 
