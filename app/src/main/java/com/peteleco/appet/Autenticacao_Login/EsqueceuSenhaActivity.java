@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +30,7 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_esqueceu_senha);
 
         btNovaSenha = findViewById(R.id.btRecuperarSenha);
-        campoCpf = findViewById(R.id.editTextCPF);
+        campoCpf = findViewById(R.id.editTextCPFUser);
         campoEmail = findViewById(R.id.editTextE);
         textoCpf = findViewById(R.id.textEsqCPF);
 

@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
@@ -161,9 +162,12 @@ public class bancoDados {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     if (email.equals(child.child("email").getValue().toString())){
+                        Log.i(TAG, child.getKey());
+                        preferences.edit().putString("nomeLogadoUI", child.getKey()).apply();
                         preferences.edit().putString("nomeLogado", child.child("nome").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoGRR", child.child("grr").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoCPF", child.child("cpf").getValue().toString()).apply();
+                        preferences.edit().putString("nomeLogadoEmail", child.child("email").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoTelefone", child.child("telefone").getValue().toString()).apply();
                     }
                 }
@@ -178,8 +182,37 @@ public class bancoDados {
     }
 
     public String getInfoNomeLogado ( String infokey ) {
-        String nomeLogado = preferences.getString(infokey, null);
-        return nomeLogado;
+        // infoKey é a chave que ficou salvo no SharedePreferences,
+        // ver keys utilizadas no método "loadNomeLogado"
+        return preferences.getString(infokey, null);
+    }
+
+    public void salvarDadoEspecificoBD (String referenciaBD, String dado) {
+        String userUI = this.getInfoNomeLogado("nomeLogadoUI");
+
+        if (referenciaBD.equals("nome") || referenciaBD.equals("email") || referenciaBD.equals("grr") ||
+                referenciaBD.equals("cpf") || referenciaBD.equals("telefone")) {
+            try {
+                reference.child("users").child(userUI).child(referenciaBD).setValue(dado);
+                Toast.makeText(context, "Dado salvo com sucesso", Toast.LENGTH_SHORT).show();
+            } catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(context, "Erro ao salvar dado", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void salvarDadosBD (User user) {
+        String userUI = this.getInfoNomeLogado("nomeLogadoUI");
+        Log.i(TAG, "UI do user: " + userUI);
+
+        try {
+            reference.child("users").child(userUI).setValue(user);
+            Toast.makeText(context, "Dados salvos com sucesso", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(context, "Erro ao salvar dados", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio

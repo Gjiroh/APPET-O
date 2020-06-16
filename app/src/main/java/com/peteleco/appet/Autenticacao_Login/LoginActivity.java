@@ -87,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         bancoDados = new bancoDados(this.getApplicationContext());
+        // TODO: Excluir bancoDados.loadNomeLogado daqui e usar quanfo efetuar login na função signIn
+        bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
     }

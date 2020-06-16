@@ -43,6 +43,7 @@ public class ProjetosActivity extends AppCompatActivity {
     private RecyclerView mostrarProjetos;
     public List<ModeloProjetos> listProjetos = new ArrayList<>();
     private bancoDados bancoDados;
+    private final static String TAG = "ProjetosActivity";
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
@@ -54,25 +55,44 @@ public class ProjetosActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        if (item.getItemId() == R.id.itemAddProjeto){
+            Log.i(TAG, "entrou no IF itemAddProjeto");
+            Intent intent = new Intent(this.getApplicationContext(), NovoProjetoActivity.class);
+            startActivity(intent);
+
+        } else if ( item.getItemId() == R.id.itemInfoPessoal ) {
+            Log.i(TAG, "entrou no IF itemInfoPessoal");
+            Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
+            startActivity(infoIntent);
+
+        } else if ( item.getItemId() == R.id.itemLogOut ) {
+            Log.i(TAG, "entrou no IF itemLogOut");
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            firebaseAuth.signOut();
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+
+        /* TODO: Por algum motivo estranho o switch bugou
+            quando seleciona um caso ESPECIFICO, ele entra nos outros tbm (?????????????????)
         switch (item.getItemId()) {
             case R.id.itemAddProjeto:
-                Intent intent = new Intent(getApplicationContext(), NovoProjetoActivity.class);
-                startActivity(intent);
+                Log.i(TAG, "Clicou itemAddProjeto");
 
             case R.id.itemInfoPessoal:
-                Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(getApplicationContext(), InformacaoPessoalActivity.class);
-                startActivity(intent2);
-                // TODO: autoexplicativo, mostrar informações pessoais e possibilitar que o usuário atualize.
-                
+                Log.i(TAG, "Clicou itemInfoPessoal");
+                Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
+                startActivity(infoIntent);
+
             case R.id.itemLogOut:
+                Log.i(TAG, "Clicou itemLogOut");
                 // TODO: Deslogar o usuário e voltar a tela inicial
                 //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 //firebaseAuth.signOut();
 
             default:
                 return super.onOptionsItemSelected(item);
-        }
+        }*/
     }
 
     @Override

@@ -26,7 +26,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextE" />
 
         <EditText
-            android:id="@+id/editTextCPF"
+            android:id="@+id/editTextCPFUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -73,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCPF" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextCPFUser" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
