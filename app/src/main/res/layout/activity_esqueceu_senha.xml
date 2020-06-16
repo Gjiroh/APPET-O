@@ -26,13 +26,16 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextE" />
 
         <EditText
-            android:id="@+id/editTextCPFUser"
+            android:id="@+id/editTextCPF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="168dp"
+            android:layout_marginRight="168dp"
             android:ems="10"
             android:hint="Digite seu CPF aqui"
             android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textEsqCPF"
             app:layout_constraintTop_toBottomOf="@+id/textEsqCPF" />
 
@@ -53,19 +56,24 @@
         <EditText
             android:id="@+id/editTextE"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="Digite seu E-mail aqui"
             android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="@+id/editTextCPF"
             app:layout_constraintStart_toStartOf="@+id/textEsqEmail"
             app:layout_constraintTop_toBottomOf="@+id/textEsqEmail" />
 
         <Button
             android:id="@+id/btRecuperarSenha"
-            android:layout_width="409dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="100dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
             android:background="@color/colorPrimaryDark"
             android:text="Recuperar senha"
             android:textColor="@color/white"
@@ -73,7 +81,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCPFUser" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextCPF" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
