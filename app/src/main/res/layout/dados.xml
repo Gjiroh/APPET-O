@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    an
+    >
+
+
+
+    <TextView
+        android:id="@+id/CP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CP"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/APPET"
+        app:layout_constraintTop_toTopOf="@+id/CPF" />
+
+    <TextView
+        android:id="@+id/APPET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:text="APPET"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/Gmail"
+        app:layout_constraintTop_toTopOf="@+id/Projetos" />
+
+    <TextView
+        android:id="@+id/nome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="16dp"
+        android:text="Nome:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textcolor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Fulano"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="200dp"
+        android:layout_marginRight="200dp"
+        android:text="Fulano"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nome" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Email:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textcolor"
+        app:layout_constraintStart_toStartOf="@+id/nome"
+        app:layout_constraintTop_toBottomOf="@+id/nome" />
+
+    <TextView
+        android:id="@+id/Projetos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Projetos:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textcolor"
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <TextView
+        android:id="@+id/CPF"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="CPF:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textcolor"
+        app:layout_constraintStart_toStartOf="@+id/Projetos"
+        app:layout_constraintTop_toBottomOf="@+id/Projetos" />
+
+    <TextView
+        android:id="@+id/GRR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="GRR:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/textcolor"
+        app:layout_constraintStart_toStartOf="@+id/CPF"
+        app:layout_constraintTop_toBottomOf="@+id/CPF" />
+
+    <TextView
+        android:id="@+id/Gmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="G mail"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/Fulano"
+        app:layout_constraintTop_toTopOf="@+id/email" />
+
+    <TextView
+        android:id="@+id/GR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GR"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/CP"
+        app:layout_constraintTop_toTopOf="@+id/GRR" />
+</androidx.constraintlayout.widget.ConstraintLayout>
