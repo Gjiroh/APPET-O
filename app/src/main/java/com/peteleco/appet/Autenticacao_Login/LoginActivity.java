@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (user != null && user.isEmailVerified()) {
                                 bancoDados.loadNomeLogado(email);
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                                campo_senha.setText("");
                                 startActivity(intent);
                             }
                         } else {
