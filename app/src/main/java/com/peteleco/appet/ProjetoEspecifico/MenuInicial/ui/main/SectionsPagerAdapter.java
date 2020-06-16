@@ -17,6 +17,7 @@ import com.peteleco.appet.R;
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private final static String TAG = "SectionsPagerAdapter";
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_done, R.string.tab_text_doing, R.string.tab_text_todo,
@@ -30,11 +31,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.i("teste","getItem position: "+position);
+        Log.i(TAG,"getItem position: "+position);
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         // esse método é chamado quando um fragment é criado
-        return PlaceholderFragment.newInstance(position);
+        return PlaceholderFragment.newInstance(position+1);
     }
 
     @Nullable

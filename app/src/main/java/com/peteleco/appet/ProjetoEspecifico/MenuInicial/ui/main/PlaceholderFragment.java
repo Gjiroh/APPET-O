@@ -37,7 +37,7 @@ public class PlaceholderFragment extends Fragment {
     String TAG="PlaceholderFragment";
     String nomeProjeto;
     bancoDados bancoDados;
-    private int aux;
+    private int index;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -50,7 +50,6 @@ public class PlaceholderFragment extends Fragment {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
-        Log.i("teste", "index newInstance: "+index);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -60,11 +59,8 @@ public class PlaceholderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         bancoDados = new bancoDados(getActivity().getApplicationContext());
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
-            aux = index;
-            Log.i("teste", "Index: "+ (index));
         }
         pageViewModel.setIndex(index);
         SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
@@ -93,30 +89,30 @@ public class PlaceholderFragment extends Fragment {
                 DividerItemDecoration.VERTICAL));
         recyclerView.setHasFixedSize(true);
         //txtView = root.findViewById(R.id.section_label);
-        switch (aux){
+        switch (index){
             // TODO: ver o bug quando seleciona o index = 1, repete o acesso ao index
             case 1:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DONE");
                 ler_dados_Firebase("DONE");
-                Log.i("teste", "Caso 1");
+                Log.i(TAG, "Caso 1");
                 break;
             case 2:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
                 ler_dados_Firebase("DOING");
-                Log.i("teste", "Caso 2");
+                Log.i(TAG, "Caso 2");
                 break;
             case 3:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
                 ler_dados_Firebase("TO DO");
-                Log.i("teste", "Caso 3");
+                Log.i(TAG, "Caso 3");
                 break;
             case 4:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "IDEIA");
                 ler_dados_Firebase("IDEIA");
-                Log.i("teste", "Caso 4");
+                Log.i(TAG, "Caso 4");
                 break;
             default:
-                Log.i("teste","entrou no defaut");
+                Log.i(TAG,"entrou no defaut");
         }
 //        final TextView textView = root.findViewById(R.id.section_label);
 //        pageViewModel.getText().observe(this, new Observer<String>() {
