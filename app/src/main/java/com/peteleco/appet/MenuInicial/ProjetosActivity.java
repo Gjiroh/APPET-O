@@ -56,17 +56,14 @@ public class ProjetosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         if (item.getItemId() == R.id.itemAddProjeto){
-            Log.i(TAG, "entrou no IF itemAddProjeto");
             Intent intent = new Intent(this.getApplicationContext(), NovoProjetoActivity.class);
             startActivity(intent);
 
         } else if ( item.getItemId() == R.id.itemInfoPessoal ) {
-            Log.i(TAG, "entrou no IF itemInfoPessoal");
             Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
             startActivity(infoIntent);
 
         } else if ( item.getItemId() == R.id.itemLogOut ) {
-            Log.i(TAG, "entrou no IF itemLogOut");
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.signOut();
             finish();
@@ -159,7 +156,8 @@ public class ProjetosActivity extends AppCompatActivity {
     }
 
     public void AdicionarProjeto() {
-        List<String> listaAux = bancoDados.listaProjetos();
+        // TODO: substituir .listaProjetos(); por .getUserProjects();
+        List<String> listaAux = bancoDados.getUserProjects();
         for (int i = 0; i < listaAux.size(); i++){
             ModeloProjetos Projeto = new ModeloProjetos(listaAux.get(i));
             this.listProjetos.add( Projeto );

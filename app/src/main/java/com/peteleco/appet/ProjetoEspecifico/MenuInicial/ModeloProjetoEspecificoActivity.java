@@ -28,6 +28,7 @@ import java.util.List;
 public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
     private String nomeProjeto;
+    private final static String TAG = "ModeloProjetoEspecífico";
 
 
     List<Tarefa> listaTarefas = new ArrayList<>();

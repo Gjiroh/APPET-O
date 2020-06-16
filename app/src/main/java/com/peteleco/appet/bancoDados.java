@@ -18,6 +18,7 @@ import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -162,7 +163,6 @@ public class bancoDados {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     if (email.equals(child.child("email").getValue().toString())){
-                        Log.i(TAG, child.getKey());
                         preferences.edit().putString("nomeLogadoUI", child.getKey()).apply();
                         preferences.edit().putString("nomeLogado", child.child("nome").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoGRR", child.child("grr").getValue().toString()).apply();
@@ -204,7 +204,6 @@ public class bancoDados {
 
     public void salvarDadosBD (User user) {
         String userUI = this.getInfoNomeLogado("nomeLogadoUI");
-        Log.i(TAG, "UI do user: " + userUI);
 
         try {
             reference.child("users").child(userUI).setValue(user);
@@ -214,6 +213,70 @@ public class bancoDados {
             Toast.makeText(context, "Erro ao salvar dados", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void setProjetosDoUser (final String nomeDoProjeto) {
+        final String userUI = getInfoNomeLogado("nomeLogadoUI");
+        final List<String> listaProjetos = new ArrayList<>();
+        DatabaseReference membros = reference.getDatabase().getReference("testeProjetos/"+nomeDoProjeto+"/membros");
+        membros.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    if (userUI.equals(child.getKey())){
+                        Set<String> set = preferences.getStringSet("nomeLogadoProjeto", null);
+                        Log.i(TAG, "Set: "+ set);
+                        if (set != null) {
+                            listaProjetos.addAll(set);
+                            listaProjetos.add(nomeDoProjeto);
+                            Log.i(TAG, "listaProjeto1: "+ listaProjetos);
+                        } else {
+                            listaProjetos.add(0, nomeDoProjeto);
+                            Log.i(TAG, "listaProjeto2: "+ listaProjetos);
+                        }
+                        Log.i(TAG, "listaProjeto3: "+ listaProjetos);
+                        set = new HashSet<>(listaProjetos);
+                        Log.i(TAG, "Set2: "+ set);
+                        preferences.edit().putStringSet("nomeLogadoProjeto", set).apply();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void verificaProjetosUser () {
+        DatabaseReference projetos = reference.getDatabase().getReference("testeProjetos");
+
+        projetos.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    setProjetosDoUser(child.getKey());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Erro setProjetosDoUser: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    public List<String> getUserProjects () {
+        Set<String> set = preferences.getStringSet("nomeLogadoProjeto", null);
+        Log.i(TAG, "Projetos: " + set);
+        List<String> listaProjetos = new ArrayList<>(set.size());
+        listaProjetos.addAll(set);
+        Collections.sort(listaProjetos);
+
+        return listaProjetos;
+    }
+
 
     //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio
     /*public void loadNomeTarefas (final String nomeProjeto, final String status) {

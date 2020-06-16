@@ -47,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
 
+        clearData(getSharedPreferences("Activity", 0));
+        clearData(getSharedPreferences("Dados", 0));
+
         mAuth = FirebaseAuth.getInstance();
 
         irCadastrar = findViewById(R.id.bt_criarConta);
@@ -81,23 +84,28 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
+
+                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                startActivity(intent);
             }
         });
 
         bancoDados = new bancoDados(this.getApplicationContext());
+        bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
+        bancoDados.verificaProjetosUser();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearData(getSharedPreferences("Activity", 0));
+        clearData(getSharedPreferences("Dados", 0));
+    }
 
-        //Limpando espaço ocupado por Activity e Dados de users dutante o uso da aplicação
-        SharedPreferences preferences = getSharedPreferences("Activity", 0);
+    public void clearData (SharedPreferences preferences){
         preferences.edit().clear().apply();
-        SharedPreferences preferences1 = getSharedPreferences("Dados", 0);
-        preferences1.edit().clear().apply();
     }
 
     private void signIn(final String email, String password) {
@@ -120,10 +128,10 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                bancoDados.loadNomeLogado(email);
+                                /*bancoDados.loadNomeLogado(email);
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 campo_senha.setText("");
-                                startActivity(intent);
+                                startActivity(intent);*/
                             }
                         } else {
                             // If sign in fails, display a message to the user.
