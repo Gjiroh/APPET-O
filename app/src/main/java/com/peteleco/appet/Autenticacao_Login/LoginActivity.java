@@ -81,14 +81,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
                 Log.d(TAG, "botão clicado");
-                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                startActivity(intent);
             }
         });
 
         bancoDados = new bancoDados(this.getApplicationContext());
-        // TODO: Excluir bancoDados.loadNomeLogado daqui e usar quanfo efetuar login na função signIn
-        bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
     }
@@ -124,9 +120,9 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                /*bancoDados.loadNomeLogado(email);
+                                bancoDados.loadNomeLogado(email);
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                                startActivity(intent);*/
+                                startActivity(intent);
                             }
                         } else {
                             // If sign in fails, display a message to the user.
