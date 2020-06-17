@@ -156,10 +156,11 @@ public class ProjetosActivity extends AppCompatActivity {
     }
 
     public void AdicionarProjeto() {
-        // TODO: substituir .listaProjetos(); por .getUserProjects();
+        // Utilizar .listaProjetos para mostrar todos os projetos
         List<String> listaAux = bancoDados.getUserProjects();
         for (int i = 0; i < listaAux.size(); i++){
             ModeloProjetos Projeto = new ModeloProjetos(listaAux.get(i));
+            bancoDados.isCoordenador(listaAux.get(i));
             this.listProjetos.add( Projeto );
         }
     }

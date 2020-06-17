@@ -83,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
                 String senhaSalvar = campo_senha.getText().toString();
 
                 signIn(loginSalvar, senhaSalvar);
-                Log.d(TAG, "botão clicado");
 
                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                 startActivity(intent);

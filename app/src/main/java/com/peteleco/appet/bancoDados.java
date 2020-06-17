@@ -224,18 +224,13 @@ public class bancoDados {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     if (userUI.equals(child.getKey())){
                         Set<String> set = preferences.getStringSet("nomeLogadoProjeto", null);
-                        Log.i(TAG, "Set: "+ set);
                         if (set != null) {
                             listaProjetos.addAll(set);
                             listaProjetos.add(nomeDoProjeto);
-                            Log.i(TAG, "listaProjeto1: "+ listaProjetos);
                         } else {
                             listaProjetos.add(0, nomeDoProjeto);
-                            Log.i(TAG, "listaProjeto2: "+ listaProjetos);
                         }
-                        Log.i(TAG, "listaProjeto3: "+ listaProjetos);
                         set = new HashSet<>(listaProjetos);
-                        Log.i(TAG, "Set2: "+ set);
                         preferences.edit().putStringSet("nomeLogadoProjeto", set).apply();
                     }
                 }
@@ -269,13 +264,40 @@ public class bancoDados {
 
     public List<String> getUserProjects () {
         Set<String> set = preferences.getStringSet("nomeLogadoProjeto", null);
-        Log.i(TAG, "Projetos: " + set);
         List<String> listaProjetos = new ArrayList<>(set.size());
         listaProjetos.addAll(set);
         Collections.sort(listaProjetos);
 
         return listaProjetos;
     }
+
+    public void isCoordenador (final String projeto) {
+        final String userUI = getInfoNomeLogado("nomeLogadoUI");
+        DatabaseReference teste = reference.child("testeProjetos/"+projeto+"/membros/"+userUI);
+        try {
+            teste.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String aux = dataSnapshot.getValue().toString().toLowerCase();
+                    Log.i(TAG, "aux: " + aux);
+                    if (aux.equals("coordenador")) {
+                        preferences.edit().putBoolean("Projeto:"+projeto,true).apply();
+                        Log.i(TAG,"Projeto:"+projeto);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, databaseError.getMessage());
+                }
+            });
+        }catch (Exception e){
+            Log.e(TAG, "Erro ao utilizar addValueEventListener");
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    // TODO: Criar método para adicionar/remover usuarios em um projeto específico pelo coordenador de projeto
 
 
     //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio

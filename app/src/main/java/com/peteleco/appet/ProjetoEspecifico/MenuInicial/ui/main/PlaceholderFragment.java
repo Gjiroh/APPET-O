@@ -127,10 +127,8 @@ public class PlaceholderFragment extends Fragment {
     private Tarefa ler_dados_Firebase(final String status){
         final String[] nomeTarefa = new String[1];
 
-        Log.i("teste", "lerDados Status: "+status);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        Log.i("teste", "PlaceHolder nomeProjeto:"+nomeProjeto);
         DatabaseReference teste = database.getReference("testeProjetos/"+nomeProjeto+"/"+status);
         teste.addValueEventListener(new ValueEventListener() {
             @Override
