@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.ModerarMembrosActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
@@ -58,7 +59,8 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         // TODO: Utilizar método ou função para adicionar um membro em um projeto especifico (
         //  Lembrar de utilizar o formato "ID unica do usuario = colaborador (ou coordenador tambem))
         if (item.getItemId() == R.id.item_controlar_membro){
-            Toast.makeText(this, "Adicionar membro", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
 
@@ -69,10 +71,12 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projeto_especifico);
+        bancoDados = new bancoDados(getApplicationContext());
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String nomeProjeto = intent.getStringExtra("NOME_PROJETO");
+        bancoDados.membrosProjeto(nomeProjeto);
 
         SharedPreferences preferences2 = getSharedPreferences("Activity", 0);
         preferences2.edit().putString("nomeProjeto", nomeProjeto).apply();

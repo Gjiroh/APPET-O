@@ -6,6 +6,6 @@
         android:id="@+id/item_controlar_membro"
         android:title="Membros"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_add_black_24dp" />
+        android:icon="@drawable/ic_group_white_24dp" />
 
 </menu>

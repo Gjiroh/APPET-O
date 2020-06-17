@@ -279,10 +279,8 @@ public class bancoDados {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String aux = dataSnapshot.getValue().toString().toLowerCase();
-                    Log.i(TAG, "aux: " + aux);
                     if (aux.equals("coordenador")) {
                         preferences.edit().putBoolean("Projeto:"+projeto,true).apply();
-                        Log.i(TAG,"Projeto:"+projeto);
                     }
                 }
 
@@ -295,6 +293,61 @@ public class bancoDados {
             Log.e(TAG, "Erro ao utilizar addValueEventListener");
             Log.e(TAG, e.getMessage());
         }
+    }
+
+    public void getInfoMembro (String idUnica, String info) {
+        try {
+            reference.child("users/"+idUnica+"/"+info).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Set<String> set = preferences.getStringSet("nomeMembroPE", null);
+                    List<String> aux = new ArrayList<>();
+                    if (set == null){
+                        aux.add(0, dataSnapshot.getValue().toString());
+                    } else {
+                        aux.addAll(set);
+                        try {
+                            aux.add(dataSnapshot.getValue().toString());
+                        } catch (Exception e) {
+                            Log.e(TAG, "Referencia invalida ou nula");
+                        }
+                        Collections.sort(aux);
+                    }
+                    set = new HashSet<>(aux);
+                    preferences.edit().putStringSet("nomeMembroPE",  set).apply();
+
+                    Log.i(TAG, "nomeMembros: " + set);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } catch (Exception e){
+            Log.e(TAG, e.getMessage());
+        }
+
+    }
+
+    public void membrosProjeto (String projeto) {
+
+        reference.child("testeProjetos/"+projeto+"/membros").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    Log.i(TAG, "Child: " + child.getKey());
+                    getInfoMembro(child.getKey(), "nome");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     // TODO: Criar método para adicionar/remover usuarios em um projeto específico pelo coordenador de projeto
