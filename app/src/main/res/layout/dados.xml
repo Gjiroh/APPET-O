@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="200dp"
         android:layout_marginRight="200dp"
-        android:text="Fulano"
+        android:text="Fulan"
         android:textColor="@color/textcolor"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
