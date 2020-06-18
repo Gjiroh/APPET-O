@@ -220,6 +220,7 @@ public class bancoDados {
 
     private void setProjetosDoUser (final String nomeDoProjeto) {
         final String userUI = getInfoNomeLogado("nomeLogadoUI");
+        Log.i(TAG, "Nome: " + userUI);
         final List<String> listaProjetos = new ArrayList<>();
         DatabaseReference membros = reference.getDatabase().getReference("testeProjetos/"+nomeDoProjeto+"/membros");
         membros.addValueEventListener(new ValueEventListener() {
