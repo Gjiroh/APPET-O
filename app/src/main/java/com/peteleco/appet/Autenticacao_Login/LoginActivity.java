@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
 
+                ;
             }
         });
 
@@ -91,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
         //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
-        bancoDados.verificaProjetosUser();
     }
 
     @Override
@@ -126,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
                                 bancoDados.loadNomeLogado(email);
+                                bancoDados.verificaProjetosUser();
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 campo_senha.setText("");
                                 startActivity(intent);

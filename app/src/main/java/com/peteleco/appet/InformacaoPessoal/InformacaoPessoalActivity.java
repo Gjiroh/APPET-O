@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +41,8 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.item_trocar_senha:
                 // TODO: Inserir método para trocar de senha
-                Toast.makeText(this, "Item selecionado", Toast.LENGTH_SHORT).show();
+                Intent intentSenha = new Intent(getApplicationContext(), TrocarSenhaActivity.class);
+                startActivity(intentSenha);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
