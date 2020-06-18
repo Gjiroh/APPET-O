@@ -84,13 +84,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
 
-                Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                startActivity(intent);
             }
         });
 
         bancoDados = new bancoDados(this.getApplicationContext());
-        bancoDados.loadNomeLogado("jturra69@gmail.com");
+        //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
         bancoDados.verificaProjetosUser();
@@ -127,10 +125,10 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             if (user != null && user.isEmailVerified()) {
-                                /*bancoDados.loadNomeLogado(email);
+                                bancoDados.loadNomeLogado(email);
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 campo_senha.setText("");
-                                startActivity(intent);*/
+                                startActivity(intent);
                             }
                         } else {
                             // If sign in fails, display a message to the user.
