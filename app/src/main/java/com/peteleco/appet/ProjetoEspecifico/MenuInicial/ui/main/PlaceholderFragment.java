@@ -6,13 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +63,8 @@ public class PlaceholderFragment extends Fragment {
         pageViewModel.setIndex(index);
         SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
         nomeProjeto = preferences.getString("nomeProjeto",null);
+
+
 
     }
     @Override
@@ -153,5 +153,16 @@ public class PlaceholderFragment extends Fragment {
         });
 
         return tarefa;
+    }
+
+    public void delay ( int seconds ) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                Log.i(TAG,"Delay aplicado");
+            }
+        }, seconds*1000);
     }
 }

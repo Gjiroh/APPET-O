@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InformacaoPessoal.TrocarSenhaActivity"
+        <activity
+            android:name=".Pautas.PautasActivity"
             android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity"></activity>
+        <activity
+            android:name=".InformacaoPessoal.TrocarSenhaActivity"
+            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />
         <activity android:name=".ProjetoEspecifico.MenuInicial.ModerarMembros.ModerarMembrosActivity" />
         <activity
             android:name=".InformacaoPessoal.InformacaoPessoalActivity"
