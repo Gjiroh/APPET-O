@@ -110,7 +110,6 @@ public class NovoProjetoActivity extends AppCompatActivity {
             // Recuperando o nome dos membros que foram salvos
             List<String> listaNomes;
             listaNomes = bancoDados.getInfos("nome");
-            Log.i(TAG, "NovoProjetoActivity listaNomes: "+ listaNomes);
 
             // Adicionando o nome dos membros para serem mostrados na tela do usuário
             for (int i = 0; i < listaNomes.size(); i++){

@@ -17,24 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.peteleco.appet.R;
 import com.peteleco.appet.bancoDados;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterMembros extends RecyclerView.Adapter<AdapterMembros.MyViewHolder> {
     private List<String> listaMembros;
-    private SharedPreferences preferences;
+    public List<String> listaMembrosSelec;
     private final static String TAG = "AdapterMembros";
-    public String getNome;
-    Context context;
 
-    public AdapterMembros(List<String> listaMembros, Context context) {
+
+    public AdapterMembros(List<String> listaMembros) {
         this.listaMembros = listaMembros;
-        preferences = context.getSharedPreferences("Dados", 0);
-        preferences.edit().putInt("sizeNomeSelec", listaMembros.size()).apply();
-        this.context = context;
-    }
-
-    public String getGetNome() {
-        return getNome;
+        listaMembrosSelec = new ArrayList<>();
     }
 
     @NonNull
@@ -53,18 +47,9 @@ public class AdapterMembros extends RecyclerView.Adapter<AdapterMembros.MyViewHo
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                     preferences.edit().putString("nomeSelec"+position, holder.nomeMembro.getText().toString()).apply();
-                     getNome = holder.nomeMembro.getText().toString();
-                    Toast.makeText(context, "Nome selecionado: "+ getNome, Toast.LENGTH_SHORT).show();
+                    listaMembrosSelec.add(holder.nomeMembro.getText().toString());
                 } else {
-                    try {
-                        preferences.edit().remove("nomeSelec"+position).apply();
-                        Toast.makeText(context, "Nome descelecionado: " + getNome, Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.i(TAG, "Erro ao remover.");
-                    }
-
+                    listaMembrosSelec.remove(position);
                 }
             }
         });

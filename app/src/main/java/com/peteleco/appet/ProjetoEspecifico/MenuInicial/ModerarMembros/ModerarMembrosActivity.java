@@ -1,5 +1,6 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -22,8 +23,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.Adapters.AdapterMembros;
@@ -32,6 +35,7 @@ import com.peteleco.appet.bancoDados;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class ModerarMembrosActivity extends AppCompatActivity {
@@ -42,6 +46,8 @@ public class ModerarMembrosActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private AlertDialog.Builder builder;
     private AdapterMembros adapter;
+    private List<String> listaNomesSelec;
+    private boolean isAdding = false;
 
     private final static String TAG = "ModerarMembros";
 
@@ -81,6 +87,8 @@ public class ModerarMembrosActivity extends AppCompatActivity {
 
         layoutDelMembro();
 
+        listaNomesSelec = adapter.listaMembrosSelec;
+
         salverAlt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,35 +98,9 @@ public class ModerarMembrosActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String nomeProjeto = getSharedPreferences("Activity", 0)
-                                .getString("nomeProjeto", null);
-                        int i = preferences.getInt("sizeNomeSelec", 0);
-                        String[] strings = new String[i];
-                        String stringID;
-                        for (int a = 0; a < i; a++) {
-                            // TODO: Revisar parte em que acessa e verifica ID Unica. Falta algo
-                            //  pois só acessa a primeira, talvez fazer/achar algum fator de verificação
-                            try {
-                                strings[a] = preferences.getString("nomeSelec"+a, null);
-                                if (strings[a] != null ){
-                                    stringID = bancoDados.getMembroID("nome", strings[a]);
-
-                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
-                                            "testeProjetos/"+nomeProjeto+"/membros/"+ stringID
-                                    );
-                                    Log.i(TAG, "a: " + a);
-                                    Log.i(TAG, "nome: " + strings[a]);
-                                    Log.i(TAG, "id: " + stringID);
-                                    Log.i(TAG, "refDB: " + reference.getKey());
-                                }
-
-                            } catch (Exception e){
-                                Log.e(TAG, "Erro ocorrido ao recuperar um nome selecionado " +
-                                        "nome não foi selecionado");
-                            }
-
-                        }
-
-                        //finish();
+                                .getString("nomeProjeto",null);
+                        salvarAlteracoes(adapter.listaMembrosSelec, nomeProjeto);
+                        finish();
                     }
                 });
                 builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
@@ -132,6 +114,7 @@ public class ModerarMembrosActivity extends AppCompatActivity {
     }
 
     public void layoutAddMembros () {
+        isAdding = true;
         // Listar membros TODO: Arrumar lista para mostrar apenas membros desse projeto
         textMembros.setText("Demais Membros");
         List<String> listaMembrosProjeto = new ArrayList<>();
@@ -156,7 +139,7 @@ public class ModerarMembrosActivity extends AppCompatActivity {
             }
         }
         // Adapter
-        adapter = new AdapterMembros(todosMembros, this.getApplicationContext());
+        adapter = new AdapterMembros(todosMembros);
 
         // Configurando o RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -173,12 +156,9 @@ public class ModerarMembrosActivity extends AppCompatActivity {
         listaMembros.addAll(preferences.getStringSet("nomeMembroPE", null));
         Collections.sort(listaMembros);
 
-        // Listar membros participantes do projeto
-
-        // Listar demais membros
 
         // Adapter
-        adapter = new AdapterMembros(listaMembros, this.getApplicationContext());
+        adapter = new AdapterMembros(listaMembros);
 
         // Configurando o RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -187,6 +167,49 @@ public class ModerarMembrosActivity extends AppCompatActivity {
         membrosAtuais.addItemDecoration(
                 new DividerItemDecoration(this, LinearLayout.VERTICAL));
         membrosAtuais.setAdapter(adapter);
+    }
+
+    public void salvarAlteracoes (final List<String> nomesSelec, final String nomeProjeto) {
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        if (nomesSelec != null) {
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot childID : dataSnapshot.child("users").getChildren()){
+                        for (int i = 0; i < nomesSelec.size(); i++){
+                            if (dataSnapshot.child("users/"+childID.getKey()+"/nome").getValue().toString()
+                                    .equals(nomesSelec.get(i))){
+                                Log.i(TAG, "Atendeu a contição");
+                                Log.i(TAG, "Ref: " + dataSnapshot.child("users/"+childID.getKey()+"/nome").getValue().toString());
+                                Log.i(TAG, "nome: " + nomesSelec.get(i));
+
+                                String  membroID = childID.getKey();
+                                Log.i(TAG, "ID: " + membroID);
+
+                                if (isAdding){
+                                    DatabaseReference membroPE = reference.child("testeProjetos/"+nomeProjeto+"/membros");
+                                    membroPE.child(membroID).setValue("colaborador");
+                                }else {
+                                    DatabaseReference membroPE = reference.child("testeProjetos/"+nomeProjeto+"/membros/"+membroID);
+                                    membroPE.removeValue();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG,"Erro msg: " + databaseError.getMessage());
+                    Log.e(TAG,"Erro detalhes: " + databaseError.getDetails());
+                }
+            });
+        } else {
+            Toast.makeText(this, "Nenhum nome foi selecionado para alteração", Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
 }

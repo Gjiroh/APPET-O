@@ -85,7 +85,6 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("Dados", 0);
         verificCoord = preferences.getBoolean("Projeto:"+nomeProjeto, false);
-        Log.i(TAG, "É coordenador? " + verificCoord);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);

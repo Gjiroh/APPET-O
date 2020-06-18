@@ -73,10 +73,9 @@ public class bancoDados {
                     preferences.edit().putStringSet("email", setEmail).apply();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Erro ao carregar Informações");
+                Log.e(TAG, "Erro ao carregar Informações: " + databaseError.getMessage());
             }
         });
     }
@@ -92,7 +91,8 @@ public class bancoDados {
                     || info.toLowerCase().equals("cpf")
                     || info.toLowerCase().equals("email")
                     || info.toLowerCase().equals("grr")
-                    || info.toLowerCase().equals("telefone")){
+                    || info.toLowerCase().equals("telefone")
+                    || info.toLowerCase().equals("ids")){
 
                 setInfo = preferences.getStringSet(info.toLowerCase(), null);
 
@@ -349,40 +349,6 @@ public class bancoDados {
         });
 
 
-    }
-
-    public String getMembroID (String ref, String info) {
-        String aux = ref.toLowerCase();
-        List<String> listIDs = new ArrayList<>(preferences.getStringSet("ids", null));
-        Log.i(TAG, "Lista IDs: " + listIDs);
-        if (aux.equals("cpf") || aux.equals("nome") || aux.equals("grr") || aux.equals("email")
-                || aux.equals("telefone")) {
-            Log.i(TAG, "ref usada foi: " + ref + " e Info: "+ info);
-            for (int i = 0; i < listIDs.size(); i++ ){
-                Log.i(TAG, "listIDs.get(i): " + listIDs.get(i));
-
-                try {
-                    // TODO: tem um problema aqui, a listIDs não passa da primeira posição (em outras palavras é
-                    //  sempre verdadeira). Tentar fazer meio que uma verificação da referencia ou
-                    //  utilizar outro meio/método para recuperar a ID Unica do usuário
-                    DatabaseReference teste = reference.getDatabase().getReference("users/"+listIDs.get(i)+"/"+ref+"/"+info);
-                    String refDB = reference.getDatabase().getReference("users/"+listIDs.get(i)+"/"+ref+"/"+info).getKey();
-                    Log.i(TAG, "referenciaDB: " + refDB);
-                    if (refDB.equals(info)){
-                        return reference.child("users/"+listIDs.get(i)).getKey();
-                    } else {
-                        Log.i(TAG,"Informação colocada mão deu match ou não existe");
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                    Log.i(TAG, "Erro ao referencia no banco de dados");
-                }
-            }
-        } else {
-            Log.i(TAG, "Ref colocada não bate com o banco de dados");
-        }
-        return null;
     }
 
     // TODO: Criar método para adicionar/remover usuarios em um projeto específico pelo coordenador de projeto
