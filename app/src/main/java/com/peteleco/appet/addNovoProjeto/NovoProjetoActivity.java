@@ -35,6 +35,7 @@ import com.peteleco.appet.bancoDados;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +48,6 @@ public class NovoProjetoActivity extends AppCompatActivity {
     private RecyclerView mostrarColabs;
     private List<ModelTeste> listaColabs = new ArrayList<>();
     public final static String TAG = "teste";
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
     private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("projetos");
     private bancoDados bancoDados;
 
@@ -110,6 +110,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
             // Recuperando o nome dos membros que foram salvos
             List<String> listaNomes;
             listaNomes = bancoDados.getInfos("nome");
+            Collections.sort(listaNomes);
 
             // Adicionando o nome dos membros para serem mostrados na tela do usuário
             for (int i = 0; i < listaNomes.size(); i++){
