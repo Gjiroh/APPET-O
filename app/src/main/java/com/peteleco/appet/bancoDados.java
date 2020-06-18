@@ -38,6 +38,7 @@ public class bancoDados {
     }
 
     public void carregarUsuarios () {
+        final List<String> listaIDs = new ArrayList<>();
         final List<String> listaNome = new ArrayList<>();
         final List<String> listaCPF = new ArrayList<>();
         final List<String> listaGRR = new ArrayList<>();
@@ -50,18 +51,21 @@ public class bancoDados {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    listaIDs.add(child.getKey());
                     listaNome.add(dataSnapshot.child(child.getKey()+"/nome").getValue().toString());
                     listaCPF.add(dataSnapshot.child(child.getKey()+"/cpf").getValue().toString());
                     listaGRR.add(dataSnapshot.child(child.getKey()+"/grr").getValue().toString());
                     listaTelefone.add(dataSnapshot.child(child.getKey()+"/telefone").getValue().toString());
                     listaEmail.add(dataSnapshot.child(child.getKey()+"/email").getValue().toString());
 
+                    Set<String> setIDs = new HashSet<>(listaIDs);
                     Set<String> setNome = new HashSet<>(listaNome);
                     Set<String> setCPF = new HashSet<>(listaCPF);
                     Set<String> setGRR = new HashSet<>(listaGRR);
                     Set<String> setTelefone = new HashSet<>(listaTelefone);
                     Set<String> setEmail = new HashSet<>(listaEmail);
 
+                    preferences.edit().putStringSet("ids", setIDs).apply();
                     preferences.edit().putStringSet("nome", setNome).apply();
                     preferences.edit().putStringSet("grr", setGRR).apply();
                     preferences.edit().putStringSet("cpf", setCPF).apply();
@@ -315,8 +319,6 @@ public class bancoDados {
                     }
                     set = new HashSet<>(aux);
                     preferences.edit().putStringSet("nomeMembroPE",  set).apply();
-
-                    Log.i(TAG, "nomeMembros: " + set);
                 }
 
                 @Override
@@ -336,18 +338,51 @@ public class bancoDados {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
-                    Log.i(TAG, "Child: " + child.getKey());
                     getInfoMembro(child.getKey(), "nome");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, "Erro ao recuperar IDs em membrosProjeto");
             }
         });
 
 
+    }
+
+    public String getMembroID (String ref, String info) {
+        String aux = ref.toLowerCase();
+        List<String> listIDs = new ArrayList<>(preferences.getStringSet("ids", null));
+        Log.i(TAG, "Lista IDs: " + listIDs);
+        if (aux.equals("cpf") || aux.equals("nome") || aux.equals("grr") || aux.equals("email")
+                || aux.equals("telefone")) {
+            Log.i(TAG, "ref usada foi: " + ref + " e Info: "+ info);
+            for (int i = 0; i < listIDs.size(); i++ ){
+                Log.i(TAG, "listIDs.get(i): " + listIDs.get(i));
+
+                try {
+                    // TODO: tem um problema aqui, a listIDs não passa da primeira posição (em outras palavras é
+                    //  sempre verdadeira). Tentar fazer meio que uma verificação da referencia ou
+                    //  utilizar outro meio/método para recuperar a ID Unica do usuário
+                    DatabaseReference teste = reference.getDatabase().getReference("users/"+listIDs.get(i)+"/"+ref+"/"+info);
+                    String refDB = reference.getDatabase().getReference("users/"+listIDs.get(i)+"/"+ref+"/"+info).getKey();
+                    Log.i(TAG, "referenciaDB: " + refDB);
+                    if (refDB.equals(info)){
+                        return reference.child("users/"+listIDs.get(i)).getKey();
+                    } else {
+                        Log.i(TAG,"Informação colocada mão deu match ou não existe");
+                    }
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Log.i(TAG, "Erro ao referencia no banco de dados");
+                }
+            }
+        } else {
+            Log.i(TAG, "Ref colocada não bate com o banco de dados");
+        }
+        return null;
     }
 
     // TODO: Criar método para adicionar/remover usuarios em um projeto específico pelo coordenador de projeto
