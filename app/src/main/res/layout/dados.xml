@@ -7,29 +7,6 @@
     android:layout_height="match_parent">
 
 
-
-    <TextView
-        android:id="@+id/CP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CP"
-        android:textColor="@color/textcolor"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/APPET"
-        app:layout_constraintTop_toTopOf="@+id/CPF" />
-
-    <TextView
-        android:id="@+id/APPET"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:text="APPET"
-        android:textColor="@color/textcolor"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/Gmail"
-        app:layout_constraintTop_toTopOf="@+id/Projetos" />
-
     <TextView
         android:id="@+id/nome"
         android:layout_width="0dp"
@@ -45,26 +22,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Fulano"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="200dp"
-        android:layout_marginRight="200dp"
-        android:text="Fulan"
-        android:textColor="@color/textcolor"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nome" />
-
-    <TextView
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="Email:"
+        android:textColor="@color/textcolor"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/textcolor"
         app:layout_constraintStart_toStartOf="@+id/nome"
         app:layout_constraintTop_toBottomOf="@+id/nome" />
 
@@ -72,11 +37,11 @@
         android:id="@+id/Projetos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="Projetos:"
+        android:textColor="@color/textcolor"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/textcolor"
         app:layout_constraintStart_toStartOf="@+id/email"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
@@ -84,11 +49,11 @@
         android:id="@+id/CPF"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="CPF:"
+        android:textColor="@color/textcolor"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/textcolor"
         app:layout_constraintStart_toStartOf="@+id/Projetos"
         app:layout_constraintTop_toBottomOf="@+id/Projetos" />
 
@@ -96,31 +61,79 @@
         android:id="@+id/GRR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="GRR:"
+        android:textColor="@color/textcolor"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/textcolor"
         app:layout_constraintStart_toStartOf="@+id/CPF"
         app:layout_constraintTop_toBottomOf="@+id/CPF" />
 
-    <TextView
-        android:id="@+id/Gmail"
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="G mail"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
         android:textColor="@color/textcolor"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/Fulano"
-        app:layout_constraintTop_toTopOf="@+id/email" />
+        app:layout_constraintStart_toEndOf="@+id/nome"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/GR"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Gmail"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="APPET"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="CP"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editText3"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+    <EditText
+        android:id="@+id/editText6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:inputType="textPersonName"
         android:text="GR"
         android:textColor="@color/textcolor"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/CP"
-        app:layout_constraintTop_toTopOf="@+id/GRR" />
+        app:layout_constraintStart_toStartOf="@+id/editText5"
+        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
