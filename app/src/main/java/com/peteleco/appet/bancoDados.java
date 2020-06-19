@@ -348,51 +348,5 @@ public class bancoDados {
                 Log.e(TAG, "Erro ao recuperar IDs em membrosProjeto");
             }
         });
-
-
     }
-
-    // TODO: Criar método para adicionar/remover usuarios em um projeto específico pelo coordenador de projeto
-
-
-    //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio
-    /*public void loadNomeTarefas (final String nomeProjeto, final String status) {
-
-        final Tarefa[] tarefa = {new Tarefa()};
-        final List<String> list = new ArrayList<>();
-        final List<String> listaProjetos = listaProjetos();
-
-        for (int a = 0; a < 4; a++){
-
-            //final String[] status = {"DONE", "DOING", "TO DO", "IDEIA"};
-
-            for (int i = 0; i < listaProjetos.size(); i++){
-
-                //final String nomeProjeto = listaProjetos.get(i);
-                DatabaseReference projetoReference = reference.getDatabase().getReference(
-                        "testeProjetos/" + nomeProjeto + "/" + status);
-
-                //final int finalA = a;
-                projetoReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            list.add(child.getKey());
-
-                            tarefa[0] = dataSnapshot.child(child.getKey()).getValue(Tarefa.class);
-                        }
-                        Collections.sort(list);
-                        HashSet<String> set = new HashSet<>(list);
-                        preferences.edit().putStringSet(nomeProjeto.toLowerCase()+status, set).apply();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e(TAG, "Não foi possível carregar os nomes das tarefas");
-                    }
-                });
-            }
-        }
-    }*/
 }

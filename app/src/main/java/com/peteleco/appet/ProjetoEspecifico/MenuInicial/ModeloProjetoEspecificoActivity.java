@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.AdicionarTarefa.AdicionarTarefaActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.ModerarMembrosActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
@@ -62,7 +63,9 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.item_adicionar_tarefa) {
-            Toast.makeText(this, "Building", Toast.LENGTH_SHORT).show();
+            Intent novaTarefaIntent = new Intent(getApplicationContext(), AdicionarTarefaActivity.class);
+            novaTarefaIntent.putExtra("nomeProjeto", nomeProjeto);
+            startActivity(novaTarefaIntent);
         }
         return super.onOptionsItemSelected(item);
 
