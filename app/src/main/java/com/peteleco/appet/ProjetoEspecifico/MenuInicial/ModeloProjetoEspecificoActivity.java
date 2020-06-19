@@ -61,6 +61,8 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.item_controlar_membro){
             Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.item_adicionar_tarefa) {
+            Toast.makeText(this, "Building", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
 

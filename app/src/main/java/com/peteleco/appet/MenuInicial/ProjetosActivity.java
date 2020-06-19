@@ -87,7 +87,6 @@ public class ProjetosActivity extends AppCompatActivity {
 
             case R.id.itemLogOut:
                 Log.i(TAG, "Clicou itemLogOut");
-                // TODO: Deslogar o usuário e voltar a tela inicial
                 //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 //firebaseAuth.signOut();
 
