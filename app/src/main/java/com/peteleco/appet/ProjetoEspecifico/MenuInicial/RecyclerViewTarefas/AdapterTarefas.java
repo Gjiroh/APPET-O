@@ -1,6 +1,7 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
 
     private List<Tarefa> tarefaList;
     public CheckBox checkTarefa;
+
+    private final static String TAG = "AdapterTarefas";
 
     public AdapterTarefas (List<Tarefa> tarefaList) {
         this.tarefaList = tarefaList;

@@ -46,7 +46,7 @@ public class PlaceholderFragment extends Fragment {
     private bancoDados bancoDados;
     private List<String> nomeTarefa;
     private int index;
-    private boolean verify1, verify2, verify3, verify4;
+    private boolean verify1, verify2, verify3, verify4, estaTODO;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -117,10 +117,50 @@ public class PlaceholderFragment extends Fragment {
                 new RecyclerItemClickListener.OnItemClickListener() {
 
                     @Override
-                    public void onItemClick(View view, int position) {
-                        // TODO: Adiconar evento de clique na tarefa para abrir uma nova activity e mostrar detalhes da tarefa
-                        //  possibilitar que essa tarefa seja movida para DOING
+                    public void onItemClick(View view, final int position) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("O que deseja fazer com a tarefa?")
+                                .setTitle("Alerta");
+                        if (estaTODO) {
+                            builder.setPositiveButton("MOVER PARA DOING", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO: movimentar tarefa do TODO para doing
+                                    String nomeTarefa = listaTarefa.get(position).nome;
+                                    String descricao = listaTarefa.get(position).descricao;
+                                    String prazo = listaTarefa.get(position).prazo;
+                                    List<String> nomeResponsavel = listaTarefa.get(position).responsavel;
+                                    try {
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+                                                "testeProjetos/"+nomeProjeto);
+                                        reference.child("TO DO/"+nomeTarefa).removeValue();
 
+                                        reference.child("DOING").child(nomeTarefa+"/descricao").setValue(descricao);
+                                        reference.child("DOING").child(nomeTarefa+"/prazo").setValue(prazo);
+                                        reference.child("DOING").child(nomeTarefa+"/responsavel").setValue(nomeResponsavel);
+                                        Toast.makeText(getActivity(), "Tarefa movida com sucesso", Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getActivity(), "Erro ao mover taefa", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+
+                        builder.setNeutralButton("DETALHES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder.setNegativeButton("NADA", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
 
                     @Override
@@ -128,7 +168,7 @@ public class PlaceholderFragment extends Fragment {
                         SharedPreferences preferences = getActivity().getSharedPreferences("Dados",0);
                         boolean coordenador = preferences.getBoolean("Projeto:", false);
                         boolean dev = preferences.getBoolean("nomeLogadoDev", false);
-                        if(dev && coordenador){
+                        if(dev || coordenador){
                             // TODO: colocar um metodo para somento coordenador poder remover tarefa
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage("Voce tem certeza que excluir essa tarefa?")
@@ -176,6 +216,7 @@ public class PlaceholderFragment extends Fragment {
                 //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
                 ler_dados_Firebase("TO DO",verify3);
                 verify3 = true;
+                estaTODO = true;
                 Log.i(TAG, "Caso 3");
                 break;
             case 4:
@@ -208,22 +249,24 @@ public class PlaceholderFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if (!test) {
-                        Log.i(TAG, "Child.getKey = "+child.getKey());
                         PlaceholderFragment.this.nomeTarefa.add(child.getKey());
                         String descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
-                        Log.i(TAG, "Descricao = "+descricao);
+
                         String prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
 
                         long aux = dataSnapshot.child(child.getKey()+"/"+"responsavel").getChildrenCount();
                         for (int a = 0; a < aux; a++){
                             responsavel.add(dataSnapshot.child(child.getKey()).child("responsavel").child(String.valueOf(a)).getValue().toString());
-                            Log.i(TAG, "responsa = "+ responsavel);
+
                         }
                         tarefa.setNome(child.getKey());
                         tarefa.setDescricao(descricao);
                         tarefa.setPrazo(prazo);
                         tarefa.setResponsavel(responsavel);
                         listaTarefa.add(tarefa);
+                        // TODO: verificar motivo de estar passando apenas uma tarefa para duas posições
+                        //  na listaTarefa
+                        Log.i(TAG, " Tarefa: " + listaTarefa);
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
                             //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
                         }
