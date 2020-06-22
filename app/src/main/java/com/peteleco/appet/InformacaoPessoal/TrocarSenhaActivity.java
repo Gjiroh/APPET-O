@@ -137,6 +137,8 @@ public class TrocarSenhaActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(TrocarSenhaActivity.this, "" +
                                                 "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show();
+                                        bancoDados bancoDados = new bancoDados(getApplicationContext());
+                                        bancoDados.loadNomeLogado(user.getEmail());
                                         finish();
                                     } else {
                                         Toast.makeText(TrocarSenhaActivity.this, "" +

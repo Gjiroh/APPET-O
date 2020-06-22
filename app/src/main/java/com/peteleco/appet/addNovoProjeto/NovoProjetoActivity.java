@@ -89,8 +89,11 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
                 if (validarDados(nomeProjeto, descricaoProjeto)){
                     try {
+                        bancoDados.verificaProjetosUser();
                         List<String> listaColabSelec= adapterTeste.listaColabSelec;
                         projetobd.child(nomeProjeto).child("descricaoProjeto").setValue(descricaoProjeto);
+                        // TODO: Arrumar método de adicionar membros. Precisa fazer com que fique salvo
+                        //  a ID unica do membro como colaborador ou coordenador
                         projetobd.child(nomeProjeto).child("membros").setValue(listaColabSelec);
                         Toast.makeText(NovoProjetoActivity.this, "Projeto Criado", Toast.LENGTH_SHORT).show();
                         finish();

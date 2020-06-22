@@ -14,6 +14,7 @@ public class PautasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pautas);
         getSupportActionBar().setTitle("Pautas");
 
-        
+        // TODO: Fazer tudo referente a mostrar pautas. Pensar em um meio de organizar por pastas e
+        //  por datas...
     }
 }

@@ -57,8 +57,6 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        // TODO: Utilizar método ou função para adicionar um membro em um projeto especifico (
-        //  Lembrar de utilizar o formato "ID unica do usuario = colaborador (ou coordenador tambem))
         if (item.getItemId() == R.id.item_controlar_membro){
             Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
             startActivity(intent);

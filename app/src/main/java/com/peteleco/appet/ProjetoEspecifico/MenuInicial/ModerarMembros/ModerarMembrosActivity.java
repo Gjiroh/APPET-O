@@ -172,7 +172,7 @@ public class ModerarMembrosActivity extends AppCompatActivity {
     public void salvarAlteracoes (final List<String> nomesSelec, final String nomeProjeto) {
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         if (nomesSelec != null) {
-            reference.addValueEventListener(new ValueEventListener() {
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot childID : dataSnapshot.child("users").getChildren()){

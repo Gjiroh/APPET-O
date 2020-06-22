@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -144,7 +145,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         List<String> listI = new ArrayList<>(preferences.getStringSet("listaTarefasIDEIA", null));
         List<String> tarefas = new ArrayList<>();
         tarefas.addAll(listD);
-        tarefas.addAll(listI);
+        //tarefas.addAll(listI); //Acho q podem existir tarefas e ideias com o mesmo nome
         tarefas.addAll(listDNG);
         tarefas.addAll(listTD);
 
@@ -176,15 +177,17 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         }
 
         Date currentTime = new Date();
-        String aux = Calendar.getInstance().getTime().getDate()+"/"+Calendar.getInstance().getTime().getMonth()+"/"+Calendar.getInstance().getTime().getYear();
+        int month = Calendar.getInstance().getTime().getMonth() + 1;
+        int year = Calendar.getInstance().getTime().getYear() + 1900;
+        String aux = Calendar.getInstance().getTime().getDate()+"/"+month+"/"+year;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentTime = sdf.parse(aux);
-            Log.i(TAG, currentTime.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        // TODO: corrigir verificação de data, ela esta aceitando datas anteriores ao dia de hoje
         if (prazoText.equals("Selecione a data do prazo")){
             this.prazo.requestFocus();
             Toast.makeText(this, "Insira uma data", Toast.LENGTH_SHORT).show();

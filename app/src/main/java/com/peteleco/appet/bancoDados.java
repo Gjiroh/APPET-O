@@ -162,7 +162,7 @@ public class bancoDados {
     public void loadNomeLogado (final String email) {
 
         DatabaseReference user = reference.getDatabase().getReference("users");
-        user.addValueEventListener(new ValueEventListener() {
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
@@ -231,7 +231,7 @@ public class bancoDados {
 
         final List<String> listaProjetos = new ArrayList<>();
         DatabaseReference membros = reference.getDatabase().getReference("testeProjetos/"+nomeDoProjeto+"/membros");
-        membros.addValueEventListener(new ValueEventListener() {
+        membros.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
@@ -259,13 +259,12 @@ public class bancoDados {
     public void verificaProjetosUser () {
         DatabaseReference projetos = reference.getDatabase().getReference("testeProjetos");
 
-        projetos.addValueEventListener(new ValueEventListener() {
+        projetos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     setProjetosDoUser(child.getKey());
                 }
-
             }
 
             @Override
@@ -288,7 +287,7 @@ public class bancoDados {
         final String userUI = getInfoNomeLogado("nomeLogadoUI");
         DatabaseReference teste = reference.child("testeProjetos/"+projeto+"/membros/"+userUI);
         try {
-            teste.addValueEventListener(new ValueEventListener() {
+            teste.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String aux = dataSnapshot.getValue().toString().toLowerCase();
@@ -310,7 +309,7 @@ public class bancoDados {
 
     public void getInfoMembro (String idUnica, String info) {
         try {
-            reference.child("users/"+idUnica+"/"+info).addValueEventListener(new ValueEventListener() {
+            reference.child("users/"+idUnica+"/"+info).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Set<String> set = preferences.getStringSet("nomeMembroPE", null);
@@ -343,7 +342,7 @@ public class bancoDados {
 
     public void membrosProjeto (String projeto) {
 
-        reference.child("testeProjetos/"+projeto+"/membros").addValueEventListener(new ValueEventListener() {
+        reference.child("testeProjetos/"+projeto+"/membros").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){

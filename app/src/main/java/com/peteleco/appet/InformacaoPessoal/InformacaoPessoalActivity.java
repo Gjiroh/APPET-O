@@ -1,5 +1,6 @@
 package com.peteleco.appet.InformacaoPessoal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.R;
 import com.peteleco.appet.bancoDados;
@@ -94,6 +101,8 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             User user = new User(auxNome, auxEmail, auxCPF, auxTel, auxGRR);
                             bancoDados.salvarDadosBD(user);
+                            bancoDados.loadNomeLogado(auxEmail);
+                            salvarEmailAlterado(auxEmail);
                             finish();
                         }
                     });
@@ -184,5 +193,14 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
         }*/
 
         return true;
+    }
+
+    private void salvarEmailAlterado (String email) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.updateEmail(email);
+        } else {
+            Toast.makeText(this, "Erro ao alterar o email", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -57,6 +57,7 @@ public class ProjetosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         if (item.getItemId() == R.id.itemAddProjeto){
+            // TODO: talvez restringir o acesso a essa função
             Intent intent = new Intent(this.getApplicationContext(), NovoProjetoActivity.class);
             startActivity(intent);
 
