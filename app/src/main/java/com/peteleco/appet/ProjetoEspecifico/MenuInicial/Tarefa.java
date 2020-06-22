@@ -1,8 +1,11 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tarefa {
     public String descricao;
-    public String responsavel;
+    public List<String> responsavel;
     public String prazo;
     public String nome;
 
@@ -15,6 +18,9 @@ public class Tarefa {
     }
 
     public Tarefa() {
+        descricao = "";
+        prazo = "";
+        responsavel = new ArrayList<>();
     }
 
     public String getDescricao() {
@@ -25,11 +31,11 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public String getResponsavel() {
+    public List<String> getResponsavel() {
         return responsavel;
     }
 
-    public void setResponsavel(String responsavel) {
+    public void setResponsavel(List<String> responsavel) {
         this.responsavel = responsavel;
     }
 

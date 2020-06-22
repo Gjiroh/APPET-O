@@ -5,22 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHolder> {
 
     private List<Tarefa> tarefaList;
+    public CheckBox checkTarefa;
 
     public AdapterTarefas (List<Tarefa> tarefaList) {
         this.tarefaList = tarefaList;
@@ -28,7 +26,6 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nomeTarefa, descricao, prazo, responsavel;
-        CheckBox tarefaFeita;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,7 +34,7 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
             descricao = itemView.findViewById(R.id.textDescricao);
             prazo = itemView.findViewById(R.id.textPrazo);
             responsavel = itemView.findViewById(R.id.textResponsavel);
-            tarefaFeita = itemView.findViewById(R.id.checkBox);
+            checkTarefa = itemView.findViewById(R.id.checkBoxTarefa);
 
 
         }

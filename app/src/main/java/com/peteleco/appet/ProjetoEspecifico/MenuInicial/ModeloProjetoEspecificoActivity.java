@@ -41,12 +41,12 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     private final static String TAG = "ModeloProjetoEspecífico";
     private Menu menu;
     private bancoDados bancoDados;
-    private boolean verificCoord;
+    private boolean verificCoord, isDev;
 
     List<Tarefa> listaTarefas = new ArrayList<>();
 
     public boolean onCreateOptionsMenu (Menu menu){
-        if (this.verificCoord) {
+         if (this.verificCoord || this.isDev) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_projeto_especifico, menu);
             return true;
@@ -90,6 +90,7 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("Dados", 0);
         verificCoord = preferences.getBoolean("Projeto:"+nomeProjeto, false);
+        isDev = preferences.getBoolean("nomeLogadoDev", false);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);

@@ -173,6 +173,14 @@ public class bancoDados {
                         preferences.edit().putString("nomeLogadoCPF", child.child("cpf").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoEmail", child.child("email").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoTelefone", child.child("telefone").getValue().toString()).apply();
+                        try{
+                            if (child.child("dev").getValue().toString() == "true"){
+                                preferences.edit().putBoolean("nomeLogadoDev", true).apply();
+                            }
+
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

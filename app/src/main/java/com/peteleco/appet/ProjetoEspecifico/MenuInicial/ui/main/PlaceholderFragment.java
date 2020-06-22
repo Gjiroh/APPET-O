@@ -66,6 +66,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tarefa = new Tarefa();
 
         context = getActivity().getApplicationContext();
         bancoDados = new bancoDados(getActivity().getApplicationContext());
@@ -92,6 +93,9 @@ public class PlaceholderFragment extends Fragment {
     public View onCreateView(
             @NonNull final LayoutInflater inflater, final ViewGroup container,
             Bundle savedInstanceState) {
+
+        // TODO: Criar função para quando for selecionado a checkBox de uma tarefa
+
         View root = inflater.inflate(R.layout.fragment_projeto_especifico, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewTarefas);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
@@ -114,33 +118,38 @@ public class PlaceholderFragment extends Fragment {
 
                     @Override
                     public void onItemClick(View view, int position) {
+                        // TODO: Adiconar evento de clique na tarefa para abrir uma nova activity e mostrar detalhes da tarefa
+                        //  possibilitar que essa tarefa seja movida para DOING
 
                     }
 
                     @Override
                     public void onLongItemClick(final View view, final int position) {
-                        //SharedPreferences preferences = getActivity().getSharedPreferences("Dados",0);
-                        // TODO: colocar um metodo para somento coordenador poder remover tarefa
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage("Voce tem certeza que excluir essa tarefa?")
-                                .setTitle("Alerta");
-                        builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences preferences = getActivity().getSharedPreferences("Dados",0);
+                        boolean coordenador = preferences.getBoolean("Projeto:", false);
+                        boolean dev = preferences.getBoolean("nomeLogadoDev", false);
+                        if(dev && coordenador){
+                            // TODO: colocar um metodo para somento coordenador poder remover tarefa
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Voce tem certeza que excluir essa tarefa?")
+                                    .setTitle("Alerta");
+                            builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                excluirTarefa(status, nomeTarefa.get(position));
+                                    excluirTarefa(status, nomeTarefa.get(position));
 
-                            }
-                        });
-                        builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-
+                                }
+                            });
+                            builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
                     }
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -184,6 +193,10 @@ public class PlaceholderFragment extends Fragment {
 
     private void ler_dados_Firebase(final String status, final boolean test){
 
+        // TODO: verificar em qual tarefa e alterar no layout a visibilidade da check box
+
+        final List<String> responsavel = new ArrayList<>();
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         this.status = status;
@@ -195,8 +208,21 @@ public class PlaceholderFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if (!test) {
+                        Log.i(TAG, "Child.getKey = "+child.getKey());
                         PlaceholderFragment.this.nomeTarefa.add(child.getKey());
-                        tarefa = dataSnapshot.child(child.getKey()).getValue(Tarefa.class);
+                        String descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
+                        Log.i(TAG, "Descricao = "+descricao);
+                        String prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
+
+                        long aux = dataSnapshot.child(child.getKey()+"/"+"responsavel").getChildrenCount();
+                        for (int a = 0; a < aux; a++){
+                            responsavel.add(dataSnapshot.child(child.getKey()).child("responsavel").child(String.valueOf(a)).getValue().toString());
+                            Log.i(TAG, "responsa = "+ responsavel);
+                        }
+                        tarefa.setNome(child.getKey());
+                        tarefa.setDescricao(descricao);
+                        tarefa.setPrazo(prazo);
+                        tarefa.setResponsavel(responsavel);
                         listaTarefa.add(tarefa);
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
                             //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
