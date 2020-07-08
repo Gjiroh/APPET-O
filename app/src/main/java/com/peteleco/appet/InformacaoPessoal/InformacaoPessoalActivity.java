@@ -99,10 +99,13 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
                     builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            bancoDados.loadNomeLogado(auxEmail);
                             User user = new User(auxNome, auxEmail, auxCPF, auxTel, auxGRR);
                             bancoDados.salvarDadosBD(user);
-                            bancoDados.loadNomeLogado(auxEmail);
-                            salvarEmailAlterado(auxEmail);
+                            String eMail = bancoDados.getInfoNomeLogado("nomeLogadoEmail");
+                            if (!eMail.equals(auxEmail)) {
+                                salvarEmailAlterado(auxEmail);
+                            }
                             finish();
                         }
                     });

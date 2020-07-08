@@ -48,7 +48,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
     private RecyclerView mostrarColabs;
     private List<ModelTeste> listaColabs = new ArrayList<>();
     public final static String TAG = "teste";
-    private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("projetos");
+    private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("testeProjetos");
     private bancoDados bancoDados;
 
 
@@ -86,16 +86,10 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
                 String nomeProjeto = nomeProjetoNovo.getText().toString();
                 String descricaoProjeto = descricaoProjetoNovo.getText().toString();
-
-                if (validarDados(nomeProjeto, descricaoProjeto)){
+                List<String> listaColabSelec= adapterTeste.listaColabSelec;
+                if (validarDados(nomeProjeto, descricaoProjeto, listaColabSelec)){
                     try {
-                        bancoDados.verificaProjetosUser();
-                        List<String> listaColabSelec= adapterTeste.listaColabSelec;
-                        projetobd.child(nomeProjeto).child("descricaoProjeto").setValue(descricaoProjeto);
-                        // TODO: Arrumar método de adicionar membros. Precisa fazer com que fique salvo
-                        //  a ID unica do membro como colaborador ou coordenador
-                        projetobd.child(nomeProjeto).child("membros").setValue(listaColabSelec);
-                        Toast.makeText(NovoProjetoActivity.this, "Projeto Criado", Toast.LENGTH_SHORT).show();
+                        adicionarProjeto(listaColabSelec, nomeProjeto, descricaoProjeto);
                         finish();
                     }catch (Exception e){
                         Log.e("error", e.toString());
@@ -127,18 +121,60 @@ public class NovoProjetoActivity extends AppCompatActivity {
 
     }
 
-    public boolean validarDados (String nome, String descricao){
+    public boolean validarDados (String nome, String descricao, List<String> listaColabSelec){
         boolean valiDados = false;
+        boolean existente = false;
+        List<String> projetos = bancoDados.listaProjetos();
+        for (int i = 0; i < projetos.size(); i ++) {
+            if (nome.equals(projetos.get(i))){
+                existente = true;
+            }
+        }
         if(nome.isEmpty()){
             nomeProjetoNovo.requestFocus();
-            Toast.makeText(this, "Insira um nome de projeto", Toast.LENGTH_SHORT).show();
-        } else { valiDados = true; }
+            nomeProjetoNovo.setError("Insira um nome para o projeto");
+        } else if (existente) {
+            nomeProjetoNovo.requestFocus();
+            nomeProjetoNovo.setError("Esse projeto ja existe");
+        }else { valiDados = true; }
 
         if (descricao.isEmpty()){
             descricaoProjetoNovo.requestFocus();
-            Toast.makeText(this, "Insira uma breve descrição de projeto", Toast.LENGTH_SHORT).show();
+            descricaoProjetoNovo.setError("Insira uma breve descrição");
+        } else { valiDados = true; }
+
+        if (listaColabSelec.isEmpty()){
+            Toast.makeText(this, "Selecione ao menos um integrante do projeto", Toast.LENGTH_SHORT).show();
         } else { valiDados = true; }
 
         return valiDados;
+    }
+
+    public void adicionarProjeto (final List<String> listaColabSelec, final String nomeProjeto, final String descricaoProjeto) {
+         FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 for (DataSnapshot child : dataSnapshot.getChildren()){
+                     for (int i = 0; i < listaColabSelec.size(); i ++){
+                         if (child.child("nome").getValue().toString().toLowerCase().equals(listaColabSelec.get(i).toLowerCase())) {
+                            projetobd.child(nomeProjeto+"/descricaoProjeto").setValue(descricaoProjeto);
+                            if (child.getKey().equals(getSharedPreferences("Dados", 0).getString("nomeLogadoUI", null))){
+                                projetobd.child(nomeProjeto+"/membros/"+child.getKey()).setValue("coordenador");
+                            } else {
+                                projetobd.child(nomeProjeto+"/membros/"+child.getKey()).setValue("colaborador");
+                            }
+                         }
+                     }
+                     Toast.makeText(NovoProjetoActivity.this, "Projeto Criado", Toast.LENGTH_SHORT).show();
+                     bancoDados.verificaProjetosUser();
+                 }
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+
     }
 }

@@ -1,14 +1,17 @@
 package com.peteleco.appet.MenuInicial;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +48,7 @@ public class ProjetosActivity extends AppCompatActivity {
     public List<ModeloProjetos> listProjetos = new ArrayList<>();
     private bancoDados bancoDados;
     private final static String TAG = "ProjetosActivity";
+    private int cont;
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
@@ -100,14 +104,51 @@ public class ProjetosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projetos);
+
+        cont = 0;
         mostrarProjetos = findViewById(R.id.RecyclerViewProjetos);
         bancoDados = new bancoDados(this.getApplicationContext());
 
         getSupportActionBar().setTitle("Seus projetos");
 
-        // TODO: Fazer com que seja mostrado apenas os projetos que o usuário é membro
-        //  Fazer isso na função "AdicionarProjeto" (Acho)
+        setRecycler();
+    }
 
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume");
+        cont = getSharedPreferences("Dados", 0).getInt("contAux", 0);
+        if (cont == 1) {
+            finish();
+            startActivity(getIntent());
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        cont = getSharedPreferences("Dados", 0).getInt("contAux", 0);
+        if (cont == 0){
+            cont = 1;
+            getSharedPreferences("Dados", 0).edit().putInt("contAux", cont).apply();
+        } else {
+            cont = 0;
+            getSharedPreferences("Dados", 0).edit().putInt("contAux", cont).apply();
+        }
+    }
+
+    public void AdicionarProjeto() {
+        // Utilizar .listaProjetos para mostrar todos os projetos
+        this.listProjetos.clear();
+        bancoDados.verificaProjetosUser();
+        List<String> listaAux = bancoDados.getUserProjects();
+        for (int i = 0; i < listaAux.size(); i++){
+            ModeloProjetos Projeto = new ModeloProjetos(listaAux.get(i));
+            bancoDados.isCoordenador(listaAux.get(i));
+            this.listProjetos.add( Projeto );
+        }
+    }
+
+    public void setRecycler () {
         // Listar projetos
         this.AdicionarProjeto();
 
@@ -157,15 +198,5 @@ public class ProjetosActivity extends AppCompatActivity {
                     }
                 }
         ));
-    }
-
-    public void AdicionarProjeto() {
-        // Utilizar .listaProjetos para mostrar todos os projetos
-        List<String> listaAux = bancoDados.getUserProjects();
-        for (int i = 0; i < listaAux.size(); i++){
-            ModeloProjetos Projeto = new ModeloProjetos(listaAux.get(i));
-            bancoDados.isCoordenador(listaAux.get(i));
-            this.listProjetos.add( Projeto );
-        }
     }
 }
