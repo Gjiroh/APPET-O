@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
@@ -33,10 +34,6 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nomeTarefa = itemView.findViewById(R.id.textNomeTarefa);
-            descricao = itemView.findViewById(R.id.textDescricao);
-            prazo = itemView.findViewById(R.id.textPrazo);
-            responsavel = itemView.findViewById(R.id.textResponsavel);
             checkTarefa = itemView.findViewById(R.id.checkBoxTarefa);
 
 
@@ -57,10 +54,11 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Tarefa tarefa = tarefaList.get(position);
-        holder.nomeTarefa.setText(tarefa.getNome());
-        holder.descricao.setText("Descrição: "+ tarefa.getDescricao());
-        holder.prazo.setText("Prazo: "+tarefa.getPrazo());
-        holder.responsavel.setText("Responsável: "+tarefa.getResponsavel());
+        checkTarefa.setText(
+                ""+tarefa.getNome()+"\nDescrição: "+tarefa.getDescricao()+
+                        "\nResponsável: "+tarefa.getResponsavel()+
+                        "\nPrazo: "+tarefa.getPrazo()
+        );
 
     }
 

@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.LayoutDirection;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -84,7 +86,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
 
-                ;
+                /*Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                campo_senha.setText("");
+                startActivity(intent);*/
+
             }
         });
 
@@ -92,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
+        //bancoDados.verificaProjetosUser();
     }
 
     @Override
@@ -112,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!validateForm(email, password)) {
             return;
         }
-//        showProgressBar();
+        showProgressBar();
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
@@ -144,9 +150,9 @@ public class LoginActivity extends AppCompatActivity {
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
 //                            mStatusTextView.setText(R.string.auth_failed);
-                            Toast.makeText(LoginActivity.this, "Falha ao acessar a TASK", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Erro ao fazer o Login", Toast.LENGTH_SHORT).show();
                         }
-//                        hideProgressBar();
+                        hideProgressBar();
                         // [END_EXCLUDE]
                     }
                 });
@@ -212,5 +218,27 @@ public class LoginActivity extends AppCompatActivity {
 //            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
 
         }
+    }
+
+    private void showProgressBar() {
+        View dados_cadastro;
+        dados_cadastro = findViewById(R.id.layout_login);
+
+        View progressBar;
+        progressBar = findViewById(R.id.progressBarLogin);
+
+        dados_cadastro.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        View dados_cadastro;
+        dados_cadastro = findViewById(R.id.layout_login);
+
+        View progressBar;
+        progressBar = findViewById(R.id.progressBarLogin);
+
+        dados_cadastro.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

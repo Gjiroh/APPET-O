@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Handler;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
@@ -47,6 +49,8 @@ public class PlaceholderFragment extends Fragment {
     private List<String> nomeTarefa;
     private int index;
     private boolean verify1, verify2, verify3, verify4, estaTODO;
+    private AdapterTarefas adapter;
+    private View root;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -96,13 +100,13 @@ public class PlaceholderFragment extends Fragment {
 
         // TODO: Criar função para quando for selecionado a checkBox de uma tarefa
 
-        View root = inflater.inflate(R.layout.fragment_projeto_especifico, container, false);
+        root = inflater.inflate(R.layout.fragment_projeto_especifico, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewTarefas);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
 
-        AdapterTarefas adapter = new AdapterTarefas(listaTarefa);
+        adapter = new AdapterTarefas(listaTarefa);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(
@@ -236,6 +240,9 @@ public class PlaceholderFragment extends Fragment {
 
         // TODO: verificar em qual tarefa e alterar no layout a visibilidade da check box
 
+        if (!test){
+            showProgressBar();
+        }
         final List<String> responsavel = new ArrayList<>();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -268,6 +275,7 @@ public class PlaceholderFragment extends Fragment {
                         //  na listaTarefa
                         Log.i(TAG, " Tarefa: " + listaTarefa);
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
+                            hideProgressBar();
                             //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
                         }
                     }
@@ -329,5 +337,27 @@ public class PlaceholderFragment extends Fragment {
 
             }
         });
+    }
+
+    private void showProgressBar() {
+        View dados_tarefas;
+        dados_tarefas = root.findViewById(R.id.constraintLayoutTrafas);
+
+        ProgressBar progressBar;
+        progressBar = root.findViewById(R.id.progressBarTarefas);
+
+        dados_tarefas.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        View dados_tarefas;
+        dados_tarefas = root.findViewById(R.id.constraintLayoutTrafas);
+
+        ProgressBar progressBar;
+        progressBar = root.findViewById(R.id.progressBarTarefas);
+
+        dados_tarefas.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }
