@@ -9,11 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/itemPautas"
-        android:title="Pautas"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/itemInfoPessoal"
         android:title="Info Pessoais"
         app:showAsAction="never" />

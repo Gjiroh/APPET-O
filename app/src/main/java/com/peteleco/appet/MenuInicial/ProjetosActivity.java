@@ -33,7 +33,6 @@ import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
-import com.peteleco.appet.Pautas.PautasActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
@@ -73,9 +72,6 @@ public class ProjetosActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.signOut();
             finish();
-        } else if ( item.getItemId() == R.id.itemPautas){
-            Intent intentPautas = new Intent(this.getApplicationContext(), PautasActivity.class);
-            startActivity(intentPautas);
         }
         return super.onOptionsItemSelected(item);
 
