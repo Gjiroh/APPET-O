@@ -48,7 +48,7 @@ public class PlaceholderFragment extends Fragment {
     private bancoDados bancoDados;
     private List<String> nomeTarefa;
     private int index;
-    private boolean verify1, verify2, verify3, verify4, estaTODO;
+    public boolean verify1, verify2, verify3, verify4, estaTODO;
     private AdapterTarefas adapter;
     private View root;
 
@@ -82,10 +82,12 @@ public class PlaceholderFragment extends Fragment {
         SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
         nomeProjeto = preferences.getString("nomeProjeto",null);
 
-        verify1 = false;
-        verify2 = false;
-        verify3 = false;
-        verify4 = false;
+        boolean auxVerf = this.getActivity().getSharedPreferences("Dados",0)
+                .getBoolean("ReiniciarVerify", false);
+        verify1 = auxVerf;
+        verify2 = auxVerf;
+        verify3 = auxVerf;
+        verify4 = auxVerf;
 
         nomeTarefa = new ArrayList<>();
         carregarListaTarefas("DONE");
@@ -93,6 +95,13 @@ public class PlaceholderFragment extends Fragment {
         carregarListaTarefas("TO DO");
         carregarListaTarefas("IDEIA");
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+    }
+
     @Override
     public View onCreateView(
             @NonNull final LayoutInflater inflater, final ViewGroup container,
@@ -129,7 +138,7 @@ public class PlaceholderFragment extends Fragment {
                             builder.setPositiveButton("MOVER PARA DOING", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // TODO: movimentar tarefa do TODO para doing
+                                    showProgressBar();
                                     String nomeTarefa = listaTarefa.get(position).nome;
                                     String descricao = listaTarefa.get(position).descricao;
                                     String prazo = listaTarefa.get(position).prazo;
@@ -147,6 +156,7 @@ public class PlaceholderFragment extends Fragment {
                                         e.printStackTrace();
                                         Toast.makeText(getActivity(), "Erro ao mover taefa", Toast.LENGTH_SHORT).show();
                                     }
+                                    hideProgressBar();
                                 }
                             });
                         }
@@ -311,12 +321,16 @@ public class PlaceholderFragment extends Fragment {
     }
 
     private void excluirTarefa(String tab, String nomeTarefa) {
-        DatabaseReference projetoRef = FirebaseDatabase.getInstance().getReference(
-                "testeProjetos/"+this.nomeProjeto+"/"+tab+"/"+nomeTarefa);
-        projetoRef.removeValue();
-        Intent intent = getActivity().getIntent();
-        getActivity().finish();
-        startActivity(intent);
+        try {
+            DatabaseReference projetoRef = FirebaseDatabase.getInstance().getReference(
+                    "testeProjetos/"+this.nomeProjeto+"/"+tab+"/"+nomeTarefa);
+            projetoRef.removeValue();
+            Intent intent = getActivity().getIntent();
+            getActivity().finish();
+            startActivity(intent);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void carregarListaTarefas (final String status) {

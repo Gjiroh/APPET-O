@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.Adapters.AdapterMembros;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.PlaceholderFragment;
 import com.peteleco.appet.R;
 
 import java.text.ParseException;
@@ -56,7 +57,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_tarefa);
         nomeProjeto = getSharedPreferences("Activity", 0).getString("nomeProjeto",null);
-        Log.i(TAG, "projeto: " + nomeProjeto);
+
         preferences = getSharedPreferences("Dados", 0);
 
         // Configure o SimpleDateFormat no onCreate ou onCreateView
@@ -129,6 +130,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                 String auxDesc = descricao.getText().toString();
                 if (verificarDados(auxNome, auxDesc, prazoText, responsaveis)) {
                     salvarTarefa(auxNome, auxDesc, prazoText, responsaveis);
+                    Log.i(TAG, "respponsáveis: "+ responsaveis);
                 }
 
             }
@@ -210,11 +212,18 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
     }
 
     public void salvarTarefa (String nomeTarefa, String descricao, String prazo, List<String> responsavel) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos/"+nomeProjeto+"/TO DO");
-        reference.child(nomeTarefa).child("descricao").setValue(descricao);
-        reference.child(nomeTarefa).child("prazo").setValue(prazo);
-        reference.child(nomeTarefa).child("responsavel").setValue(responsavel);
-        finish();
+        try {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos/"+nomeProjeto+"/TO DO");
+            reference.child(nomeTarefa).child("descricao").setValue(descricao);
+            reference.child(nomeTarefa).child("prazo").setValue(prazo);
+            reference.child(nomeTarefa).child("responsavel").setValue(responsavel);
+            preferences.edit().putBoolean("ReiniciarVerify", false).apply();
+            Toast.makeText(this, "Tarefa salva", Toast.LENGTH_SHORT).show();
+            finish();
+        } catch (Exception e){
+            Toast.makeText(this, "Houve um erro ao tentar salvar a tarefa", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }
