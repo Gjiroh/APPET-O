@@ -266,14 +266,15 @@ public class PlaceholderFragment extends Fragment {
                             responsavel.add(dataSnapshot.child(child.getKey()).child("responsavel").child(String.valueOf(a)).getValue().toString());
 
                         }
-                        tarefa.setNome(child.getKey());
-                        tarefa.setDescricao(descricao);
-                        tarefa.setPrazo(prazo);
-                        tarefa.setResponsavel(responsavel);
-                        listaTarefa.add(tarefa);
+                        Tarefa tarefa1 = new Tarefa();
+                        tarefa1.setNome(child.getKey());
+                        tarefa1.setDescricao(descricao);
+                        Log.i(TAG, "NomeTarefa"+i+": "+child.getKey());
+                        tarefa1.setPrazo(prazo);
+                        tarefa1.setResponsavel(responsavel);
+                        listaTarefa.add(tarefa1);
                         // TODO: verificar motivo de estar passando apenas uma tarefa para duas posições
                         //  na listaTarefa
-                        Log.i(TAG, " Tarefa: " + listaTarefa);
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
                             hideProgressBar();
                             //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());

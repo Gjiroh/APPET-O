@@ -10,7 +10,7 @@
 
     <CheckBox
         android:id="@+id/checkBoxTarefa"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="NomeTarefa\nDescrição\nResponsável\nPrazo:"
