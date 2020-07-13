@@ -217,7 +217,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
             reference.child(nomeTarefa).child("descricao").setValue(descricao);
             reference.child(nomeTarefa).child("prazo").setValue(prazo);
             reference.child(nomeTarefa).child("responsavel").setValue(responsavel);
-            preferences.edit().putBoolean("ReiniciarVerify", false).apply();
+            preferences.edit().putString("ReiniciarVerify", "reiniciar").apply();
             Toast.makeText(this, "Tarefa salva", Toast.LENGTH_SHORT).show();
             finish();
         } catch (Exception e){

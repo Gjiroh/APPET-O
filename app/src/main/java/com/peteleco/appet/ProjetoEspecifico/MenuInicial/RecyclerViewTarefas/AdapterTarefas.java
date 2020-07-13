@@ -24,8 +24,9 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
 
     private final static String TAG = "AdapterTarefas";
 
-    public AdapterTarefas (List<Tarefa> tarefaList) {
-        this.tarefaList = tarefaList;
+    public AdapterTarefas (List<Tarefa> listaTarefas) {
+
+        this.tarefaList = listaTarefas;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -53,7 +54,11 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Tarefa tarefa = tarefaList.get(position);
+        Tarefa tarefa = this.tarefaList.get(position);
+        Log.i(TAG, "Nome: "+tarefa.getNome());
+        Log.i(TAG, "Desc: "+tarefa.getDescricao());
+        Log.i(TAG, "Resp: "+tarefa.getResponsavel());
+        Log.i(TAG, "Prazo: "+tarefa.getPrazo());
         checkTarefa.setText(
                 ""+tarefa.getNome()+"\nDescrição: "+tarefa.getDescricao()+
                         "\nResponsável: "+tarefa.getResponsavel()+

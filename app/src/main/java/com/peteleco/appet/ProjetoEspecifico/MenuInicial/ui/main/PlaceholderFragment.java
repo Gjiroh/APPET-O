@@ -49,7 +49,6 @@ public class PlaceholderFragment extends Fragment {
     private List<String> nomeTarefa;
     private int index;
     public boolean verify1, verify2, verify3, verify4, estaTODO;
-    private AdapterTarefas adapter;
     private View root;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -82,12 +81,10 @@ public class PlaceholderFragment extends Fragment {
         SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
         nomeProjeto = preferences.getString("nomeProjeto",null);
 
-        boolean auxVerf = this.getActivity().getSharedPreferences("Dados",0)
-                .getBoolean("ReiniciarVerify", false);
-        verify1 = auxVerf;
-        verify2 = auxVerf;
-        verify3 = auxVerf;
-        verify4 = auxVerf;
+        verify1 = false;
+        verify2 = false;
+        verify3 = false;
+        verify4 = false;
 
         nomeTarefa = new ArrayList<>();
         carregarListaTarefas("DONE");
@@ -99,7 +96,17 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume");
+        String reset = this.getActivity().getSharedPreferences("Dados",0)
+                .getString("ReiniciarVerify", "");
+        if (reset.equals("reiniciar")){
+            this.getActivity().getSharedPreferences("Dados", 0)
+                    .edit().putString("ReiniciarVerify", "").apply();
+            showProgressBar();
+            Intent intent = getActivity().getIntent();
+            getActivity().finish();
+            startActivity(intent);
+            hideProgressBar();
+        }
     }
 
     @Override
@@ -115,7 +122,8 @@ public class PlaceholderFragment extends Fragment {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdapterTarefas(listaTarefa);
+        AdapterTarefas adapter = new AdapterTarefas(listaTarefa);
+
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(
@@ -138,7 +146,6 @@ public class PlaceholderFragment extends Fragment {
                             builder.setPositiveButton("MOVER PARA DOING", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    showProgressBar();
                                     String nomeTarefa = listaTarefa.get(position).nome;
                                     String descricao = listaTarefa.get(position).descricao;
                                     String prazo = listaTarefa.get(position).prazo;
@@ -152,11 +159,13 @@ public class PlaceholderFragment extends Fragment {
                                         reference.child("DOING").child(nomeTarefa+"/prazo").setValue(prazo);
                                         reference.child("DOING").child(nomeTarefa+"/responsavel").setValue(nomeResponsavel);
                                         Toast.makeText(getActivity(), "Tarefa movida com sucesso", Toast.LENGTH_SHORT).show();
+                                        Intent intent = getActivity().getIntent();
+                                        getActivity().finish();
+                                        startActivity(intent);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         Toast.makeText(getActivity(), "Erro ao mover taefa", Toast.LENGTH_SHORT).show();
                                     }
-                                    hideProgressBar();
                                 }
                             });
                         }
@@ -183,7 +192,7 @@ public class PlaceholderFragment extends Fragment {
                         boolean coordenador = preferences.getBoolean("Projeto:", false);
                         boolean dev = preferences.getBoolean("nomeLogadoDev", false);
                         if(dev || coordenador){
-                            // TODO: colocar um metodo para somento coordenador poder remover tarefa
+
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage("Voce tem certeza que excluir essa tarefa?")
                                     .setTitle("Alerta");
@@ -213,8 +222,7 @@ public class PlaceholderFragment extends Fragment {
         ));
 
         switch (index){
-            // TODO: Achar um meio de forma que seja possível carregar e mostrar tarefas ao iniciar
-            //  a activity e sem ter a necessidade de passar por outras tabs antes de mostrar...
+
             case 1:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DONE");
                 ler_dados_Firebase("DONE",verify1);
@@ -224,25 +232,21 @@ public class PlaceholderFragment extends Fragment {
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
                 ler_dados_Firebase("DOING",verify2);
                 verify2 = true;
-                Log.i(TAG, "Caso 2");
                 break;
             case 3:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
                 ler_dados_Firebase("TO DO",verify3);
                 verify3 = true;
                 estaTODO = true;
-                Log.i(TAG, "Caso 3");
                 break;
             case 4:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "IDEIA");
                 ler_dados_Firebase("IDEIA",verify4);
                 verify4 = true;
-                Log.i(TAG, "Caso 4");
                 break;
             default:
-                Log.i(TAG,"entrou no defaut");
-        }
 
+        }
         return root;
     }
 
@@ -266,27 +270,48 @@ public class PlaceholderFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if (!test) {
+                        String prazo = "", descricao = "";
                         PlaceholderFragment.this.nomeTarefa.add(child.getKey());
-                        String descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
 
-                        String prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
-
-                        long aux = dataSnapshot.child(child.getKey()+"/"+"responsavel").getChildrenCount();
-                        for (int a = 0; a < aux; a++){
-                            responsavel.add(dataSnapshot.child(child.getKey()).child("responsavel").child(String.valueOf(a)).getValue().toString());
-
+                        try {
+                            descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                            //descricao = "Erro ao carregar";
+                            Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
                         }
+
+                        try{
+                            prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            //prazo = "Erro ao carregar";
+                            //Toast.makeText(getActivity(), "Erro ao carregar prazo", Toast.LENGTH_SHORT).show();
+                        }
+
+                        try {
+                            long aux = dataSnapshot.child(child.getKey()+"/"+"responsavel").getChildrenCount();
+                            for (int a = 0; a < aux; a++){
+
+                                responsavel.add(dataSnapshot.child(child.getKey()).child("responsavel").child(String.valueOf(a)).getValue().toString());
+
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                            //responsavel.add("Erro ao carregar");
+                            Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
+                        }
+
                         Tarefa tarefa1 = new Tarefa();
                         tarefa1.setNome(child.getKey());
                         tarefa1.setDescricao(descricao);
-                        Log.i(TAG, "NomeTarefa"+i+": "+child.getKey());
                         tarefa1.setPrazo(prazo);
                         tarefa1.setResponsavel(responsavel);
                         listaTarefa.add(tarefa1);
-                        // TODO: verificar motivo de estar passando apenas uma tarefa para duas posições
-                        //  na listaTarefa
+                        responsavel.clear();
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
                             hideProgressBar();
+                            // Verifica se é a ultima Child
                             //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
                         }
                     }
@@ -331,6 +356,7 @@ public class PlaceholderFragment extends Fragment {
         }catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void carregarListaTarefas (final String status) {
@@ -342,8 +368,13 @@ public class PlaceholderFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     aux.add(child.getKey());
-                    getActivity().getSharedPreferences("Dados", 0)
-                            .edit().putStringSet("listaTarefas" + status, new HashSet<>(aux)).apply();
+                    try {
+                        getActivity().getSharedPreferences("Dados", 0)
+                                .edit().putStringSet("listaTarefas" + status, new HashSet<>(aux)).apply();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
             }
 
