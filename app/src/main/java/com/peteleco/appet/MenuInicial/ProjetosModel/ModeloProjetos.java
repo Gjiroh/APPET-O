@@ -4,12 +4,12 @@ import android.widget.ProgressBar;
 
 public class ModeloProjetos {
     private String nomeProjeto;
-    private ProgressBar andamentoAtividades;
 
 
     public ModeloProjetos(String nomeProjeto) {
         this.nomeProjeto = nomeProjeto;
-        this.andamentoAtividades = andamentoAtividades;
+    }
+    public ModeloProjetos() {
     }
 
     public String getNomeProjeto() {
@@ -18,13 +18,5 @@ public class ModeloProjetos {
 
     public void setNomeProjeto(String nomeProjeto) {
         this.nomeProjeto = nomeProjeto;
-    }
-
-    public ProgressBar getAndamentoAtividades() {
-        return andamentoAtividades;
-    }
-
-    public void setAndamentoAtividades(ProgressBar andamentoAtividades) {
-        this.andamentoAtividades = andamentoAtividades;
     }
 }

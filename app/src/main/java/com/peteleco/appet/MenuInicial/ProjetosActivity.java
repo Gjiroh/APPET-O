@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +35,7 @@ import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
 import com.peteleco.appet.bancoDados;
@@ -106,7 +108,7 @@ public class ProjetosActivity extends AppCompatActivity {
         bancoDados = new bancoDados(this.getApplicationContext());
 
         getSupportActionBar().setTitle("Seus projetos");
-
+        showProgressBar();
         setRecycler();
     }
 
@@ -149,7 +151,7 @@ public class ProjetosActivity extends AppCompatActivity {
         this.AdicionarProjeto();
 
         // Adapter
-        AdapterProjetos adapter = new AdapterProjetos(listProjetos);
+        AdapterProjetos adapter = new AdapterProjetos(listProjetos, this.getApplicationContext());
 
         // Configurando o RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -194,5 +196,29 @@ public class ProjetosActivity extends AppCompatActivity {
                     }
                 }
         ));
+        hideProgressBar();
     }
+
+    private void showProgressBar() {
+        View projetos;
+        projetos = findViewById(R.id.viewProjetos);
+
+        ProgressBar progressBar;
+        progressBar = findViewById(R.id.progressBarInicio);
+
+        projetos.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        View projetos;
+        projetos = findViewById(R.id.viewProjetos);
+
+        ProgressBar progressBar;
+        progressBar = findViewById(R.id.progressBarInicio);
+
+        projetos.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+    }
+
 }

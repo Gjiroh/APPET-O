@@ -3,10 +3,13 @@ package com.peteleco.appet;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.common.internal.FallbackServiceBroker;
+import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.Autenticacao_Login.User;
+import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
@@ -355,5 +359,31 @@ public class bancoDados {
                 Log.e(TAG, "Erro ao recuperar IDs em membrosProjeto");
             }
         });
+    }
+
+    public void progressoProjeto (String nomeProjeto, final ProgressBar progressBar) {
+        // Verificando número de tarefas
+        DatabaseReference projetos = reference.child("testeProjetos/"+nomeProjeto);
+        projetos.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //TODO: Customizar progress bar para que ela mostre progresso parcial (doing)
+                
+                int numTaskToDo = (int) dataSnapshot.child("TO DO").getChildrenCount();
+                int numTaskDoing = (int) dataSnapshot.child("DOING").getChildrenCount();
+                int numTaskDone = (int) dataSnapshot.child("DONE").getChildrenCount();
+                int totalTasks = numTaskToDo+numTaskDoing+numTaskDone;
+                progressBar.setMax(totalTasks);
+                progressBar.setProgress(numTaskDone);
+                progressBar.setSecondaryProgress(numTaskDoing);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
