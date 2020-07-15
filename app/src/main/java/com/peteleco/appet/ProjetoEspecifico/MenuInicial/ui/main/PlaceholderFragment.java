@@ -1,17 +1,16 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Handler;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,7 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
@@ -78,7 +76,7 @@ public class PlaceholderFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("Activity",0);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("Dados",0);
         nomeProjeto = preferences.getString("nomeProjeto",null);
 
         verify1 = false;
@@ -189,7 +187,7 @@ public class PlaceholderFragment extends Fragment {
                     @Override
                     public void onLongItemClick(final View view, final int position) {
                         SharedPreferences preferences = getActivity().getSharedPreferences("Dados",0);
-                        boolean coordenador = preferences.getBoolean("Projeto:", false);
+                        boolean coordenador = preferences.getBoolean("coordenador", false);
                         boolean dev = preferences.getBoolean("nomeLogadoDev", false);
                         if(dev || coordenador){
 

@@ -300,7 +300,7 @@ public class bancoDados {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String aux = dataSnapshot.getValue().toString().toLowerCase();
                     if (aux.equals("coordenador")) {
-                        preferences.edit().putBoolean("Projeto:"+projeto,true).apply();
+                        preferences.edit().putBoolean("coordenador"+projeto,true).apply();
                     }
                 }
 

@@ -1,17 +1,7 @@
 package com.peteleco.appet.MenuInicial;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,20 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
-import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
 import com.peteleco.appet.bancoDados;

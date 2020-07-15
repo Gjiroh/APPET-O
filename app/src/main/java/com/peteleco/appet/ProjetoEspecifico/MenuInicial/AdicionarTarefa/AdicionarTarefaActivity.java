@@ -1,10 +1,5 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.AdicionarTarefa;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
@@ -20,13 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.Adapters.AdapterMembros;
-import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.PlaceholderFragment;
 import com.peteleco.appet.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,8 +32,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AdicionarTarefaActivity extends AppCompatActivity {
     private String nomeProjeto, pattern, prazoText;
@@ -56,9 +52,10 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_tarefa);
-        nomeProjeto = getSharedPreferences("Activity", 0).getString("nomeProjeto",null);
 
         preferences = getSharedPreferences("Dados", 0);
+
+        nomeProjeto = preferences.getString("nomeProjeto",null);
 
         // Configure o SimpleDateFormat no onCreate ou onCreateView
         pattern = "dd/MM/yy";
