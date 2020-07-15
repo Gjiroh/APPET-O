@@ -1,6 +1,7 @@
 package com.peteleco.appet.MenuInicial;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +36,7 @@ public class ProjetosActivity extends AppCompatActivity {
     private RecyclerView mostrarProjetos;
     public List<ModeloProjetos> listProjetos = new ArrayList<>();
     private bancoDados bancoDados;
+    private SharedPreferences preferences;
     private final static String TAG = "ProjetosActivity";
     private int cont;
 
@@ -50,8 +52,14 @@ public class ProjetosActivity extends AppCompatActivity {
         // Handle item selection
         if (item.getItemId() == R.id.itemAddProjeto){
             // TODO: talvez restringir o acesso a essa função
-            Intent intent = new Intent(this.getApplicationContext(), NovoProjetoActivity.class);
-            startActivity(intent);
+            boolean verifyAdm = preferences.getBoolean("nomeLogadoDev", false);
+            if (verifyAdm){
+                Intent intent = new Intent(this.getApplicationContext(), NovoProjetoActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Esta funcionalidade é exclusiva para os administradores", Toast.LENGTH_LONG).show();
+            }
+
 
         } else if ( item.getItemId() == R.id.itemInfoPessoal ) {
             Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
@@ -93,6 +101,7 @@ public class ProjetosActivity extends AppCompatActivity {
         cont = 0;
         mostrarProjetos = findViewById(R.id.RecyclerViewProjetos);
         bancoDados = new bancoDados(this.getApplicationContext());
+        preferences = getSharedPreferences("Dados", 0);
 
         getSupportActionBar().setTitle("Seus projetos");
         showProgressBar();
