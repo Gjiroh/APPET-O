@@ -10,6 +10,6 @@
     <!-- Stacked Horizontal Progressbar Colors -->
     <style name="shpbr_background">#AA0000</style>
     <color name="shpbr_primary_progress">#FFAA00</color>
-    <color name="shpbr_secondary_progress">#00AA00</color>
+    <color name="shpbr_secondary_progress">#00CC00</color>
 
 </resources>
