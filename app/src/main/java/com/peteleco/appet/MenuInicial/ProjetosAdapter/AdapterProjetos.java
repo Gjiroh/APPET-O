@@ -18,10 +18,12 @@ import com.peteleco.appet.bancoDados;
 
 import java.util.List;
 
+import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
+
 public class AdapterProjetos extends RecyclerView.Adapter<AdapterProjetos.MyViewHolder> {
 
     private List<ModeloProjetos> listProjeto;
-    private ProgressBar progressProjeto;
+    private StackedHorizontalProgressBar progressProjeto;
     private Context context;
 
     public AdapterProjetos(List<ModeloProjetos> listProjeto, Context context) {
@@ -31,7 +33,7 @@ public class AdapterProjetos extends RecyclerView.Adapter<AdapterProjetos.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nomeProjeto;
-        ProgressBar progressBarProjeto;
+        StackedHorizontalProgressBar progressBarProjeto;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -2,10 +2,12 @@ package com.peteleco.appet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.common.internal.FallbackServiceBroker;
@@ -28,6 +30,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 
 public class bancoDados {
     private DatabaseReference reference;
@@ -361,7 +365,7 @@ public class bancoDados {
         });
     }
 
-    public void progressoProjeto (String nomeProjeto, final ProgressBar progressBar) {
+    public void progressoProjeto (String nomeProjeto, final StackedHorizontalProgressBar progressBar) {
         // Verificando número de tarefas
         DatabaseReference projetos = reference.child("testeProjetos/"+nomeProjeto);
         projetos.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -376,6 +380,7 @@ public class bancoDados {
                 progressBar.setMax(totalTasks);
                 progressBar.setProgress(numTaskDone);
                 progressBar.setSecondaryProgress(numTaskDoing);
+                //progressBar.init();
 
             }
 
