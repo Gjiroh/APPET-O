@@ -33,7 +33,10 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            nomeTarefa = itemView.findViewById(R.id.textViewNomeTarefa);
+            descricao = itemView.findViewById(R.id.textViewDescrição);
+            prazo = itemView.findViewById(R.id.textViewPrazo);
+            responsavel = itemView.findViewById(R.id.textViewResponsavel);
             checkTarefa = itemView.findViewById(R.id.checkBoxTarefa);
 
 
@@ -54,12 +57,11 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Tarefa tarefa = this.tarefaList.get(position);
-        Log.i(TAG, "Resp: "+tarefa.getResponsavel());
-        checkTarefa.setText(
-                ""+tarefa.getNome()+"\nDescrição: "+tarefa.getDescricao()+
-                        "\nResponsável: "+tarefa.getResponsavel()+
-                        "\nPrazo: "+tarefa.getPrazo()
-        );
+
+        holder.nomeTarefa.setText(tarefa.getNome());
+        holder.descricao.setText(tarefa.getDescricao());
+        holder.prazo.setText(tarefa.getPrazo());
+        holder.responsavel.setText(tarefa.getResponsavel());
     }
 
 
