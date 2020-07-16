@@ -38,7 +38,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
     private EditText nomeTarefa, descricao;
     private TextView prazo;
     private Button btSalvar;
-    private List<String> responsaveis;
+    private String responsaveis = "";
     private RecyclerView recyclerView;
     private AdapterMembros adapter;
     private SharedPreferences preferences;
@@ -117,12 +117,23 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                 new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        responsaveis = adapter.listaMembrosSelec;
-
         btSalvar = findViewById(R.id.buttonSalvarTarefa);
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<String> aux = adapter.listaMembrosSelec;
+                int size = aux.size();
+                Collections.sort(aux);
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < size; i++){
+                    if (i == size-1){
+                        builder.append(aux.get(i));
+                    } else {
+                        builder.append(aux.get(i)).append(", ");
+                        responsaveis = builder.toString();
+                    }
+
+                }
                 String auxNome = nomeTarefa.getText().toString();
                 String auxDesc = descricao.getText().toString();
                 if (verificarDados(auxNome, auxDesc, prazoText, responsaveis)) {
@@ -135,7 +146,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
     }
 
     public boolean verificarDados (
-            String nomeTarefa, String descricao, String prazo, List<String> responsaveis
+            String nomeTarefa, String descricao, String prazo, String responsaveis
     ) {
 
         List<String> listD = new ArrayList<>(preferences.getStringSet("listaTarefasDONE", null));
@@ -199,7 +210,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
             this.prazo.setError(null);
         }
 
-        if (responsaveis.isEmpty()) {
+        if (responsaveis.equals("")) {
             this.recyclerView.requestFocus();
             Toast.makeText(this, "A tarefa deve ter ao menos um responsável", Toast.LENGTH_SHORT).show();
             return false;
@@ -208,7 +219,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         return true;
     }
 
-    public void salvarTarefa (String nomeTarefa, String descricao, String prazo, List<String> responsavel) {
+    public void salvarTarefa (String nomeTarefa, String descricao, String prazo, String responsavel) {
         try {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos/"+nomeProjeto+"/TO DO");
             reference.child(nomeTarefa).child("descricao").setValue(descricao);

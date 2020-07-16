@@ -1,13 +1,16 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tarefa {
     public String descricao;
-    public List<String> responsavel;
+    public String responsavel;
     public String prazo;
     public String nome;
+    private String TAG = "Tarefas.java";
 
     public String getNome() {
         return nome;
@@ -20,7 +23,7 @@ public class Tarefa {
     public Tarefa() {
         descricao = "";
         prazo = "";
-        responsavel = new ArrayList<>();
+        responsavel = "";
     }
 
     public String getDescricao() {
@@ -31,11 +34,11 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public List<String> getResponsavel() {
+    public String getResponsavel() {
         return responsavel;
     }
 
-    public void setResponsavel(List<String> responsavel) {
+    public void setResponsavel(String responsavel) {
         this.responsavel = responsavel;
     }
 

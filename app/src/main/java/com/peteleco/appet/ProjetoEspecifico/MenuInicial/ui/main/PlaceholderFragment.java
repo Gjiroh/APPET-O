@@ -144,10 +144,10 @@ public class PlaceholderFragment extends Fragment {
                             builder.setPositiveButton("MOVER PARA DOING", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String nomeTarefa = listaTarefa.get(position).nome;
-                                    String descricao = listaTarefa.get(position).descricao;
-                                    String prazo = listaTarefa.get(position).prazo;
-                                    List<String> nomeResponsavel = listaTarefa.get(position).responsavel;
+                                    String nomeTarefa = listaTarefa.get(position).getNome();
+                                    String descricao = listaTarefa.get(position).getDescricao();
+                                    String prazo = listaTarefa.get(position).getPrazo();
+                                    String nomeResponsavel = listaTarefa.get(position).getResponsavel();
                                     try {
                                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
                                                 "testeProjetos/"+nomeProjeto);
@@ -255,8 +255,6 @@ public class PlaceholderFragment extends Fragment {
         if (!test){
             showProgressBar();
         }
-        final List<String> responsavel = new ArrayList<>();
-
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         this.status = status;
@@ -268,7 +266,7 @@ public class PlaceholderFragment extends Fragment {
                 int i = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if (!test) {
-                        String prazo = "", descricao = "";
+                        String prazo = "", descricao = "", resp = "";
                         PlaceholderFragment.this.nomeTarefa.add(child.getKey());
 
                         try {
@@ -288,12 +286,7 @@ public class PlaceholderFragment extends Fragment {
                         }
 
                         try {
-                            long aux = dataSnapshot.child(child.getKey()+"/"+"responsavel").getChildrenCount();
-                            for (int a = 0; a < aux; a++){
-
-                                responsavel.add(dataSnapshot.child(child.getKey()).child("responsavel").child(String.valueOf(a)).getValue().toString());
-
-                            }
+                                resp = dataSnapshot.child(child.getKey()).child("responsavel").getValue().toString();
                         } catch (Exception e){
                             e.printStackTrace();
                             //responsavel.add("Erro ao carregar");
@@ -304,9 +297,10 @@ public class PlaceholderFragment extends Fragment {
                         tarefa1.setNome(child.getKey());
                         tarefa1.setDescricao(descricao);
                         tarefa1.setPrazo(prazo);
-                        tarefa1.setResponsavel(responsavel);
+                        tarefa1.setResponsavel(resp);
+                        Log.i(TAG, "tafera respo: " + tarefa1.getResponsavel());
                         listaTarefa.add(tarefa1);
-                        responsavel.clear();
+
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
                             hideProgressBar();
                             // Verifica se é a ultima Child
