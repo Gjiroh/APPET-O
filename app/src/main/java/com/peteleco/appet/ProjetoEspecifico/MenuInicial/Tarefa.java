@@ -1,9 +1,5 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Tarefa {
     public String descricao;

@@ -19,7 +19,6 @@ import java.util.List;
 public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHolder> {
 
     private List<Tarefa> tarefaList;
-    public CheckBox checkTarefa;
 
     private final static String TAG = "AdapterTarefas";
 
@@ -37,7 +36,6 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
             descricao = itemView.findViewById(R.id.textViewDescrição);
             prazo = itemView.findViewById(R.id.textViewPrazo);
             responsavel = itemView.findViewById(R.id.textViewResponsavel);
-            checkTarefa = itemView.findViewById(R.id.checkBoxTarefa);
 
 
         }
@@ -59,9 +57,9 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
         Tarefa tarefa = this.tarefaList.get(position);
 
         holder.nomeTarefa.setText(tarefa.getNome());
-        holder.descricao.setText(tarefa.getDescricao());
-        holder.prazo.setText(tarefa.getPrazo());
-        holder.responsavel.setText(tarefa.getResponsavel());
+        holder.descricao.setText("Descrição: "+tarefa.getDescricao());
+        holder.prazo.setText("Prazo: "+tarefa.getPrazo());
+        holder.responsavel.setText("Responsável: "+tarefa.getResponsavel());
     }
 
 

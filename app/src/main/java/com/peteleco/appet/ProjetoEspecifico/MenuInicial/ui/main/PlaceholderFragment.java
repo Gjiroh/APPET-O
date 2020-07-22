@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesTarefaActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
@@ -46,7 +47,7 @@ public class PlaceholderFragment extends Fragment {
     private bancoDados bancoDados;
     private List<String> nomeTarefa;
     private int index;
-    public boolean verify1, verify2, verify3, verify4, estaTODO;
+    public boolean verify1, verify2, verify3, verify4, estaTODO, estaDOING;
     private View root;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -141,7 +142,7 @@ public class PlaceholderFragment extends Fragment {
                         builder.setMessage("O que deseja fazer com a tarefa?")
                                 .setTitle("Alerta");
                         if (estaTODO) {
-                            builder.setPositiveButton("MOVER PARA DOING", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton("COMEÇAR TAREFA", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     String nomeTarefa = listaTarefa.get(position).getNome();
@@ -166,12 +167,39 @@ public class PlaceholderFragment extends Fragment {
                                     }
                                 }
                             });
+                        } else if (estaDOING){
+                            builder.setPositiveButton("FINALIZAR TAREFA", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String nomeTarefa = listaTarefa.get(position).getNome();
+                                    String descricao = listaTarefa.get(position).getDescricao();
+                                    String prazo = listaTarefa.get(position).getPrazo();
+                                    String nomeResponsavel = listaTarefa.get(position).getResponsavel();
+                                    try {
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+                                                "testeProjetos/"+nomeProjeto);
+                                        reference.child("DOING/"+nomeTarefa).removeValue();
+
+                                        reference.child("DONE").child(nomeTarefa+"/descricao").setValue(descricao);
+                                        reference.child("DONE").child(nomeTarefa+"/prazo").setValue(prazo);
+                                        reference.child("DONE").child(nomeTarefa+"/responsavel").setValue(nomeResponsavel);
+                                        Toast.makeText(getActivity(), "Tarefa movida com sucesso", Toast.LENGTH_SHORT).show();
+                                        Intent intentDOING = getActivity().getIntent();
+                                        getActivity().finish();
+                                        startActivity(intentDOING);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getActivity(), "Erro ao mover taefa", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
 
                         builder.setNeutralButton("DETALHES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                Intent intentDetalhes = new Intent(getActivity().getApplicationContext(), DetalhesTarefaActivity.class);
+                                startActivity(intentDetalhes);
                             }
                         });
                         builder.setNegativeButton("NADA", new DialogInterface.OnClickListener() {
@@ -230,6 +258,7 @@ public class PlaceholderFragment extends Fragment {
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
                 ler_dados_Firebase("DOING",verify2);
                 verify2 = true;
+                estaDOING = true;
                 break;
             case 3:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
