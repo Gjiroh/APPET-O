@@ -47,7 +47,7 @@ public class PlaceholderFragment extends Fragment {
     private bancoDados bancoDados;
     private List<String> nomeTarefa;
     private int index;
-    public boolean verify1, verify2, verify3, verify4, estaTODO, estaDOING;
+    public boolean verify1, verify2, verify3, verify4, estaTODO, estaDOING, estaDONE, estaIDEA;
     private View root;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -198,7 +198,19 @@ public class PlaceholderFragment extends Fragment {
                         builder.setNeutralButton("DETALHES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                String nomeTarefa = listaTarefa.get(position).getNome();
+                                String descricao = listaTarefa.get(position).getDescricao();
+                                String prazo = listaTarefa.get(position).getPrazo();
+                                String nomeResponsavel = listaTarefa.get(position).getResponsavel();
                                 Intent intentDetalhes = new Intent(getActivity().getApplicationContext(), DetalhesTarefaActivity.class);
+                                intentDetalhes.putExtra("nomeTarefa", nomeTarefa);
+                                intentDetalhes.putExtra("descricao", descricao);
+                                intentDetalhes.putExtra("prazo", prazo);
+                                intentDetalhes.putExtra("nomeResponsavel", nomeResponsavel);
+                                intentDetalhes.putExtra("nomeProjeto", nomeProjeto);
+                                intentDetalhes.putExtra("status",
+                                        getStatus(estaDONE, estaIDEA, estaDOING, estaTODO));
+
                                 startActivity(intentDetalhes);
                             }
                         });
@@ -253,6 +265,7 @@ public class PlaceholderFragment extends Fragment {
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DONE");
                 ler_dados_Firebase("DONE",verify1);
                 verify1 = true;
+                estaDONE = true;
                 break;
             case 2:
                 //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
@@ -270,6 +283,7 @@ public class PlaceholderFragment extends Fragment {
                 //bancoDados.loadNomeTarefas(nomeProjeto, "IDEIA");
                 ler_dados_Firebase("IDEIA",verify4);
                 verify4 = true;
+                estaIDEA = true;
                 break;
             default:
 
@@ -303,7 +317,7 @@ public class PlaceholderFragment extends Fragment {
                         } catch (Exception e){
                             e.printStackTrace();
                             //descricao = "Erro ao carregar";
-                            Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
                         }
 
                         try{
@@ -319,7 +333,7 @@ public class PlaceholderFragment extends Fragment {
                         } catch (Exception e){
                             e.printStackTrace();
                             //responsavel.add("Erro ao carregar");
-                            Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
                         }
 
                         Tarefa tarefa1 = new Tarefa();
@@ -327,7 +341,6 @@ public class PlaceholderFragment extends Fragment {
                         tarefa1.setDescricao(descricao);
                         tarefa1.setPrazo(prazo);
                         tarefa1.setResponsavel(resp);
-                        Log.i(TAG, "tafera respo: " + tarefa1.getResponsavel());
                         listaTarefa.add(tarefa1);
 
                         if ((long) i + 1 == dataSnapshot.getChildrenCount()){
@@ -427,4 +440,18 @@ public class PlaceholderFragment extends Fragment {
         dados_tarefas.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
+
+    private String getStatus(boolean estaDONE, boolean estaIDEA, boolean estaDOING, boolean estaTODO) {
+        if (estaDOING){
+            return "DOING";
+        } else if (estaDONE){
+            return "DONE";
+        } else if (estaTODO) {
+            return "TODO";
+        } else if (estaIDEA) {
+            return "IDEIA";
+        }
+        return "";
+    }
+
 }

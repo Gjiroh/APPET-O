@@ -197,7 +197,6 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // TODO: corrigir verificação de data, ela esta aceitando datas anteriores ao dia de hoje
         if (prazoText.equals("Selecione a data do prazo")){
             this.prazo.requestFocus();
             Toast.makeText(this, "Insira uma data", Toast.LENGTH_SHORT).show();
@@ -233,5 +232,4 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         }
 
     }
-
 }
