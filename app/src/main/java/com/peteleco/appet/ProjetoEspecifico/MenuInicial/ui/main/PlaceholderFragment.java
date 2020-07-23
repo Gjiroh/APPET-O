@@ -447,7 +447,7 @@ public class PlaceholderFragment extends Fragment {
         } else if (estaDONE){
             return "DONE";
         } else if (estaTODO) {
-            return "TODO";
+            return "TO DO";
         } else if (estaIDEA) {
             return "IDEIA";
         }

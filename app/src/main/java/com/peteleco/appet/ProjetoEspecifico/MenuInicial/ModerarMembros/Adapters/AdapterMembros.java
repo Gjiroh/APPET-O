@@ -50,10 +50,15 @@ public class AdapterMembros extends RecyclerView.Adapter<AdapterMembros.MyViewHo
                     listaMembrosSelec.add(holder.nomeMembro.getText().toString());
                     Log.i(TAG,"Membro add a lista: "+holder.nomeMembro.getText().toString());
                 } else {
-                    listaMembrosSelec.remove(position);
-                    Log.i(TAG,"Membro removido da lista: "+holder.nomeMembro.getText().toString());
+                    if (listaMembrosSelec.size() == 1) {
+                        listaMembrosSelec.clear();
+                    } else {
+                        listaMembrosSelec.remove(position);
+                        Log.i(TAG,"Membro removido da lista: "+holder.nomeMembro.getText().toString());
+                    }
+                    Log.i(TAG, "Lista atualizada: "+ listaMembrosSelec);
                 }
-                Log.i(TAG, "Lista atualizada: "+ listaMembrosSelec);
+
             }
         });
     }

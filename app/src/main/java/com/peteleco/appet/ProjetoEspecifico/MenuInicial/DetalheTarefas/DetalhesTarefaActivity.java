@@ -147,8 +147,8 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
                         builder.append(aux.get(i));
                     } else {
                         builder.append(aux.get(i)).append(", ");
-                        responsaveis = builder.toString();
                     }
+                    responsaveis = builder.toString();
                 }
 
                 boolean validar = verificarDados(nomeTarefaAt, descricao, prazo, responsaveis);
@@ -171,7 +171,7 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
         tarefas.addAll(listD);
         tarefas.addAll(listDNG);
         tarefas.addAll(listTD);
-
+        tarefas.remove(nomeTarefa);
         boolean isRepeat = false;
         for (int i = 0; i < tarefas.size(); i++) {
             if (nomeTarefa.equals(tarefas.get(i))){
@@ -206,9 +206,11 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentTime = sdf.parse(aux);
+            date = sdf.parse(prazo);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         if (prazo.equals("Selecione a data do prazo")){
             this.twprazo.requestFocus();
@@ -234,6 +236,7 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
     public void atualizarTarefa (String nomeTarefa, String descricao, String prazo, String responsavel) {
         showProgressBar();
         try {
+            reference.child(this.nomeTarefa).removeValue();
             String nomeProjeto = getIntent().getStringExtra("nomeProjeto");
             String status = getIntent().getStringExtra("status");
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("testeProjetos/"+nomeProjeto+"/"+status);
@@ -242,7 +245,6 @@ public class DetalhesTarefaActivity extends AppCompatActivity {
             reference.child(nomeTarefa).child("responsavel").setValue(responsavel);
             preferences.edit().putString("ReiniciarVerify", "reiniciar").apply();
             Toast.makeText(this, "Tarefa atualizada", Toast.LENGTH_SHORT).show();
-            reference.child(this.nomeTarefa).removeValue();
             finish();
         } catch (Exception e){
             Toast.makeText(this, "Houve um erro ao tentar salvar a tarefa", Toast.LENGTH_SHORT).show();

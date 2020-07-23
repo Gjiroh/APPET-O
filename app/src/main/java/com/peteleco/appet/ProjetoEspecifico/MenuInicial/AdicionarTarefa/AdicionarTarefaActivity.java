@@ -130,8 +130,8 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                         builder.append(aux.get(i));
                     } else {
                         builder.append(aux.get(i)).append(", ");
-                        responsaveis = builder.toString();
                     }
+                    responsaveis = builder.toString();
 
                 }
                 String auxNome = nomeTarefa.getText().toString();
