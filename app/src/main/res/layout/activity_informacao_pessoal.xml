@@ -11,7 +11,11 @@
         android:id="@+id/textNomeUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nome: "
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Nome do usuário: "
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,25 +28,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nome do usuário aqui"
+        android:text="Nome:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textNomeUser"
         app:layout_constraintTop_toBottomOf="@+id/textNomeUser" />
 
     <TextView
         android:id="@+id/textViewCPF"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="CPF: "
+        android:layout_marginTop="30dp"
+        android:text="GRR: "
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextNomeUser"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextNomeUser"
         app:layout_constraintTop_toBottomOf="@+id/editTextNomeUser" />
 
     <EditText
@@ -52,23 +58,23 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="number"
-        android:text="CPF: "
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="GRR: "
+        app:layout_constraintEnd_toEndOf="@+id/textViewCPF"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewCPF"
         app:layout_constraintTop_toBottomOf="@+id/textViewCPF" />
 
     <TextView
         android:id="@+id/textViewGRR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="GRR: "
+        android:layout_marginTop="30dp"
+        android:text="E-mail: "
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextCPFUser"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextCPFUser"
         app:layout_constraintTop_toBottomOf="@+id/editTextCPFUser" />
 
     <EditText
@@ -78,23 +84,23 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="number"
-        android:text="GRR"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="E-mail:"
+        app:layout_constraintEnd_toEndOf="@+id/textViewGRR"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewGRR"
         app:layout_constraintTop_toBottomOf="@+id/textViewGRR" />
 
     <TextView
         android:id="@+id/textViewTelefone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Telefone: "
+        android:layout_marginTop="30dp"
+        android:text="CPF:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextGRRUser"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextGRRUser"
         app:layout_constraintTop_toBottomOf="@+id/editTextGRRUser" />
 
     <EditText
@@ -104,10 +110,10 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="number"
-        android:text="41999887766"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="CPF:"
+        app:layout_constraintEnd_toEndOf="@+id/textViewTelefone"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewTelefone"
         app:layout_constraintTop_toBottomOf="@+id/textViewTelefone" />
 
     <Button
@@ -127,13 +133,13 @@
         android:id="@+id/textViewEmailUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Email: "
+        android:layout_marginTop="30dp"
+        android:text="Número de Telefone:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTelefoneUser"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextTelefoneUser"
         app:layout_constraintTop_toBottomOf="@+id/editTextTelefoneUser" />
 
     <EditText
@@ -143,9 +149,9 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Email"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Telefone:"
+        app:layout_constraintEnd_toEndOf="@+id/textViewEmailUser"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewEmailUser"
         app:layout_constraintTop_toBottomOf="@+id/textViewEmailUser" />
 </androidx.constraintlayout.widget.ConstraintLayout>
