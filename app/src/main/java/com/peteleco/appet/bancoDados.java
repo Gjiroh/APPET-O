@@ -2,11 +2,16 @@ package com.peteleco.appet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.common.internal.FallbackServiceBroker;
+import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.Autenticacao_Login.User;
+import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
@@ -24,6 +30,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 
 public class bancoDados {
     private DatabaseReference reference;
@@ -162,7 +170,7 @@ public class bancoDados {
     public void loadNomeLogado (final String email) {
 
         DatabaseReference user = reference.getDatabase().getReference("users");
-        user.addValueEventListener(new ValueEventListener() {
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
@@ -173,6 +181,14 @@ public class bancoDados {
                         preferences.edit().putString("nomeLogadoCPF", child.child("cpf").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoEmail", child.child("email").getValue().toString()).apply();
                         preferences.edit().putString("nomeLogadoTelefone", child.child("telefone").getValue().toString()).apply();
+                        try{
+                            if (child.child("dev").getValue().toString() == "true"){
+                                preferences.edit().putBoolean("nomeLogadoDev", true).apply();
+                            }
+
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -220,10 +236,10 @@ public class bancoDados {
 
     private void setProjetosDoUser (final String nomeDoProjeto) {
         final String userUI = getInfoNomeLogado("nomeLogadoUI");
-        Log.i(TAG, "Nome: " + userUI);
+
         final List<String> listaProjetos = new ArrayList<>();
         DatabaseReference membros = reference.getDatabase().getReference("testeProjetos/"+nomeDoProjeto+"/membros");
-        membros.addValueEventListener(new ValueEventListener() {
+        membros.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
@@ -251,13 +267,12 @@ public class bancoDados {
     public void verificaProjetosUser () {
         DatabaseReference projetos = reference.getDatabase().getReference("testeProjetos");
 
-        projetos.addValueEventListener(new ValueEventListener() {
+        projetos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     setProjetosDoUser(child.getKey());
                 }
-
             }
 
             @Override
@@ -280,12 +295,12 @@ public class bancoDados {
         final String userUI = getInfoNomeLogado("nomeLogadoUI");
         DatabaseReference teste = reference.child("testeProjetos/"+projeto+"/membros/"+userUI);
         try {
-            teste.addValueEventListener(new ValueEventListener() {
+            teste.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String aux = dataSnapshot.getValue().toString().toLowerCase();
                     if (aux.equals("coordenador")) {
-                        preferences.edit().putBoolean("Projeto:"+projeto,true).apply();
+                        preferences.edit().putBoolean("coordenador"+projeto,true).apply();
                     }
                 }
 
@@ -302,7 +317,7 @@ public class bancoDados {
 
     public void getInfoMembro (String idUnica, String info) {
         try {
-            reference.child("users/"+idUnica+"/"+info).addValueEventListener(new ValueEventListener() {
+            reference.child("users/"+idUnica+"/"+info).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Set<String> set = preferences.getStringSet("nomeMembroPE", null);
@@ -335,7 +350,7 @@ public class bancoDados {
 
     public void membrosProjeto (String projeto) {
 
-        reference.child("testeProjetos/"+projeto+"/membros").addValueEventListener(new ValueEventListener() {
+        reference.child("testeProjetos/"+projeto+"/membros").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
@@ -348,51 +363,32 @@ public class bancoDados {
                 Log.e(TAG, "Erro ao recuperar IDs em membrosProjeto");
             }
         });
-
-
     }
 
-    // TODO: Criar método para adicionar/remover usuarios em um projeto específico pelo coordenador de projeto
+    public void progressoProjeto (String nomeProjeto, final StackedHorizontalProgressBar progressBar) {
+        // Verificando número de tarefas
+        DatabaseReference projetos = reference.child("testeProjetos/"+nomeProjeto);
+        projetos.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //TODO: Customizar progress bar para que ela mostre progresso parcial (doing)
+                
+                int numTaskToDo = (int) dataSnapshot.child("TO DO").getChildrenCount();
+                int numTaskDoing = (int) dataSnapshot.child("DOING").getChildrenCount();
+                int numTaskDone = (int) dataSnapshot.child("DONE").getChildrenCount();
+                int totalTasks = numTaskToDo+numTaskDoing+numTaskDone;
+                progressBar.setMax(totalTasks);
+                progressBar.setProgress(numTaskDone);
+                progressBar.setSecondaryProgress(numTaskDoing);
+                //progressBar.init();
 
-
-    //TODO: tentar utilizar essa função para ler o a descricao/prazo/responsavel das tarefas e então mostrar ao usuáio
-    /*public void loadNomeTarefas (final String nomeProjeto, final String status) {
-
-        final Tarefa[] tarefa = {new Tarefa()};
-        final List<String> list = new ArrayList<>();
-        final List<String> listaProjetos = listaProjetos();
-
-        for (int a = 0; a < 4; a++){
-
-            //final String[] status = {"DONE", "DOING", "TO DO", "IDEIA"};
-
-            for (int i = 0; i < listaProjetos.size(); i++){
-
-                //final String nomeProjeto = listaProjetos.get(i);
-                DatabaseReference projetoReference = reference.getDatabase().getReference(
-                        "testeProjetos/" + nomeProjeto + "/" + status);
-
-                //final int finalA = a;
-                projetoReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            list.add(child.getKey());
-
-                            tarefa[0] = dataSnapshot.child(child.getKey()).getValue(Tarefa.class);
-                        }
-                        Collections.sort(list);
-                        HashSet<String> set = new HashSet<>(list);
-                        preferences.edit().putStringSet(nomeProjeto.toLowerCase()+status, set).apply();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e(TAG, "Não foi possível carregar os nomes das tarefas");
-                    }
-                });
             }
-        }
-    }*/
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }

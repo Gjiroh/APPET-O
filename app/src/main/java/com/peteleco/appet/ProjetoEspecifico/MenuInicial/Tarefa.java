@@ -1,10 +1,12 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
+
 public class Tarefa {
     public String descricao;
     public String responsavel;
     public String prazo;
     public String nome;
+    private String TAG = "Tarefas.java";
 
     public String getNome() {
         return nome;
@@ -15,6 +17,9 @@ public class Tarefa {
     }
 
     public Tarefa() {
+        descricao = "";
+        prazo = "";
+        responsavel = "";
     }
 
     public String getDescricao() {

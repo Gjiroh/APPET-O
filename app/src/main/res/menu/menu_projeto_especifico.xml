@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/item_adicionar_tarefa"
+        android:title="Adicionar Tarefa"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_add_black_24dp" />
+    <item
         android:id="@+id/item_controlar_membro"
         android:title="Membros"
         app:showAsAction="ifRoom"

@@ -1,43 +1,41 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHolder> {
 
     private List<Tarefa> tarefaList;
 
-    public AdapterTarefas (List<Tarefa> tarefaList) {
-        this.tarefaList = tarefaList;
+    private final static String TAG = "AdapterTarefas";
+
+    public AdapterTarefas (List<Tarefa> listaTarefas) {
+
+        this.tarefaList = listaTarefas;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nomeTarefa, descricao, prazo, responsavel;
-        CheckBox tarefaFeita;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            nomeTarefa = itemView.findViewById(R.id.textNomeTarefa);
-            descricao = itemView.findViewById(R.id.textDescricao);
-            prazo = itemView.findViewById(R.id.textPrazo);
-            responsavel = itemView.findViewById(R.id.textResponsavel);
-            tarefaFeita = itemView.findViewById(R.id.checkBox);
+            nomeTarefa = itemView.findViewById(R.id.textViewNomeTarefa);
+            descricao = itemView.findViewById(R.id.textViewDescrição);
+            prazo = itemView.findViewById(R.id.textViewPrazo);
+            responsavel = itemView.findViewById(R.id.textViewResponsavel);
 
 
         }
@@ -56,12 +54,12 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Tarefa tarefa = tarefaList.get(position);
+        Tarefa tarefa = this.tarefaList.get(position);
+
         holder.nomeTarefa.setText(tarefa.getNome());
-        holder.descricao.setText("Descrição: "+ tarefa.getDescricao());
+        holder.descricao.setText("Descrição: "+tarefa.getDescricao());
         holder.prazo.setText("Prazo: "+tarefa.getPrazo());
         holder.responsavel.setText("Responsável: "+tarefa.getResponsavel());
-
     }
 
 

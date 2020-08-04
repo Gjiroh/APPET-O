@@ -1,5 +1,6 @@
 package com.peteleco.appet.MenuInicial.ProjetosAdapter;
 
+import android.content.Context;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,20 +14,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.R;
+import com.peteleco.appet.bancoDados;
 
 import java.util.List;
+
+import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 
 public class AdapterProjetos extends RecyclerView.Adapter<AdapterProjetos.MyViewHolder> {
 
     private List<ModeloProjetos> listProjeto;
+    private StackedHorizontalProgressBar progressProjeto;
+    private Context context;
 
-    public AdapterProjetos(List<ModeloProjetos> listProjeto) {
+    public AdapterProjetos(List<ModeloProjetos> listProjeto, Context context) {
         this.listProjeto = listProjeto;
+        this.context = context;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nomeProjeto;
-        ProgressBar progressBarProjeto;
+        StackedHorizontalProgressBar progressBarProjeto;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,8 +59,9 @@ public class AdapterProjetos extends RecyclerView.Adapter<AdapterProjetos.MyView
         ModeloProjetos projetos = listProjeto.get(position);
 
         holder.nomeProjeto.setText(projetos.getNomeProjeto());
-//      holder.progressBarProjeto
-
+        progressProjeto = holder.progressBarProjeto;
+        bancoDados dados = new bancoDados(context);
+        dados.progressoProjeto(projetos.getNomeProjeto(), progressProjeto);
     }
 
     @Override

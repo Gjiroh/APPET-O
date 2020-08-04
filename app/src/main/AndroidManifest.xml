@@ -9,8 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_atualizado_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InformacaoPessoal.TrocarSenhaActivity"
-            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity"></activity>
+        <activity android:name=".ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesTarefaActivity"></activity>
+        <activity android:name=".ProjetoEspecifico.MenuInicial.AdicionarTarefa.AdicionarTarefaActivity" />
+        <activity
+            android:name=".Pautas.PautasActivity"
+            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />
+        <activity
+            android:name=".InformacaoPessoal.TrocarSenhaActivity"
+            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />
         <activity android:name=".ProjetoEspecifico.MenuInicial.ModerarMembros.ModerarMembrosActivity" />
         <activity
             android:name=".InformacaoPessoal.InformacaoPessoalActivity"
