@@ -47,7 +47,7 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
                     boolean formatoDados = validateForm(email,cpf);
 
                     if (formatoDados && verificarDado("email", email) && verificarDado("cpf", cpf)){
-                        mAuth.sendPasswordResetEmail(campoEmail.getText().toString());
+                        mAuth.sendPasswordResetEmail(email);
                         Toast.makeText(EsqueceuSenhaActivity.this, "Um e-mail foi enviado para uma nova senha",
                                 Toast.LENGTH_SHORT).show();
                         finish();

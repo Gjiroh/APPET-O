@@ -48,9 +48,17 @@ public class AdapterMembros extends RecyclerView.Adapter<AdapterMembros.MyViewHo
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     listaMembrosSelec.add(holder.nomeMembro.getText().toString());
+                    Log.i(TAG,"Membro add a lista: "+holder.nomeMembro.getText().toString());
                 } else {
-                    listaMembrosSelec.remove(position);
+                    if (listaMembrosSelec.size() == 1) {
+                        listaMembrosSelec.clear();
+                    } else {
+                        listaMembrosSelec.remove(position);
+                        Log.i(TAG,"Membro removido da lista: "+holder.nomeMembro.getText().toString());
+                    }
+                    Log.i(TAG, "Lista atualizada: "+ listaMembrosSelec);
                 }
+
             }
         });
     }

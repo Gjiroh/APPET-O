@@ -1,8 +1,5 @@
 package com.peteleco.appet.Autenticacao_Login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,34 +8,33 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.R;
 import com.peteleco.appet.bancoDados;
-
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button irCadastrar, logar, esqSenha, enter;
     private EditText campo_login;
     private EditText campo_senha;
+    private CheckBox lembrar_login;
 
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     public bancoDados bancoDados;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +45,17 @@ public class LoginActivity extends AppCompatActivity {
 
         clearData(getSharedPreferences("Activity", 0));
         clearData(getSharedPreferences("Dados", 0));
+        preferences= getApplicationContext().getSharedPreferences("Lembrar",0);
 
         mAuth = FirebaseAuth.getInstance();
+
+        lembrar_login= findViewById(R.id.checkBoxSalvarLogin);
+        campo_login = findViewById(R.id.edt_login);
+        boolean verifyLembrar = preferences.getBoolean("lembrarLogin", false);
+        if (verifyLembrar){
+            campo_login.setText(preferences.getString("login",""));
+            lembrar_login.setChecked(true);
+        }
 
         irCadastrar = findViewById(R.id.bt_criarConta);
         irCadastrar.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                campo_login = findViewById(R.id.edt_login);
+
                 String loginSalvar = campo_login.getText().toString();
 
                 campo_senha = findViewById(R.id.edt_password);
@@ -84,7 +89,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
 
-                ;
+                /*Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
+                campo_senha.setText("");
+                startActivity(intent);*/
+
             }
         });
 
@@ -92,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
+        //bancoDados.verificaProjetosUser();
     }
 
     @Override
@@ -112,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!validateForm(email, password)) {
             return;
         }
-//        showProgressBar();
+        showProgressBar();
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
@@ -130,6 +139,13 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 campo_senha.setText("");
                                 startActivity(intent);
+
+                                if(lembrar_login.isChecked()){
+                                    preferences.edit().putBoolean("lembrarLogin", true).apply();
+                                    preferences.edit().putString("login", email).apply();
+                                } else {
+                                    preferences.edit().clear().apply();
+                                }
                             }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -144,9 +160,9 @@ public class LoginActivity extends AppCompatActivity {
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
 //                            mStatusTextView.setText(R.string.auth_failed);
-                            Toast.makeText(LoginActivity.this, "Falha ao acessar a TASK", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Erro ao fazer o Login", Toast.LENGTH_SHORT).show();
                         }
-//                        hideProgressBar();
+                        hideProgressBar();
                         // [END_EXCLUDE]
                     }
                 });
@@ -212,5 +228,27 @@ public class LoginActivity extends AppCompatActivity {
 //            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
 
         }
+    }
+
+    private void showProgressBar() {
+        View dados_cadastro;
+        dados_cadastro = findViewById(R.id.layout_login);
+
+        View progressBar;
+        progressBar = findViewById(R.id.progressBarLogin);
+
+        dados_cadastro.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        View dados_cadastro;
+        dados_cadastro = findViewById(R.id.layout_login);
+
+        View progressBar;
+        progressBar = findViewById(R.id.progressBarLogin);
+
+        dados_cadastro.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

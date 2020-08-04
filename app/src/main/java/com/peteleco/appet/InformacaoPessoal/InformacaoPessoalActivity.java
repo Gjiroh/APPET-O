@@ -1,13 +1,9 @@
 package com.peteleco.appet.InformacaoPessoal;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.R;
 import com.peteleco.appet.bancoDados;
@@ -92,8 +93,13 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
                     builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            bancoDados.loadNomeLogado(auxEmail);
                             User user = new User(auxNome, auxEmail, auxCPF, auxTel, auxGRR);
                             bancoDados.salvarDadosBD(user);
+                            String eMail = bancoDados.getInfoNomeLogado("nomeLogadoEmail");
+                            if (!eMail.equals(auxEmail)) {
+                                salvarEmailAlterado(auxEmail);
+                            }
                             finish();
                         }
                     });
@@ -184,5 +190,14 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
         }*/
 
         return true;
+    }
+
+    private void salvarEmailAlterado (String email) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.updateEmail(email);
+        } else {
+            Toast.makeText(this, "Erro ao alterar o email", Toast.LENGTH_SHORT).show();
+        }
     }
 }

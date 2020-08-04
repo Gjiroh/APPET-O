@@ -3,32 +3,21 @@ package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.peteleco.appet.ProjetoEspecifico.MenuInicial.AdicionarTarefa.AdicionarTarefaActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.ModerarMembrosActivity;
-import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
-import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
 import com.peteleco.appet.bancoDados;
 
 import java.util.ArrayList;
@@ -40,12 +29,12 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     private final static String TAG = "ModeloProjetoEspecífico";
     private Menu menu;
     private bancoDados bancoDados;
-    private boolean verificCoord;
+    private boolean verificCoord, isDev;
 
     List<Tarefa> listaTarefas = new ArrayList<>();
 
     public boolean onCreateOptionsMenu (Menu menu){
-        if (this.verificCoord) {
+         if (this.verificCoord || this.isDev) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_projeto_especifico, menu);
             return true;
@@ -56,11 +45,13 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        // TODO: Utilizar método ou função para adicionar um membro em um projeto especifico (
-        //  Lembrar de utilizar o formato "ID unica do usuario = colaborador (ou coordenador tambem))
         if (item.getItemId() == R.id.item_controlar_membro){
             Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.item_adicionar_tarefa) {
+            Intent novaTarefaIntent = new Intent(getApplicationContext(), AdicionarTarefaActivity.class);
+            novaTarefaIntent.putExtra("nomeProjeto", nomeProjeto);
+            startActivity(novaTarefaIntent);
         }
         return super.onOptionsItemSelected(item);
 
@@ -75,16 +66,16 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String nomeProjeto = intent.getStringExtra("NOME_PROJETO");
+        nomeProjeto = intent.getStringExtra("NOME_PROJETO");
         bancoDados.membrosProjeto(nomeProjeto);
 
-        SharedPreferences preferences2 = getSharedPreferences("Activity", 0);
-        preferences2.edit().putString("nomeProjeto", nomeProjeto).apply();
+        SharedPreferences preferences = getSharedPreferences("Dados", 0);
+        preferences.edit().putString("nomeProjeto", nomeProjeto).apply();
 
         getSupportActionBar().setTitle(nomeProjeto);
 
-        SharedPreferences preferences = getSharedPreferences("Dados", 0);
-        verificCoord = preferences.getBoolean("Projeto:"+nomeProjeto, false);
+        verificCoord = preferences.getBoolean("coordenador"+nomeProjeto, false);
+        isDev = preferences.getBoolean("nomeLogadoDev", false);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
