@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_atualizado_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesTarefaActivity"></activity>
+        <activity android:name=".ProjetoEspecifico.MenuInicial.AdicionarIdeia.AdicionarIdeiaActivity"></activity>
+        <activity android:name=".ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesTarefaActivity" />
         <activity android:name=".ProjetoEspecifico.MenuInicial.AdicionarTarefa.AdicionarTarefaActivity" />
         <activity
             android:name=".Pautas.PautasActivity"
