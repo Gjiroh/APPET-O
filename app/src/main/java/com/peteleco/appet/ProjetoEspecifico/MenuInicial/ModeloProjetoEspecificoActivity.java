@@ -50,29 +50,26 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         if (this.verificCoord || this.isDev) {
-            switch (item.getItemId()) {
-
-                case R.id.item_controlar_membro:
-                    Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
-                    startActivity(intent);
-                case R.id.item_adicionar_tarefa:
-                    Intent novaTarefaIntent = new Intent(getApplicationContext(), AdicionarTarefaActivity.class);
-                    novaTarefaIntent.putExtra("nomeProjeto", nomeProjeto);
-                    startActivity(novaTarefaIntent);
-                case R.id.item_adicionar_ideia:
-                    Intent intentNovaIdeia = new Intent(getApplicationContext(), AdicionarIdeiaActivity.class);
-                    intentNovaIdeia.putExtra("nomeProjeto", nomeProjeto);
-                    startActivity(intentNovaIdeia);
-                default:
-                    return super.onOptionsItemSelected(item);
-                }
+            int aux = item.getItemId();
+            if (aux == R.id.item_controlar_membro) {
+                Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
+                startActivity(intent);
+            } else if (aux == R.id.item_adicionar_tarefa) {
+                Intent novaTarefaIntent = new Intent(getApplicationContext(), AdicionarTarefaActivity.class);
+                novaTarefaIntent.putExtra("nomeProjeto", nomeProjeto);
+                startActivity(novaTarefaIntent);
+            } else if (aux == R.id.item_adicionar_ideia) {
+                Intent intentNovaIdeia = new Intent(getApplicationContext(), AdicionarIdeiaActivity.class);
+                intentNovaIdeia.putExtra("nomeProjeto", nomeProjeto);
+                startActivity(intentNovaIdeia);
+            }
         } else {
             if (item.getItemId() == R.id.item_adicionar_ideia) {
                 Intent intentNovaIdeia = new Intent(getApplicationContext(), AdicionarIdeiaActivity.class);
                 startActivity(intentNovaIdeia);
             }
-            return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
