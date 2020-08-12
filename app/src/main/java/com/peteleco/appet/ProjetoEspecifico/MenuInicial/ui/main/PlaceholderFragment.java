@@ -449,72 +449,81 @@ public class PlaceholderFragment extends Fragment {
 
     private void ler_dados_Firebase(final String status, final boolean test){
 
-        // TODO: verificar em qual tarefa e alterar no layout a visibilidade da check box
-
         if (!test){
             showProgressBar();
         }
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         this.status = status;
+        try {
+            DatabaseReference teste = database.getReference("testeProjetos/" + nomeProjeto + "/" + status);
+            teste.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int i = 0;
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        if (!test) {
+                            String prazo = "", descricao = "", resp = "";
+                            PlaceholderFragment.this.nomeTarefa.add(child.getKey());
 
-        DatabaseReference teste = database.getReference("testeProjetos/"+nomeProjeto+"/"+status);
-        teste.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (!test) {
-                        String prazo = "", descricao = "", resp = "";
-                        PlaceholderFragment.this.nomeTarefa.add(child.getKey());
+                            try {
+                                descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //descricao = "Erro ao carregar";
+                                //Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
+                            }
 
-                        try {
-                            descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            //descricao = "Erro ao carregar";
-                            //Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
-                        }
+                            try {
+                                prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //prazo = "Erro ao carregar";
+                                //Toast.makeText(getActivity(), "Erro ao carregar prazo", Toast.LENGTH_SHORT).show();
+                            }
 
-                        try{
-                            prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                            //prazo = "Erro ao carregar";
-                            //Toast.makeText(getActivity(), "Erro ao carregar prazo", Toast.LENGTH_SHORT).show();
-                        }
-
-                        try {
+                            try {
                                 resp = dataSnapshot.child(child.getKey()).child("responsavel").getValue().toString();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            //responsavel.add("Erro ao carregar");
-                            //Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
-                        }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //responsavel.add("Erro ao carregar");
+                                //Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
+                            }
 
-                        Tarefa tarefa1 = new Tarefa();
-                        tarefa1.setNome(child.getKey());
-                        tarefa1.setDescricao(descricao);
-                        tarefa1.setPrazo(prazo);
-                        tarefa1.setResponsavel(resp);
-                        listaTarefa.add(tarefa1);
+                            Tarefa tarefa1 = new Tarefa();
+                            tarefa1.setNome(child.getKey());
+                            tarefa1.setDescricao(descricao);
+                            tarefa1.setPrazo(prazo);
+                            tarefa1.setResponsavel(resp);
+                            listaTarefa.add(tarefa1);
 
-                        if ((long) i + 1 == dataSnapshot.getChildrenCount()){
-                            hideProgressBar();
-                            // Verifica se é a ultima Child
-                            //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
+                            if ((long) i + 1 == dataSnapshot.getChildrenCount()) {
+                                hideProgressBar();
+                                // Verifica se é a ultima Child
+                                //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
+                            }
                         }
+                        i++;
                     }
-                    i++;
+                    if (!dataSnapshot.exists() && !test){
+                        Toast.makeText(getActivity().getApplicationContext(), "Não há conteudo nesta aba no momento", Toast.LENGTH_LONG).show();
+                        Tarefa tarefa1 = new Tarefa();
+
+                        tarefa1.setDescricao("Não há conteudo nesta aba no momento");
+
+                        listaTarefa.add(tarefa1);
+                        hideProgressBar();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getActivity().getApplicationContext(), "Erro ao acessar o banco de dados", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void delay ( int seconds ) {
