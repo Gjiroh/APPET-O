@@ -9,11 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_atualizado_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesTarefaActivity"></activity>
+        <service
+            android:name=".NotificationService"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesTarefaActivity" />
         <activity android:name=".ProjetoEspecifico.MenuInicial.AdicionarTarefa.AdicionarTarefaActivity" />
-        <activity
-            android:name=".Pautas.PautasActivity"
-            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />
+<!--        <activity-->
+<!--            android:name=".Pautas.PautasActivity"-->
+<!--            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />-->
         <activity
             android:name=".InformacaoPessoal.TrocarSenhaActivity"
             android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />
