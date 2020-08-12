@@ -45,6 +45,7 @@ public class PlaceholderFragment extends Fragment {
     private String TAG="PlaceholderFragment";
     private String nomeProjeto, status;
     private bancoDados bancoDados;
+    private SharedPreferences preferences;
     private List<String> nomeTarefa;
     private int index;
     public boolean verify1, verify2, verify3, verify4, estaTODO, estaDOING, estaDONE, estaIDEA;
@@ -77,7 +78,7 @@ public class PlaceholderFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("Dados",0);
+        preferences = this.getActivity().getSharedPreferences("Dados",0);
         nomeProjeto = preferences.getString("nomeProjeto",null);
 
         verify1 = false;
@@ -112,16 +113,53 @@ public class PlaceholderFragment extends Fragment {
     public View onCreateView(
             @NonNull final LayoutInflater inflater, final ViewGroup container,
             Bundle savedInstanceState) {
-
-        // TODO: Criar função para quando for selecionado a checkBox de uma tarefa
-
         root = inflater.inflate(R.layout.fragment_projeto_especifico, container, false);
+        setLayoutTarefas(root, inflater, container);
+
+        switch (index){
+
+            case 1:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "DONE");
+                ler_dados_Firebase("DONE",verify1);
+                preferences.edit().putString("layoutIDEIA", "").apply();
+                verify1 = true;
+                estaDONE = true;
+                break;
+            case 2:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
+                ler_dados_Firebase("DOING",verify2);
+                preferences.edit().putString("layoutIDEIA", "").apply();
+                verify2 = true;
+                estaDOING = true;
+                break;
+            case 3:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
+                ler_dados_Firebase("TO DO",verify3);
+                preferences.edit().putString("layoutIDEIA", "").apply();
+                verify3 = true;
+                estaTODO = true;
+                break;
+            case 4:
+                //bancoDados.loadNomeTarefas(nomeProjeto, "IDEIA");
+                ler_dados_Firebase("IDEIA",verify4);
+                verify4 = true;
+                estaIDEA = true;
+                preferences.edit().putString("layoutIDEIA", "estaIDEIA").apply();
+                break;
+            default:
+
+        }
+        return root;
+    }
+
+    private void setLayoutTarefas (View root, LayoutInflater inflater, ViewGroup container) {
+
         RecyclerView recyclerView = root.findViewById(R.id.recyclerViewTarefas);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
 
-        AdapterTarefas adapter = new AdapterTarefas(listaTarefa);
+        AdapterTarefas adapter = new AdapterTarefas(listaTarefa, preferences);
 
         recyclerView.setAdapter(adapter);
 
@@ -258,42 +296,158 @@ public class PlaceholderFragment extends Fragment {
                     }
                 }
         ));
+        hideProgressBar();
 
-        switch (index){
+    }
 
-            case 1:
-                //bancoDados.loadNomeTarefas(nomeProjeto, "DONE");
-                ler_dados_Firebase("DONE",verify1);
-                verify1 = true;
-                estaDONE = true;
-                break;
-            case 2:
-                //bancoDados.loadNomeTarefas(nomeProjeto, "DOING");
-                ler_dados_Firebase("DOING",verify2);
-                verify2 = true;
-                estaDOING = true;
-                break;
-            case 3:
-                //bancoDados.loadNomeTarefas(nomeProjeto, "TO DO");
-                ler_dados_Firebase("TO DO",verify3);
-                verify3 = true;
-                estaTODO = true;
-                break;
-            case 4:
-                //bancoDados.loadNomeTarefas(nomeProjeto, "IDEIA");
-                ler_dados_Firebase("IDEIA",verify4);
-                verify4 = true;
-                estaIDEA = true;
-                break;
-            default:
+    private void setLayoutIdeia (View root, LayoutInflater inflater, ViewGroup container) {
 
-        }
-        return root;
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerViewTarefas);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        AdapterTarefas adapter = new AdapterTarefas(listaTarefa, preferences);
+
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(
+                this.getActivity().getApplicationContext(),
+                DividerItemDecoration.VERTICAL));
+        recyclerView.setHasFixedSize(true);
+
+        // Evento de click
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
+                getActivity().getApplicationContext(),
+                recyclerView,
+                new RecyclerItemClickListener.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(View view, final int position) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("O que deseja fazer com a tarefa?")
+                                .setTitle("Alerta");
+                        if (estaTODO) {
+                            builder.setPositiveButton("COMEÇAR TAREFA", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String nomeTarefa = listaTarefa.get(position).getNome();
+                                    String descricao = listaTarefa.get(position).getDescricao();
+                                    String prazo = listaTarefa.get(position).getPrazo();
+                                    String nomeResponsavel = listaTarefa.get(position).getResponsavel();
+                                    try {
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+                                                "testeProjetos/"+nomeProjeto);
+                                        reference.child("TO DO/"+nomeTarefa).removeValue();
+
+                                        reference.child("DOING").child(nomeTarefa+"/descricao").setValue(descricao);
+                                        reference.child("DOING").child(nomeTarefa+"/prazo").setValue(prazo);
+                                        reference.child("DOING").child(nomeTarefa+"/responsavel").setValue(nomeResponsavel);
+                                        Toast.makeText(getActivity(), "Tarefa movida com sucesso", Toast.LENGTH_SHORT).show();
+                                        Intent intent = getActivity().getIntent();
+                                        getActivity().finish();
+                                        startActivity(intent);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getActivity(), "Erro ao mover taefa", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else if (estaDOING){
+                            builder.setPositiveButton("FINALIZAR TAREFA", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String nomeTarefa = listaTarefa.get(position).getNome();
+                                    String descricao = listaTarefa.get(position).getDescricao();
+                                    String prazo = listaTarefa.get(position).getPrazo();
+                                    String nomeResponsavel = listaTarefa.get(position).getResponsavel();
+                                    try {
+                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+                                                "testeProjetos/"+nomeProjeto);
+                                        reference.child("DOING/"+nomeTarefa).removeValue();
+
+                                        reference.child("DONE").child(nomeTarefa+"/descricao").setValue(descricao);
+                                        reference.child("DONE").child(nomeTarefa+"/prazo").setValue(prazo);
+                                        reference.child("DONE").child(nomeTarefa+"/responsavel").setValue(nomeResponsavel);
+                                        Toast.makeText(getActivity(), "Tarefa movida com sucesso", Toast.LENGTH_SHORT).show();
+                                        Intent intentDOING = getActivity().getIntent();
+                                        getActivity().finish();
+                                        startActivity(intentDOING);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getActivity(), "Erro ao mover taefa", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+
+                        builder.setNeutralButton("DETALHES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String nomeTarefa = listaTarefa.get(position).getNome();
+                                String descricao = listaTarefa.get(position).getDescricao();
+                                String prazo = listaTarefa.get(position).getPrazo();
+                                String nomeResponsavel = listaTarefa.get(position).getResponsavel();
+                                Intent intentDetalhes = new Intent(getActivity().getApplicationContext(), DetalhesTarefaActivity.class);
+                                intentDetalhes.putExtra("nomeTarefa", nomeTarefa);
+                                intentDetalhes.putExtra("descricao", descricao);
+                                intentDetalhes.putExtra("prazo", prazo);
+                                intentDetalhes.putExtra("nomeResponsavel", nomeResponsavel);
+                                intentDetalhes.putExtra("nomeProjeto", nomeProjeto);
+                                intentDetalhes.putExtra("status",
+                                        getStatus(estaDONE, estaIDEA, estaDOING, estaTODO));
+
+                                startActivity(intentDetalhes);
+                            }
+                        });
+                        builder.setNegativeButton("NADA", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(final View view, final int position) {
+                        SharedPreferences preferences = getActivity().getSharedPreferences("Dados",0);
+                        boolean coordenador = preferences.getBoolean("coordenador", false);
+                        boolean dev = preferences.getBoolean("nomeLogadoDev", false);
+                        if(dev || coordenador){
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Voce tem certeza que excluir essa tarefa?")
+                                    .setTitle("Alerta");
+                            builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    excluirTarefa(status, nomeTarefa.get(position));
+
+                                }
+                            });
+                            builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
+        hideProgressBar();
     }
 
     private void ler_dados_Firebase(final String status, final boolean test){
-
-        // TODO: verificar em qual tarefa e alterar no layout a visibilidade da check box
 
         if (!test){
             showProgressBar();
@@ -301,64 +455,75 @@ public class PlaceholderFragment extends Fragment {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         this.status = status;
+        try {
+            DatabaseReference teste = database.getReference("testeProjetos/" + nomeProjeto + "/" + status);
+            teste.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int i = 0;
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        if (!test) {
+                            String prazo = "", descricao = "", resp = "";
+                            PlaceholderFragment.this.nomeTarefa.add(child.getKey());
 
-        DatabaseReference teste = database.getReference("testeProjetos/"+nomeProjeto+"/"+status);
-        teste.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (!test) {
-                        String prazo = "", descricao = "", resp = "";
-                        PlaceholderFragment.this.nomeTarefa.add(child.getKey());
+                            try {
+                                descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //descricao = "Erro ao carregar";
+                                //Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
+                            }
 
-                        try {
-                            descricao = dataSnapshot.child(child.getKey()).child("descricao").getValue().toString();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            //descricao = "Erro ao carregar";
-                            //Toast.makeText(getActivity(), "Erro ao carregar descrição", Toast.LENGTH_SHORT).show();
-                        }
+                            try {
+                                prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //prazo = "Erro ao carregar";
+                                //Toast.makeText(getActivity(), "Erro ao carregar prazo", Toast.LENGTH_SHORT).show();
+                            }
 
-                        try{
-                            prazo = dataSnapshot.child(child.getKey()).child("prazo").getValue().toString();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                            //prazo = "Erro ao carregar";
-                            //Toast.makeText(getActivity(), "Erro ao carregar prazo", Toast.LENGTH_SHORT).show();
-                        }
-
-                        try {
+                            try {
                                 resp = dataSnapshot.child(child.getKey()).child("responsavel").getValue().toString();
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            //responsavel.add("Erro ao carregar");
-                            //Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
-                        }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //responsavel.add("Erro ao carregar");
+                                //Toast.makeText(getActivity(), "Erro ao carregar responsáveis", Toast.LENGTH_SHORT).show();
+                            }
 
-                        Tarefa tarefa1 = new Tarefa();
-                        tarefa1.setNome(child.getKey());
-                        tarefa1.setDescricao(descricao);
-                        tarefa1.setPrazo(prazo);
-                        tarefa1.setResponsavel(resp);
-                        listaTarefa.add(tarefa1);
+                            Tarefa tarefa1 = new Tarefa();
+                            tarefa1.setNome(child.getKey());
+                            tarefa1.setDescricao(descricao);
+                            tarefa1.setPrazo(prazo);
+                            tarefa1.setResponsavel(resp);
+                            listaTarefa.add(tarefa1);
 
-                        if ((long) i + 1 == dataSnapshot.getChildrenCount()){
-                            hideProgressBar();
-                            // Verifica se é a ultima Child
-                            //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
+                            if ((long) i + 1 == dataSnapshot.getChildrenCount()) {
+                                hideProgressBar();
+                                // Verifica se é a ultima Child
+                                //Log.i(TAG, "Numero de childs: " + dataSnapshot.getChildrenCount());
+                            }
                         }
+                        i++;
                     }
-                    i++;
+                    if (!dataSnapshot.exists() && !test){
+                        Toast.makeText(getActivity().getApplicationContext(), "Não há conteudo nesta aba no momento", Toast.LENGTH_LONG).show();
+                        Tarefa tarefa1 = new Tarefa();
+
+                        tarefa1.setDescricao("Não há conteudo nesta aba no momento");
+
+                        listaTarefa.add(tarefa1);
+                        hideProgressBar();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getActivity().getApplicationContext(), "Erro ao acessar o banco de dados", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void delay ( int seconds ) {

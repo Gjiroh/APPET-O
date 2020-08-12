@@ -51,7 +51,6 @@ public class ProjetosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         if (item.getItemId() == R.id.itemAddProjeto){
-            // TODO: talvez restringir o acesso a essa função
             boolean verifyAdm = preferences.getBoolean("nomeLogadoDev", false);
             if (verifyAdm){
                 Intent intent = new Intent(this.getApplicationContext(), NovoProjetoActivity.class);
@@ -110,7 +109,7 @@ public class ProjetosActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"onResume");
+        //Log.i(TAG,"onResume");
         cont = getSharedPreferences("Dados", 0).getInt("contAux", 0);
         if (cont == 1) {
             finish();
@@ -123,11 +122,10 @@ public class ProjetosActivity extends AppCompatActivity {
         cont = getSharedPreferences("Dados", 0).getInt("contAux", 0);
         if (cont == 0){
             cont = 1;
-            getSharedPreferences("Dados", 0).edit().putInt("contAux", cont).apply();
         } else {
             cont = 0;
-            getSharedPreferences("Dados", 0).edit().putInt("contAux", cont).apply();
         }
+        getSharedPreferences("Dados", 0).edit().putInt("contAux", cont).apply();
     }
 
     public void AdicionarProjeto() {

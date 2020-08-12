@@ -12,5 +12,10 @@
         android:title="Membros"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_group_white_24dp" />
+    <item
+        android:id="@+id/item_adicionar_ideia"
+        android:title="Adicionar ideia"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_emoji_objects_24"/>
 
 </menu>

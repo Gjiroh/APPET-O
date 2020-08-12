@@ -1,6 +1,7 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +20,12 @@ import java.util.List;
 public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHolder> {
 
     private List<Tarefa> tarefaList;
+    private SharedPreferences preferences;
 
     private final static String TAG = "AdapterTarefas";
 
-    public AdapterTarefas (List<Tarefa> listaTarefas) {
-
+    public AdapterTarefas (List<Tarefa> listaTarefas, SharedPreferences preferences) {
+        this.preferences = preferences;
         this.tarefaList = listaTarefas;
     }
 
@@ -58,8 +60,14 @@ public class AdapterTarefas extends RecyclerView.Adapter<AdapterTarefas.MyViewHo
 
         holder.nomeTarefa.setText(tarefa.getNome());
         holder.descricao.setText("Descrição: "+tarefa.getDescricao());
-        holder.prazo.setText("Prazo: "+tarefa.getPrazo());
-        holder.responsavel.setText("Responsável: "+tarefa.getResponsavel());
+        if (preferences.getString("layoutIDEIA","").equals("estaIDEIA")){
+            holder.prazo.setVisibility(View.GONE);
+            holder.responsavel.setVisibility(View.GONE);
+        } else {
+            holder.prazo.setText("Prazo: "+tarefa.getPrazo());
+            holder.responsavel.setText("Responsável: "+tarefa.getResponsavel());
+        }
+
     }
 
 
