@@ -22,6 +22,7 @@
 <!--        <activity-->
 <!--            android:name=".Pautas.PautasActivity"-->
 <!--            android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />-->
+        <activity android:name=".ProjetoEspecifico.MenuInicial.AdicionarIdeia.AdicionarIdeiaActivity" />
         <activity
             android:name=".InformacaoPessoal.TrocarSenhaActivity"
             android:parentActivityName=".InformacaoPessoal.InformacaoPessoalActivity" />
