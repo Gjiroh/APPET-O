@@ -12,7 +12,7 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
     
    Nesta tela inicial, o membro terá três possibilidades, a primeira e principal que é fazer o Login para o aplicativo, a segunda opção é a de se cadastrar que direciona o usuário para outra tela (tela de cadastro) e a terceira opção que direciona para outra tela para resgatar a senha, caso seja esquecida (tela de esqueceu a senha).
                   
-   ### TELA CADASTRO
+   ### TELA CADASTRO11
    
    <p align="center">
    <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-59-866_com.peteleco.appet.jpg" width="240" />
