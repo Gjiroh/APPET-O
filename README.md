@@ -57,7 +57,7 @@ Nesta tela, será possível ver e editar uma atividade já existente.
 ### TELA PARA VER INFORMAÇÕES PESSOAIS
 <p align="center">
 </p>
-Como o nome sugere será possível ver as informações pessoais do usuário. As informações fornecidas são:
+Como o nome sugere será possível ver e modificar as informações pessoais do usuário. As informações fornecidas são:
 
 * Nome Completo
 * GRR
@@ -65,7 +65,23 @@ Como o nome sugere será possível ver as informações pessoais do usuário. As
 * CPF
 * Telefone
 * Senha
+### TELA PARA MODERAR MEMBROS
+<p align="center">
+</p>
+?
+### TELA PARA PROJETO ESPECÍFICO
+<p align="center">
+</p>
+?
+### TELA PARA TROCAR SENHA
+<p align="center">
+</p>
+Como o próprio nome sugere aqui o usuário poderá trocar sua senha inseririndo a senha atual, a nova senha e a confirmação da nova senha.
 
+### TELA PARA ALTERAR MEMBROS
+<p align="center">
+</p>
+?
 
 ### TELA DE ATIVIDADES
 <p align="center">
