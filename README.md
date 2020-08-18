@@ -70,10 +70,12 @@ Como o nome sugere será possível ver e modificar as informações pessoais do 
 <p align="center">
 </p>
 ?IY
+
 ### TELA PARA PROJETO ESPECÍFICO
 <p align="center">
 </p>
 ?YUI
+
 ### TELA PARA TROCAR SENHA
 <p align="center">
 </p>
