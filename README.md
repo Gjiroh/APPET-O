@@ -58,6 +58,7 @@ Nesta tela, será possível ver e editar uma atividade já existente.
 <p align="center">
 </p>
 Como o nome sugere será possível ver as informações pessoais do usuário. As informações fornecidas são:
+
 * Nome Completo
 * GRR
 * E-mail 
