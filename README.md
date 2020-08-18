@@ -20,11 +20,11 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
      Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
      
 * Nome Completo
-* Senha desejada
+* GRR
 * E-mail 
 * CPF
 * Telefone
-* GRR
+* Senha
 
 ### TELA ESQUECI A SENHA
 <p align="center">
@@ -42,7 +42,29 @@ Essa será a primeira tela a ser exibida após o login, nela será disponibiliza
 <p align="center">
 <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-22-322_com.peteleco.appet.jpg" width="240" />
 </p>
-Aqui, será possível criar um novo projeto, adicionar uma descrição e os colaboradores do projeto. 
+Aqui, será possível criar um novo projeto, adicionar uma descrição e colocar os colaboradores.
+
+### TELA PARA ADICIONAR ATIVIDADES
+<p align="center">
+</p>
+Aqui, será possível criar uma nova atividade, adicionar uma descrição, prazo e responsáveis.
+
+### TELA PARA VER DETALHES DAS ATIVIDADES 
+<p align="center">
+</p>
+Nesta tela, será possível ver e editar uma atividade já existente.
+
+### TELA PARA VER INFORMAÇÕES PESSOAIS
+<p align="center">
+</p>
+Como o nome sugere será possível ver as informações pessoais do usuário. As informações fornecidas são:
+* Nome Completo
+* GRR
+* E-mail 
+* CPF
+* Telefone
+* Senha
+
 
 ### TELA DE ATIVIDADES
 <p align="center">
