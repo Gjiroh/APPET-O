@@ -18,8 +18,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.peteleco.appet.FirebaseFuncs;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
 
 public class TrocarSenhaActivity extends AppCompatActivity {
 
@@ -134,7 +134,7 @@ public class TrocarSenhaActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(TrocarSenhaActivity.this, "" +
                                                 "Senha atualizada com sucesso", Toast.LENGTH_SHORT).show();
-                                        bancoDados bancoDados = new bancoDados(getApplicationContext());
+                                        FirebaseFuncs bancoDados = new FirebaseFuncs(getApplicationContext());
                                         bancoDados.loadNomeLogado(user.getEmail());
                                         finish();
                                     } else {

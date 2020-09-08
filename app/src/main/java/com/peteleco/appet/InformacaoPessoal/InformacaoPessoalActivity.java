@@ -20,11 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.FirebaseFuncs;
 
 public class InformacaoPessoalActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
-    private bancoDados bancoDados;
+    private FirebaseFuncs bancoDados;
     private EditText nome,CPF,GRR,telefone,email;
     private Button btSalvar;
     private static final String TAG = "InfoPessoalActivity";
@@ -57,7 +57,7 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
 
-        bancoDados = new bancoDados(this.getApplicationContext());
+        bancoDados = new FirebaseFuncs(this.getApplicationContext());
 
         nome = findViewById(R.id.editTextNomeUser);
         CPF = findViewById(R.id.editTextCPFUser);

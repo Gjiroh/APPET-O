@@ -20,9 +20,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.FirebaseFuncs;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
-    public bancoDados bancoDados;
+    public FirebaseFuncs bancoDados;
     private SharedPreferences preferences;
 
     @Override
@@ -96,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        bancoDados = new bancoDados(this.getApplicationContext());
+        bancoDados = new FirebaseFuncs(this.getApplicationContext());
         //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
@@ -139,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 campo_senha.setText("");
                                 startActivity(intent);
-
+                                String s = userToken();
                                 if(lembrar_login.isChecked()){
                                     preferences.edit().putBoolean("lembrarLogin", true).apply();
                                     preferences.edit().putString("login", email).apply();
@@ -250,5 +252,28 @@ public class LoginActivity extends AppCompatActivity {
 
         dados_cadastro.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    private String userToken (){
+        final String[] token = new String[1];
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        token[0] = task.getResult().getToken();
+
+                        // Log and toast
+//                        String msg = getString(R.string.msg_token_fmt, token);
+//                        Log.d(TAG, token[0]);
+//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+        return token[0];
     }
 }
