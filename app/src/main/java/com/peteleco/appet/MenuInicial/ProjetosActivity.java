@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
+import com.peteleco.appet.Notifications.NotificationService;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
@@ -62,6 +64,9 @@ public class ProjetosActivity extends AppCompatActivity {
         } else if ( item.getItemId() == R.id.itemInfoPessoal ) {
             Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
             startActivity(infoIntent);
+
+            FirebaseFunc func = new FirebaseFunc(getApplicationContext());
+            func.verificarPrazosTarefas();
 
         } else if ( item.getItemId() == R.id.itemLogOut ) {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();

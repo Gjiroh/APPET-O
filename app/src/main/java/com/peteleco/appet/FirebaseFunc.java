@@ -1,5 +1,6 @@
 package com.peteleco.appet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -20,14 +21,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.Autenticacao_Login.User;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
+import com.peteleco.appet.Notifications.NotificationService;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +42,7 @@ import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 public class FirebaseFunc {
     private DatabaseReference reference;
     private SharedPreferences preferences;
-    private String TAG = "bancoDados.class";
+    private String TAG = "FirebaseFunc.class";
     private Context context;
 
     public FirebaseFunc(Context context) {
@@ -391,4 +397,45 @@ public class FirebaseFunc {
         });
 
     }
+
+    public void verificarPrazosTarefas() {
+        final List<String> listaString = new ArrayList<>();
+        listaString.add("DOING");
+        listaString.add("TO DO");
+
+        reference.child("testeProjetos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    for (String tab : listaString) {
+                        DataSnapshot task = dataSnapshot.child(child.getKey()).child(tab);
+                        for (DataSnapshot childTask : task.getChildren()){
+                            if (childTask.child("prazo").exists()){
+                                String prazo = childTask.child("prazo").getValue().toString();
+                                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                try {
+                                    Date date = sdf.parse(prazo);
+                                    NotificationService service = new NotificationService();
+                                    service.sendTaskAlertMessage(context, date, child.getKey(),
+                                            childTask.getKey());
+                                } catch (ParseException e) {
+                                    Log.e(TAG, "Formato de data inválida");
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Erro ao conectar ao banco de dados");
+            }
+        });
+    }
+
+
 }
+
