@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.Adapters.AdapterMembros;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.FirebaseFunc;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class ModerarMembrosActivity extends AppCompatActivity {
     private RecyclerView membrosAtuais;
     private TextView textMembros;
     private Button salverAlt;
-    private bancoDados bancoDados;
+    private FirebaseFunc bancoDados;
     private SharedPreferences preferences;
     private AlertDialog.Builder builder;
     private AdapterMembros adapter;
@@ -76,7 +76,7 @@ public class ModerarMembrosActivity extends AppCompatActivity {
         membrosAtuais = findViewById(R.id.recyclerViewMembrosAtuais);
         textMembros = findViewById(R.id.textViewAlterarMembro);
         salverAlt = findViewById(R.id.buttonSalvarAlteracaoMembros);
-        bancoDados = new bancoDados(getApplicationContext());
+        bancoDados = new FirebaseFunc(getApplicationContext());
         preferences = getSharedPreferences("Dados",0);
         builder = new AlertDialog.Builder(this);
 

@@ -33,13 +33,13 @@ import java.util.Set;
 
 import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 
-public class bancoDados {
+public class FirebaseFunc {
     private DatabaseReference reference;
     private SharedPreferences preferences;
     private String TAG = "bancoDados.class";
     private Context context;
 
-    public bancoDados(Context context) {
+    public FirebaseFunc(Context context) {
         reference = FirebaseDatabase.getInstance().getReference();
         preferences = context.getSharedPreferences("Dados", 0);
         this.context = context;

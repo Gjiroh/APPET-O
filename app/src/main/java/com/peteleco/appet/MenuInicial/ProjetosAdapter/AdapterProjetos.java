@@ -1,20 +1,17 @@
 package com.peteleco.appet.MenuInicial.ProjetosAdapter;
 
 import android.content.Context;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.FirebaseFunc;
 
 import java.util.List;
 
@@ -60,7 +57,7 @@ public class AdapterProjetos extends RecyclerView.Adapter<AdapterProjetos.MyView
 
         holder.nomeProjeto.setText(projetos.getNomeProjeto());
         progressProjeto = holder.progressBarProjeto;
-        bancoDados dados = new bancoDados(context);
+        FirebaseFunc dados = new FirebaseFunc(context);
         dados.progressoProjeto(projetos.getNomeProjeto(), progressProjeto);
     }
 

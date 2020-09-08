@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.FirebaseFunc;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
-    public bancoDados bancoDados;
+    public FirebaseFunc bancoDados;
     private SharedPreferences preferences;
 
     @Override
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        bancoDados = new bancoDados(this.getApplicationContext());
+        bancoDados = new FirebaseFunc(this.getApplicationContext());
         //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();

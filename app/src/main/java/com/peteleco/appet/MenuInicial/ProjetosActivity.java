@@ -3,7 +3,6 @@ package com.peteleco.appet.MenuInicial;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,7 +25,7 @@ import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.FirebaseFunc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class ProjetosActivity extends AppCompatActivity {
 
     private RecyclerView mostrarProjetos;
     public List<ModeloProjetos> listProjetos = new ArrayList<>();
-    private bancoDados bancoDados;
+    private FirebaseFunc bancoDados;
     private SharedPreferences preferences;
     private final static String TAG = "ProjetosActivity";
     private int cont;
@@ -99,7 +98,7 @@ public class ProjetosActivity extends AppCompatActivity {
 
         cont = 0;
         mostrarProjetos = findViewById(R.id.RecyclerViewProjetos);
-        bancoDados = new bancoDados(this.getApplicationContext());
+        bancoDados = new FirebaseFunc(this.getApplicationContext());
         preferences = getSharedPreferences("Dados", 0);
 
         getSupportActionBar().setTitle("Seus projetos");
