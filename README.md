@@ -17,6 +17,10 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
    <p align="center">
    <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-59-866_com.peteleco.appet.jpg" width="240" />
    </p>
+    <p align="center">
+   <img src="https://github.com/Gjiroh/APPET-O/blob/master/Annotation%202020-09-16%20200300.png" width="240" />
+   </p>
+   
      Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
      
 * Nome Completo
