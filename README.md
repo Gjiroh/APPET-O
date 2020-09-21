@@ -15,7 +15,7 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
    ### TELA CADASTRO
    
    <p align="center">
-   <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-59-866_com.peteleco.appet.jpg" width="240" />
+   <img src="https://github.com/Gjiroh/APPET-O/blob/master/cadastro.jpeg" width="240" />
    </p>
   
    
@@ -30,26 +30,27 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
 
 ### TELA ESQUECI A SENHA
 <p align="center">
-<img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-03-303_com.peteleco.appet.jpg" width="240" />
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/recuperar%20senha.jpeg" width="240" />
    </p>
 Como o próprio nome sugere aqui o usuário irá inserir o E-mail e o CPF dele para receber um e-mail automático de recuperar a senha.
 
 ### TELA DE EXIBIÇÃO DE PROJETOS
 <p align="center">
-  <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-10-346_com.peteleco.appet.jpg" width="240" />
+  <img src="https://github.com/Gjiroh/APPET-O/blob/master/progreso%20de%20projetos.jpeg" width="240" />
   </p>
 Essa será a primeira tela a ser exibida após o login, nela será disponibilizado para visualização todos os projetos nos quais o usuário participa. Os projetos serão mostrados em forma de lista.
                     
 ### TELA PARA CRIAR NOVO PROJETO
 <p align="center">
-<img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-22-322_com.peteleco.appet.jpg" width="240" />
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/novo%20projeto.jpeg" width="240" />
 </p>
 Aqui, será possível criar um novo projeto, adicionar uma descrição e colocar os colaboradores.
 
-### TELA PARA ADICIONAR ATIVIDADES
+### TELA PARA ADICIONAR TAREFA
 <p align="center">
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/nova%20tarefa.jpeg" width="240" />  
 </p>
-Aqui, será possível criar uma nova atividade, adicionar uma descrição, prazo e responsáveis.
+Aqui, será possível criar uma nova tarefa, adicionar uma descrição, prazo e responsáveis.
 
 ### TELA PARA VER DETALHES DAS ATIVIDADES 
 <p align="center">
@@ -85,12 +86,13 @@ Como o próprio nome sugere aqui o usuário poderá trocar sua senha inseririndo
 
 ### TELA PARA VER MEMBROS DO PROJETO
 <p align="center">
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/ver%20membros%20em%20projeto.jpeg" width="240" />
 </p>
-?
+Tela para poder visualizar participantes de um projeto
 
 ### TELA DE ATIVIDADES
 <p align="center">
-<img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-25-14-799_com.peteleco.appet.jpg" width="240" />
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/tarefas%20doing.jpeg" width="240" />
    </p>
 Nessa tela, há abas com o status de cada uma das atividades. 
 
@@ -105,6 +107,10 @@ Nessa tela, há abas com o status de cada uma das atividades.
 * DONE
 
   Nessa tela irão aparecer as atividades que já foram feitas. As atividades presentes aqui influenciarão na barra de progresso do projeto. 
+  
+* IDEIAS
+
+  Nessa tela terá a opção de adicionar ideias e ver ideias já criadas. 
 
 * TELA VISUALIZAR MEMBROS
  
