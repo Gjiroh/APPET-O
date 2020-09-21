@@ -7,19 +7,17 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
 ## O APLICATIVO
    ### TELA INICIAL
    <p align="center">
-  <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-54-215_com.peteleco.appet.jpg" width="240"  />
+  <img src="https://github.com/Gjiroh/APPET-O/blob/master/tela%20inicial.jpeg" width="240"  />
    </p>
     
    Nesta tela inicial, o membro terá três possibilidades, a primeira e principal que é fazer o Login para o aplicativo, a segunda opção é a de se cadastrar que direciona o usuário para outra tela (tela de cadastro) e a terceira opção que direciona para outra tela para resgatar a senha, caso seja esquecida (tela de esqueceu a senha).
                   
-   ### TELA CADASTRO11
+   ### TELA CADASTRO
    
    <p align="center">
    <img src="https://github.com/Gjiroh/APPET-O/blob/master/Screenshot_2020-06-01-16-24-59-866_com.peteleco.appet.jpg" width="240" />
    </p>
-    <p align="center">
-   <img src="https://github.com/Gjiroh/APPET-O/blob/master/Annotation%202020-09-16%20200300.png" width="240" />
-   </p>
+  
    
      Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
      
@@ -70,7 +68,7 @@ Como o nome sugere será possível ver e modificar as informações pessoais do 
 * Telefone
 * Senha
 
-### TELA PARA MODERAR MEMBROS
+### TELA PARA CRIAR IDEIA
 <p align="center">
 </p>
 ?IY
@@ -85,7 +83,7 @@ Como o nome sugere será possível ver e modificar as informações pessoais do 
 </p>
 Como o próprio nome sugere aqui o usuário poderá trocar sua senha inseririndo a senha atual, a nova senha e a confirmação da nova senha.
 
-### TELA PARA ALTERAR MEMBROS
+### TELA PARA VER MEMBROS DO PROJETO
 <p align="center">
 </p>
 ?
