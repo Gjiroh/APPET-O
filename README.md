@@ -19,7 +19,7 @@ Levando em conta que muitos de nós utilizamos o celular com frequência e que o
    </p>
   
    
-     Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
+  Aqui será possível o usuário inserir seus dados para serem cadastrados no banco de dados e obter acesso aos projetos. As informações pedidas são:
      
 * Nome Completo
 * GRR
