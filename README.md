@@ -59,6 +59,7 @@ Nesta tela, será possível ver e editar uma atividade já existente.
 
 ### TELA PARA VER INFORMAÇÕES PESSOAIS
 <p align="center">
+<img src="https://github.com/Gjiroh/APPET-O/blob/master/dados%20do%20usuario.jpeg" width="240" /> 
 </p>
 Como o nome sugere será possível ver e modificar as informações pessoais do usuário. As informações fornecidas são:
 
@@ -69,15 +70,6 @@ Como o nome sugere será possível ver e modificar as informações pessoais do 
 * Telefone
 * Senha
 
-### TELA PARA CRIAR IDEIA
-<p align="center">
-</p>
-?IY
-
-### TELA PARA PROJETO ESPECÍFICO
-<p align="center">
-</p>
-?YUI
 
 ### TELA PARA TROCAR SENHA
 <p align="center">
