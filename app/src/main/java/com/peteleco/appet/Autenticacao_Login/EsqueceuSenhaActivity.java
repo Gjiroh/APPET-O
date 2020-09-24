@@ -30,7 +30,7 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_esqueceu_senha);
 
         btNovaSenha = findViewById(R.id.btRecuperarSenha);
-        campoCpf = findViewById(R.id.editTextCPFUser);
+        campoCpf = findViewById(R.id.editTextCPF);
         campoEmail = findViewById(R.id.editTextE);
         textoCpf = findViewById(R.id.textEsqCPF);
 
@@ -39,24 +39,27 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
         btNovaSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    //mAuth é null
-
+                boolean formatoDados = validateForm(campoEmail, campoCpf);
+                if (formatoDados) {
                     String email = campoEmail.getText().toString();
                     String cpf = campoCpf.getText().toString();
-                    boolean formatoDados = validateForm(email,cpf);
 
-                    if (formatoDados && verificarDado("email", email) && verificarDado("cpf", cpf)){
-                        mAuth.sendPasswordResetEmail(email);
-                        Toast.makeText(EsqueceuSenhaActivity.this, "Um e-mail foi enviado para uma nova senha",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
+
+                    boolean verificEmail = verificarDado("email", email);
+                    boolean verificCPF = verificarDado("cpf", cpf);
+
+                    if (verificEmail && verificCPF) {
+                        try {
+                            mAuth.sendPasswordResetEmail(email);
+                            Toast.makeText(EsqueceuSenhaActivity.this, "Um e-mail foi enviado para gerar uma nova senha",
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(EsqueceuSenhaActivity.this, "Algo deu errado",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(EsqueceuSenhaActivity.this, "Algo deu errado",
-                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -83,31 +86,31 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
         return verificar;
     }
 
-    private boolean validateForm(String email, String cpf) {
+    private boolean validateForm(EditText email, EditText cpf) {
 
-        if (TextUtils.isEmpty(email)) {
-            campoEmail.setError("Este campo é obrigatório");
-            campoEmail.requestFocus();
+        if (email.getText().toString().isEmpty()) {
+            email.setError("Este campo é obrigatório");
+            email.requestFocus();
 
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            campoEmail.setError("Digite um formato de e-mail válido");
-            campoEmail.requestFocus();
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            email.setError("Digite um formato de e-mail válido");
+            email.requestFocus();
             return false;
         }else {
-            campoEmail.setError(null);
+            email.setError(null);
         }
 
-        if (TextUtils.isEmpty(cpf)) {
-            campoCpf.setError("Este campo é obrigatório");
-            campoCpf.requestFocus();
+        if (cpf.getText().toString().isEmpty()) {
+            cpf.setError("Este campo é obrigatório");
+            cpf.requestFocus();
             return false;
-        }else if (cpf.length() != 11) {
-            campoCpf.setError("CPF inválido. Por Favor insira um CPF válido");
-            campoCpf.requestFocus();
+        }else if (cpf.getText().length() != 11) {
+            cpf.setError("CPF inválido. Por Favor insira um CPF válido");
+            cpf.requestFocus();
             return false;
         }else {
-            campoCpf.setError(null);
+            cpf.setError(null);
         }
 
         return true;
