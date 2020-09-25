@@ -32,7 +32,7 @@ import com.peteleco.appet.ProjetoEspecifico.MenuInicial.DetalheTarefas.DetalhesT
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.RecyclerViewTarefas.AdapterTarefas;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.DatabaseFuncs;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,7 +44,7 @@ import java.util.List;
 public class PlaceholderFragment extends Fragment {
     private String TAG="PlaceholderFragment";
     private String nomeProjeto, status;
-    private bancoDados bancoDados;
+    private DatabaseFuncs bancoDados;
     private SharedPreferences preferences;
     private List<String> nomeTarefa;
     private int index;
@@ -72,7 +72,7 @@ public class PlaceholderFragment extends Fragment {
         tarefa = new Tarefa();
 
         context = getActivity().getApplicationContext();
-        bancoDados = new bancoDados(getActivity().getApplicationContext());
+        bancoDados = new DatabaseFuncs(getActivity().getApplicationContext());
         PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);

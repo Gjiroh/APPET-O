@@ -3,7 +3,6 @@ package com.peteleco.appet.Autenticacao_Login;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.DatabaseFuncs;
 
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class EsqueceuSenhaActivity extends AppCompatActivity {
     public boolean verificarDado (String tipoDado, String dadoInserido) {
         boolean verificar = false;
 
-        bancoDados bancoDados = new bancoDados(this.getApplicationContext());
+        DatabaseFuncs bancoDados = new DatabaseFuncs(this.getApplicationContext());
         List<String> dadosCadastrados = bancoDados.getInfos(tipoDado);
 
         for (int i = 0; i < dadosCadastrados.size(); i++){

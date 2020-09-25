@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.Adapter.AdapterTeste;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.DatabaseFuncs;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
     private List<ModelTeste> listaColabs = new ArrayList<>();
     public final static String TAG = "teste";
     private DatabaseReference projetobd = FirebaseDatabase.getInstance().getReference("testeProjetos");
-    private bancoDados bancoDados;
+    private DatabaseFuncs bancoDados;
 
 
     @Override
@@ -47,7 +47,7 @@ public class NovoProjetoActivity extends AppCompatActivity {
         mostrarColabs = findViewById(R.id.RecyclerTeste);
         nomeProjetoNovo = findViewById(R.id.editTextNomeProjeto);
         descricaoProjetoNovo = findViewById(R.id.editTextDescrição);
-        bancoDados = new bancoDados(getBaseContext());
+        bancoDados = new DatabaseFuncs(getBaseContext());
 
         getSupportActionBar().setTitle("Novo Projeto");
 
