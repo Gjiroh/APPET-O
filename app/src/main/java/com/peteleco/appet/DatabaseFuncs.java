@@ -33,13 +33,13 @@ import java.util.Set;
 
 import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 
-public class bancoDados {
+public class DatabaseFuncs {
     private DatabaseReference reference;
     private SharedPreferences preferences;
     private String TAG = "bancoDados.class";
     private Context context;
 
-    public bancoDados(Context context) {
+    public DatabaseFuncs(Context context) {
         reference = FirebaseDatabase.getInstance().getReference();
         preferences = context.getSharedPreferences("Dados", 0);
         this.context = context;
@@ -317,7 +317,7 @@ public class bancoDados {
 
     public void getInfoMembro (String idUnica, String info) {
         try {
-            reference.child("users/"+idUnica+"/"+info).addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child("users/"+idUnica+"/"+info).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Set<String> set = preferences.getStringSet("nomeMembroPE", null);
@@ -334,6 +334,7 @@ public class bancoDados {
                         Collections.sort(aux);
                     }
                     set = new HashSet<>(aux);
+                    Log.i(TAG, "Set: "+set);
                     preferences.edit().putStringSet("nomeMembroPE",  set).apply();
                 }
 
@@ -348,13 +349,14 @@ public class bancoDados {
 
     }
 
-    public void membrosProjeto (String projeto) {
+    public void membrosProjeto (final String projeto) {
 
-        reference.child("testeProjetos/"+projeto+"/membros").addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("testeProjetos/"+projeto+"/membros").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
                     getInfoMembro(child.getKey(), "nome");
+                    Log.i(TAG, "Projeto: "+projeto+", membro: "+child.getKey());
                 }
             }
 

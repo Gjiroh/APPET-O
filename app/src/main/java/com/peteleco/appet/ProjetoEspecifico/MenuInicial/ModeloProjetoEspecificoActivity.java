@@ -1,6 +1,5 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -21,7 +19,7 @@ import com.peteleco.appet.ProjetoEspecifico.MenuInicial.AdicionarTarefa.Adiciona
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.ModerarMembrosActivity;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ui.main.SectionsPagerAdapter;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.DatabaseFuncs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +29,9 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     private String nomeProjeto;
     private final static String TAG = "ModeloProjetoEspecífico";
     private Menu menu;
-    private bancoDados bancoDados;
+    private DatabaseFuncs bancoDados;
     private boolean verificCoord, isDev;
+    private SharedPreferences preferences;
 
     List<Tarefa> listaTarefas = new ArrayList<>();
 
@@ -52,6 +51,7 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         if (this.verificCoord || this.isDev) {
             int aux = item.getItemId();
             if (aux == R.id.item_controlar_membro) {
+                bancoDados.membrosProjeto(nomeProjeto);
                 Intent intent = new Intent(getApplicationContext(), ModerarMembrosActivity.class);
                 startActivity(intent);
             } else if (aux == R.id.item_adicionar_tarefa) {
@@ -77,14 +77,15 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projeto_especifico);
-        bancoDados = new bancoDados(getApplicationContext());
+        bancoDados = new DatabaseFuncs(getApplicationContext());
+        preferences = getSharedPreferences("Dados", 0);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         nomeProjeto = intent.getStringExtra("NOME_PROJETO");
-        bancoDados.membrosProjeto(nomeProjeto);
+        preferences.edit().remove("nomeMembroPE").apply();
+        //bancoDados.membrosProjeto(nomeProjeto);
 
-        SharedPreferences preferences = getSharedPreferences("Dados", 0);
         preferences.edit().putString("nomeProjeto", nomeProjeto).apply();
 
         getSupportActionBar().setTitle(nomeProjeto);

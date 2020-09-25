@@ -1,5 +1,6 @@
 package com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,22 +28,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModerarMembros.Adapters.AdapterMembros;
 import com.peteleco.appet.R;
-import com.peteleco.appet.bancoDados;
+import com.peteleco.appet.DatabaseFuncs;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ModerarMembrosActivity extends AppCompatActivity {
-    private RecyclerView membrosAtuais;
+    private RecyclerView membrosProjetoLista;
     private TextView textMembros;
     private Button salverAlt;
-    private bancoDados bancoDados;
+    private DatabaseFuncs bancoDados;
     private SharedPreferences preferences;
     private AlertDialog.Builder builder;
     private AdapterMembros adapter;
     private List<String> listaNomesSelec;
     private boolean isAdding = false;
+    private boolean addMember=false, remMember=false;
 
     private final static String TAG = "ModerarMembros";
 
@@ -57,11 +59,19 @@ public class ModerarMembrosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         if (item.getItemId() == R.id.item_adicionar_membro){
-            layoutAddMembros();
-            Toast.makeText(this, "Opção adicionar membro selecionada", Toast.LENGTH_SHORT).show();
+            if (!addMember) {
+                layoutAddMembros();
+                Toast.makeText(this, "Opção adicionar membro selecionada", Toast.LENGTH_SHORT).show();
+                addMember = true;
+                remMember = false;
+            }
         } else if (item.getItemId() == R.id.item_remover_membro) {
-            layoutDelMembro();
-            Toast.makeText(this, "Opção remover membro selecionada", Toast.LENGTH_SHORT).show();
+            if(!remMember) {
+                layoutDelMembro();
+                Toast.makeText(this, "Opção remover membro selecionada", Toast.LENGTH_SHORT).show();
+                addMember = false;
+                remMember = true;
+            }
         }
             return super.onOptionsItemSelected(item);
     }
@@ -73,14 +83,19 @@ public class ModerarMembrosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_moderar_membros);
         getSupportActionBar().setTitle("Membros");
 
-        membrosAtuais = findViewById(R.id.recyclerViewMembrosAtuais);
+        membrosProjetoLista = findViewById(R.id.recyclerViewMembrosAtuais);
         textMembros = findViewById(R.id.textViewAlterarMembro);
         salverAlt = findViewById(R.id.buttonSalvarAlteracaoMembros);
-        bancoDados = new bancoDados(getApplicationContext());
+        bancoDados = new DatabaseFuncs(getApplicationContext());
         preferences = getSharedPreferences("Dados",0);
+        //preferences.edit().remove("nomeMembroPE").apply();
+        final String nomeProjeto =preferences.getString("nomeProjeto",null);
         builder = new AlertDialog.Builder(this);
+        //bancoDados.membrosProjeto(nomeProjeto);
 
         layoutDelMembro();
+        addMember = false;
+        remMember = true;
 
         listaNomesSelec = adapter.listaMembrosSelec;
 
@@ -92,8 +107,11 @@ public class ModerarMembrosActivity extends AppCompatActivity {
                 builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String nomeProjeto =preferences.getString("nomeProjeto",null);
                         salvarAlteracoes(adapter.listaMembrosSelec, nomeProjeto);
+                        Toast.makeText(ModerarMembrosActivity.this, "Alteração salva", Toast.LENGTH_SHORT).show();
+                        // TODO: atualizar lista de membros do porjeto nomeMembroPE
+                        preferences.edit().remove("nomeMembroPE").apply();
+                        //bancoDados.membrosProjeto(nomeProjeto);
                         finish();
                     }
                 });
@@ -108,8 +126,10 @@ public class ModerarMembrosActivity extends AppCompatActivity {
     }
 
     public void layoutAddMembros () {
+
+        salverAlt.setText("Adicionar membro");
         isAdding = true;
-        // Listar membros TODO: Arrumar lista para mostrar apenas membros desse projeto
+        // Listar membros
         textMembros.setText("Demais Membros");
         List<String> listaMembrosProjeto = new ArrayList<>();
         List<String> todosMembros = new ArrayList<>();
@@ -137,14 +157,18 @@ public class ModerarMembrosActivity extends AppCompatActivity {
 
         // Configurando o RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        membrosAtuais.setLayoutManager(layoutManager);
-        membrosAtuais.setHasFixedSize(true);
-        membrosAtuais.addItemDecoration(
+        membrosProjetoLista.setLayoutManager(layoutManager);
+        membrosProjetoLista.setHasFixedSize(true);
+        membrosProjetoLista.addItemDecoration(
                 new DividerItemDecoration(this, LinearLayout.VERTICAL));
-        membrosAtuais.setAdapter(adapter);
+        membrosProjetoLista.setAdapter(adapter);
+
     }
 
+    @SuppressLint("SetTextI18n")
     public void layoutDelMembro () {
+        isAdding = false;
+        salverAlt.setText("Remover membro");
         textMembros.setText("Membros Atuais do Projeto");
         List<String> listaMembros = new ArrayList<>();
         listaMembros.addAll(preferences.getStringSet("nomeMembroPE", null));
@@ -156,11 +180,11 @@ public class ModerarMembrosActivity extends AppCompatActivity {
 
         // Configurando o RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        membrosAtuais.setLayoutManager(layoutManager);
-        membrosAtuais.setHasFixedSize(true);
-        membrosAtuais.addItemDecoration(
+        membrosProjetoLista.setLayoutManager(layoutManager);
+        membrosProjetoLista.setHasFixedSize(true);
+        membrosProjetoLista.addItemDecoration(
                 new DividerItemDecoration(this, LinearLayout.VERTICAL));
-        membrosAtuais.setAdapter(adapter);
+        membrosProjetoLista.setAdapter(adapter);
     }
 
     public void salvarAlteracoes (final List<String> nomesSelec, final String nomeProjeto) {
@@ -173,12 +197,12 @@ public class ModerarMembrosActivity extends AppCompatActivity {
                         for (int i = 0; i < nomesSelec.size(); i++){
                             if (dataSnapshot.child("users/"+childID.getKey()+"/nome").getValue().toString()
                                     .equals(nomesSelec.get(i))){
-                                Log.i(TAG, "Atendeu a contição");
-                                Log.i(TAG, "Ref: " + dataSnapshot.child("users/"+childID.getKey()+"/nome").getValue().toString());
-                                Log.i(TAG, "nome: " + nomesSelec.get(i));
+                                //Log.i(TAG, "Atendeu a contição");
+                                //Log.i(TAG, "Ref: " + dataSnapshot.child("users/"+childID.getKey()+"/nome").getValue().toString());
+                                //Log.i(TAG, "nome: " + nomesSelec.get(i));
 
                                 String  membroID = childID.getKey();
-                                Log.i(TAG, "ID: " + membroID);
+                                //Log.i(TAG, "ID: " + membroID);
 
                                 if (isAdding){
                                     DatabaseReference membroPE = reference.child("testeProjetos/"+nomeProjeto+"/membros");
