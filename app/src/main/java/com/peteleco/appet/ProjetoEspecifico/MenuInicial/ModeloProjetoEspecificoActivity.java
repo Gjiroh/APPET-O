@@ -84,7 +84,7 @@ public class ModeloProjetoEspecificoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         nomeProjeto = intent.getStringExtra("NOME_PROJETO");
         preferences.edit().remove("nomeMembroPE").apply();
-        //bancoDados.membrosProjeto(nomeProjeto);
+        bancoDados.membrosProjeto(nomeProjeto);
 
         preferences.edit().putString("nomeProjeto", nomeProjeto).apply();
 
