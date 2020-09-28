@@ -171,7 +171,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateForm(String login, String senha) {
-        // TODO: validação dos dados do usuário
         // Exemplo: senha com 8 caracteres, e-mail contém @, etc
 
 //        String email = mEmailField.getText().toString();

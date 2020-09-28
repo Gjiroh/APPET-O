@@ -109,7 +109,6 @@ public class ModerarMembrosActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         salvarAlteracoes(adapter.listaMembrosSelec, nomeProjeto);
                         Toast.makeText(ModerarMembrosActivity.this, "Alteração salva", Toast.LENGTH_SHORT).show();
-                        // TODO: atualizar lista de membros do porjeto nomeMembroPE
                         preferences.edit().remove("nomeMembroPE").apply();
                         //bancoDados.membrosProjeto(nomeProjeto);
                         finish();

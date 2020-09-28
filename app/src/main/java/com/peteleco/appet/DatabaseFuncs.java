@@ -373,7 +373,6 @@ public class DatabaseFuncs {
         projetos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //TODO: Customizar progress bar para que ela mostre progresso parcial (doing)
                 
                 int numTaskToDo = (int) dataSnapshot.child("TO DO").getChildrenCount();
                 int numTaskDoing = (int) dataSnapshot.child("DOING").getChildrenCount();

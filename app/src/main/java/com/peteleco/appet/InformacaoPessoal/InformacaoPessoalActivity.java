@@ -39,15 +39,12 @@ public class InformacaoPessoalActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.item_trocar_senha:
-                // TODO: Inserir método para trocar de senha
-                Intent intentSenha = new Intent(getApplicationContext(), TrocarSenhaActivity.class);
-                startActivity(intentSenha);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.item_trocar_senha) {
+            Intent intentSenha = new Intent(getApplicationContext(), TrocarSenhaActivity.class);
+            startActivity(intentSenha);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
