@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
+import com.peteleco.appet.NotificationService;
 import com.peteleco.appet.R;
 import com.peteleco.appet.DatabaseFuncs;
 
@@ -33,8 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
-    public DatabaseFuncs bancoDados;
+    private DatabaseFuncs bancoDados;
     private SharedPreferences preferences;
+    private NotificationService notificationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
+
+        notificationService = new NotificationService(getApplicationContext());
+        notificationService.createNotificationChannel();
 
         clearData(getSharedPreferences("Activity", 0));
         clearData(getSharedPreferences("Dados", 0));
