@@ -138,7 +138,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                 String auxDesc = descricao.getText().toString();
                 if (verificarDados(auxNome, auxDesc, prazoText, responsaveis)) {
                     salvarTarefa(auxNome, auxDesc, prazoText, responsaveis);
-                    Log.i(TAG, "respponsáveis: "+ responsaveis);
+                    //Log.i(TAG, "respponsáveis: "+ responsaveis);
                 }
 
             }

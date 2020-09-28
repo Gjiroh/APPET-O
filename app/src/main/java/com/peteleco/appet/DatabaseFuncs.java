@@ -356,7 +356,7 @@ public class DatabaseFuncs {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
                     getInfoMembro(child.getKey(), "nome");
-                    Log.i(TAG, "Projeto: "+projeto+", membro: "+child.getKey());
+                    //Log.i(TAG, "Projeto: "+projeto+", membro: "+child.getKey());
                 }
             }
 
