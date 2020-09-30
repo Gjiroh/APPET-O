@@ -17,4 +17,10 @@
         android:title="Desconectar"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/itemNotification"
+        android:title="Teste Notificação"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        app:showAsAction="ifRoom" />
+
 </menu>

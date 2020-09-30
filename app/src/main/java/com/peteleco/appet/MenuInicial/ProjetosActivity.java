@@ -13,15 +13,18 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.peteleco.appet.Autenticacao_Login.LoginActivity;
 import com.peteleco.appet.InformacaoPessoal.InformacaoPessoalActivity;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.AdapterProjetos;
 import com.peteleco.appet.MenuInicial.ProjetosAdapter.RecyclerItemClickListener;
 import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
+import com.peteleco.appet.NotificationService;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.ModeloProjetoEspecificoActivity;
 import com.peteleco.appet.R;
 import com.peteleco.appet.addNovoProjeto.NovoProjetoActivity;
@@ -67,6 +70,14 @@ public class ProjetosActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.signOut();
             finish();
+        } else if (item.getItemId() == R.id.itemNotification) {
+            NotificationService notificationService = new NotificationService();
+            /*NotificationCompat.Builder builder = notificationService.setNotification(this,
+                    "APPET",
+                    "Teste de notificação",
+                    LoginActivity.class);
+            notificationService.showNotification(this, builder);*/
+            notificationService.scheduleNotification(this, 5000);
         }
         return super.onOptionsItemSelected(item);
 

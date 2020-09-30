@@ -334,7 +334,7 @@ public class DatabaseFuncs {
                         Collections.sort(aux);
                     }
                     set = new HashSet<>(aux);
-                    Log.i(TAG, "Set: "+set);
+                    //Log.i(TAG, "Set: "+set);
                     preferences.edit().putStringSet("nomeMembroPE",  set).apply();
                 }
 
@@ -391,5 +391,9 @@ public class DatabaseFuncs {
             }
         });
 
+    }
+
+    public void agendarAlertaTarefas () {
+        
     }
 }

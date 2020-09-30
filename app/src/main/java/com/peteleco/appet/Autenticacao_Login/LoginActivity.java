@@ -1,6 +1,8 @@
 package com.peteleco.appet.Autenticacao_Login;
 
+import android.app.AlarmManager;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.peteleco.appet.BcReceiver;
 import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.NotificationService;
 import com.peteleco.appet.R;
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseFuncs bancoDados;
     private SharedPreferences preferences;
     private NotificationService notificationService;
+    private BcReceiver bcReceiver = new BcReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
 
-        notificationService = new NotificationService(getApplicationContext());
+        notificationService = new NotificationService();
         notificationService.createNotificationChannel();
 
         clearData(getSharedPreferences("Activity", 0));

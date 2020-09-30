@@ -1,5 +1,7 @@
 package com.peteleco.appet;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,8 +15,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Picture;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.DrawableRes;
@@ -33,7 +38,8 @@ public class NotificationService extends FirebaseMessagingService {
     private final static String CHANNEL_ID = "APPET-O";
     private final static String GROUP_KEY_WORK_EMAIL = "group_message_APPET-O";
     private final static int SUMMARY_ID = 0;
-
+    public final static String CONTENT = "NotificationContent";
+    public final static String TITLE = "NotificationTitle";
 
     public NotificationService() {
     }
@@ -145,9 +151,91 @@ public class NotificationService extends FirebaseMessagingService {
         notificationManager.notify(SUMMARY_ID, summaryNotification);
     }
 
-    public void scheduleNotification () {
+    public void scheduleNotification(Context context, long delay, String nomeProjeto, String nomeTarefa) {//delay is after how much time(in millis) from current time you want to schedule the notification
 
+        int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setContentTitle("APPET - "+nomeProjeto)
+                .setContentText("A "+nomeTarefa+" esta quase no prazo")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setGroup(GROUP_KEY_WORK_EMAIL);
+
+        //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        // notificationId is a unique int for each notification that you must define
+        //otificationManager.notify(notificationId, builder.build());
+
+        Notification summaryNotification =
+                new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setContentTitle("APPET")
+                        //set content text to support devices running API level < 24
+                        .setContentText("Messages")
+                        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                        //build summary info into InboxStyle template
+                        .setStyle(new NotificationCompat.InboxStyle()
+                                .setBigContentTitle("Novas mensagens")
+                                .setSummaryText("mensagens"))
+                        //specify which group this notification belongs to
+                        .setGroup(GROUP_KEY_WORK_EMAIL)
+                        //set this notification as the summary for the group
+                        .setGroupSummary(true)
+                        .build();
+
+
+        Intent notificationIntent = new Intent(context, BcReceiver.class);
+        notificationIntent.putExtra(BcReceiver.NOTIFICATION_ID, notificationId);
+        notificationIntent.putExtra(BcReceiver.NOTIFICATION, builder.build());
+        notificationIntent.putExtra(BcReceiver.NOTIFICATION_GROUP, summaryNotification);
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent2);
     }
+    /*
+    public void sendTaskAlertMessage (Context context, Date date, String project_name, String task_name) {
+
+        Date currentTime = new Date();
+        Date notifyDate = new Date();
+
+        int month = Calendar.getInstance().getTime().getMonth() + 1;
+        int year = Calendar.getInstance().getTime().getYear() + 1900;
+        int day = Calendar.getInstance().getTime().getDay() + 6;
+
+        String aux = day+"/"+month+"/"+year;
+
+        try {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            currentTime = sdf.parse(aux);
 
 
+            notifyDate.setTime(date.getTime()-1000*24*60*60);
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+
+        if (notifyDate.equals(currentTime)) {
+            Log.i(TAG, "Tarefa é pra amanha");
+
+            String message = "LEMBRETE: A tarefa "+task_name+" esta a um dia do prazo!";
+            createSampleDataNotification(context, project_name, message, true, channel_name);
+
+        }else if (date.before(currentTime)) {
+            Log.i(TAG, "Tarefa é pra ontem\n"+notifyDate+"\n"+date);
+            String message = "LEMBRETE: A tarefa "+task_name+" esta atrasada!!";
+
+            createSampleDataNotification(context, project_name, message, true, channel_name);
+        }
+    }
+    */
 }
