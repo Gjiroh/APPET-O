@@ -394,6 +394,10 @@ public class DatabaseFuncs {
     }
 
     public void agendarAlertaTarefas () {
-        
+
     }
+    /*
+    TODO: Marcar horário para consulta Firebase <- João
+          Agenda notifcação com o firebase (verificar agendar e marcar um flag) <- Gabriel J
+    */
 }
