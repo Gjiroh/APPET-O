@@ -1,6 +1,8 @@
 package com.peteleco.appet.Autenticacao_Login;
 
 import android.app.AlarmManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -27,6 +29,7 @@ import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.NotificationService;
 import com.peteleco.appet.R;
 import com.peteleco.appet.DatabaseFuncs;
+import com.peteleco.appet.ReceiverClass;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -98,18 +101,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 signIn(loginSalvar, senhaSalvar);
 
-                /*Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
-                campo_senha.setText("");
-                startActivity(intent);*/
-
             }
         });
 
         bancoDados = new DatabaseFuncs(this.getApplicationContext());
-        //bancoDados.loadNomeLogado("jturra69@gmail.com");
         bancoDados.carregarUsuarios();
         bancoDados.carregarProjetos();
-        //bancoDados.verificaProjetosUser();
     }
 
     @Override

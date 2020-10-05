@@ -30,6 +30,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.peteleco.appet.Autenticacao_Login.LoginActivity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class NotificationService extends FirebaseMessagingService {
@@ -151,9 +152,10 @@ public class NotificationService extends FirebaseMessagingService {
         notificationManager.notify(SUMMARY_ID, summaryNotification);
     }
 
-    public void scheduleNotification(Context context, long delay, String nomeProjeto, String nomeTarefa) {//delay is after how much time(in millis) from current time you want to schedule the notification
+    public void scheduleNotification(Context context, long delay_sec, String nomeProjeto, String nomeTarefa) {//delay is after how much time(in millis) from current time you want to schedule the notification
 
         int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        long delay_milis = delay_sec*1000;
 
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(context, LoginActivity.class);
@@ -197,10 +199,19 @@ public class NotificationService extends FirebaseMessagingService {
         notificationIntent.putExtra(BcReceiver.NOTIFICATION, builder.build());
         notificationIntent.putExtra(BcReceiver.NOTIFICATION_GROUP, summaryNotification);
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        Date date = new Date();
+        long futureInMillis = date.getTime() + delay_milis;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent2);
+        if (alarmManager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Log.i(TAG, ".setExact");
+                alarmManager.setExact(AlarmManager.RTC, futureInMillis, pendingIntent2);
+            } else {
+                alarmManager.set(AlarmManager.RTC, futureInMillis, pendingIntent2);
+            }
+        } else {
+            Log.w(TAG, "Alarm manager is null");
+        }
     }
     /*
     public void sendTaskAlertMessage (Context context, Date date, String project_name, String task_name) {

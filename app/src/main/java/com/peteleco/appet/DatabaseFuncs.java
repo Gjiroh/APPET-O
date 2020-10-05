@@ -1,8 +1,15 @@
 package com.peteleco.appet;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -25,7 +32,9 @@ import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -393,8 +402,52 @@ public class DatabaseFuncs {
 
     }
 
-    public void agendarAlertaTarefas () {
+    public void agendarConsultaFirebase(long delay_sec) {
 
+        long delay_milis = delay_sec *1000;
+        int scheduleId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        Log.i(TAG, "ScheduleID "+scheduleId);
+
+        Intent scheduleIntent = new Intent(context, BcReceiver.class);
+        scheduleIntent.putExtra(BcReceiver.SCHEDULE_ID, scheduleId);
+
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, scheduleId, scheduleIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        long futureInMillis = Calendar.getInstance().getTimeInMillis() + delay_milis;;
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                alarmManager.setExact(AlarmManager.RTC, futureInMillis, pendingIntent2);
+            } else {
+                alarmManager.set(AlarmManager.RTC, futureInMillis, pendingIntent2);
+            }
+        }else {
+            Log.w(TAG, "Alarm manager é null");
+        }
+    }
+    public void agendarAlertaTarefas () {
+        Toast.makeText(context, "As tarefas serão agendadas", Toast.LENGTH_SHORT).show();
+        /*List<String> listaProjetosUser = getUserProjects();
+        List<String> list = new ArrayList<>();
+        list.add("DOING");
+        list.add("TO DO");
+        for (String projeto : listaProjetosUser){
+            for (String task : list){
+                reference.child("testeProjetos").child(projeto).child(task).
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+            }
+        }*/
     }
     /*
     TODO: Marcar horário para consulta Firebase <- João

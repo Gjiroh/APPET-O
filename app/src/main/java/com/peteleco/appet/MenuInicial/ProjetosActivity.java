@@ -77,7 +77,7 @@ public class ProjetosActivity extends AppCompatActivity {
                     "Teste de notificação",
                     LoginActivity.class);
             notificationService.showNotification(this, builder);*/
-            notificationService.scheduleNotification(this, 5000);
+            bancoDados.agendarConsultaFirebase(2);
         }
         return super.onOptionsItemSelected(item);
 
