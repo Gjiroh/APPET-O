@@ -61,7 +61,6 @@ public class ProjetosActivity extends AppCompatActivity {
                 Toast.makeText(this, "Esta funcionalidade é exclusiva para os administradores", Toast.LENGTH_LONG).show();
             }
 
-
         } else if ( item.getItemId() == R.id.itemInfoPessoal ) {
             Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
             startActivity(infoIntent);
@@ -70,36 +69,16 @@ public class ProjetosActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.signOut();
             finish();
-        } else if (item.getItemId() == R.id.itemNotification) {
+        } /*else if (item.getItemId() == R.id.itemNotification) {
             NotificationService notificationService = new NotificationService();
-            /*NotificationCompat.Builder builder = notificationService.setNotification(this,
+            NotificationCompat.Builder builder = notificationService.setNotification(this,
                     "APPET",
                     "Teste de notificação",
                     LoginActivity.class);
-            notificationService.showNotification(this, builder);*/
-            bancoDados.agendarConsultaFirebase(2);
-        }
-        return super.onOptionsItemSelected(item);
-
-        /* TODO: Por algum motivo estranho o switch bugou
-            quando seleciona um caso ESPECIFICO, ele entra nos outros tbm (?????????????????)
-        switch (item.getItemId()) {
-            case R.id.itemAddProjeto:
-                Log.i(TAG, "Clicou itemAddProjeto");
-
-            case R.id.itemInfoPessoal:
-                Log.i(TAG, "Clicou itemInfoPessoal");
-                Intent infoIntent = new Intent(this.getApplicationContext(), InformacaoPessoalActivity.class);
-                startActivity(infoIntent);
-
-            case R.id.itemLogOut:
-                Log.i(TAG, "Clicou itemLogOut");
-                //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                //firebaseAuth.signOut();
-
-            default:
-                return super.onOptionsItemSelected(item);
+            notificationService.showNotification(this, builder);
+            bancoDados.agendarConsultaFirebase(60);
         }*/
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

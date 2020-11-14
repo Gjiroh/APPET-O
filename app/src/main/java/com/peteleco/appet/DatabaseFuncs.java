@@ -403,6 +403,14 @@ public class DatabaseFuncs {
     }
 
     public void agendarConsultaFirebase(long delay_sec) {
+        /*
+            Essa função agenda o horário para a consulta dos dados no firebase! Essa vrificação vai ser
+            feita após um período X depois que o usuário entrar ou (após implementação do app em segundo plano)
+            cada dia a meia noite será diparado essa verificação
+
+            A função que lê os dados após que o trigger da função for ativada é a função NotificationService.scheduleNotification
+
+         */
 
         long delay_milis = delay_sec *1000;
         int scheduleId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
@@ -413,7 +421,7 @@ public class DatabaseFuncs {
 
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, scheduleId, scheduleIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        long futureInMillis = Calendar.getInstance().getTimeInMillis() + delay_milis;;
+        long futureInMillis = Calendar.getInstance().getTimeInMillis() + delay_milis;
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
@@ -426,31 +434,4 @@ public class DatabaseFuncs {
             Log.w(TAG, "Alarm manager é null");
         }
     }
-    public void agendarAlertaTarefas () {
-        Toast.makeText(context, "As tarefas serão agendadas", Toast.LENGTH_SHORT).show();
-        /*List<String> listaProjetosUser = getUserProjects();
-        List<String> list = new ArrayList<>();
-        list.add("DOING");
-        list.add("TO DO");
-        for (String projeto : listaProjetosUser){
-            for (String task : list){
-                reference.child("testeProjetos").child(projeto).child(task).
-                        addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-            }
-        }*/
-    }
-    /*
-    TODO: Marcar horário para consulta Firebase <- João
-          Agenda notifcação com o firebase (verificar agendar e marcar um flag) <- Gabriel J
-    */
 }

@@ -91,7 +91,7 @@ public class NotificationService extends FirebaseMessagingService {
 //        sendRegistrationToServer(token);
     }
 
-    public void createNotificationChannel() {
+    public void createNotificationChannel(Context context) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -102,7 +102,7 @@ public class NotificationService extends FirebaseMessagingService {
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
@@ -152,8 +152,7 @@ public class NotificationService extends FirebaseMessagingService {
         notificationManager.notify(SUMMARY_ID, summaryNotification);
     }
 
-    public void scheduleNotification(Context context, long delay_sec, String nomeProjeto, String nomeTarefa) {//delay is after how much time(in millis) from current time you want to schedule the notification
-
+    public void scheduleNotification(Context context, long delay_sec, String nomeProjeto, String nomeTarefa) {
         int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         long delay_milis = delay_sec*1000;
 
@@ -207,6 +206,7 @@ public class NotificationService extends FirebaseMessagingService {
                 Log.i(TAG, ".setExact");
                 alarmManager.setExact(AlarmManager.RTC, futureInMillis, pendingIntent2);
             } else {
+                Log.i(TAG, ".set");
                 alarmManager.set(AlarmManager.RTC, futureInMillis, pendingIntent2);
             }
         } else {

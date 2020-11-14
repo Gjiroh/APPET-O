@@ -49,7 +49,9 @@ public class BcReceiver extends BroadcastReceiver {
         if (schduleId != def){
             Log.i(TAG, "Agendamento");
             NotificationService notificationService = new NotificationService();
-            notificationService.scheduleNotification(context, 2, "nomeProjeto", "Tarefa tal o prazo esta chegando");
+            //TODO: Relugar o tempo do delay com base no banco de dados
+            //TODO: Definir nome do projeto e nome da tarefa com base no banco de dados
+            notificationService.scheduleNotification(context, 60, "nomeProjeto", "Tarefa tal o prazo esta chegando");
         }
     }
 }

@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         notificationService = new NotificationService();
-        notificationService.createNotificationChannel();
+        notificationService.createNotificationChannel(this.getApplicationContext());
 
         clearData(getSharedPreferences("Activity", 0));
         clearData(getSharedPreferences("Dados", 0));
@@ -144,6 +144,9 @@ public class LoginActivity extends AppCompatActivity {
                                 bancoDados.verificaProjetosUser();
                                 Intent intent = new Intent(getApplicationContext(), ProjetosActivity.class);
                                 campo_senha.setText("");
+                                //TODO: Após a implementação do app em background, alocar esse agendamento para lá
+                                //TODO: Ajustar o tempo para verifcação, o delays_sec
+                                bancoDados.agendarConsultaFirebase(60);
                                 startActivity(intent);
 
                                 if(lembrar_login.isChecked()){
