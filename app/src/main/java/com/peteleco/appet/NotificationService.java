@@ -30,6 +30,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.peteleco.appet.Autenticacao_Login.LoginActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -152,7 +153,9 @@ public class NotificationService extends FirebaseMessagingService {
         notificationManager.notify(SUMMARY_ID, summaryNotification);
     }
 
-    public void scheduleNotification(Context context, long delay_sec, String nomeProjeto, String nomeTarefa) {
+    public void scheduleNotification(Context context, long delay_sec, String nomeProjeto,
+                                     String nomeTarefa, ArrayList<String> notify_tag_list,
+                                     ArrayList<String> notify_id_list, int position) {
         int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         long delay_milis = delay_sec*1000;
 
@@ -180,23 +183,28 @@ public class NotificationService extends FirebaseMessagingService {
                 new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setContentTitle("APPET")
                         //set content text to support devices running API level < 24
-                        .setContentText("Messages")
+                        .setContentText("Mensagens")
                         .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                         //build summary info into InboxStyle template
                         .setStyle(new NotificationCompat.InboxStyle()
                                 .setBigContentTitle("Novas mensagens")
-                                .setSummaryText("mensagens"))
+                                .setSummaryText("Novas mensagens"))
                         //specify which group this notification belongs to
                         .setGroup(GROUP_KEY_WORK_EMAIL)
                         //set this notification as the summary for the group
                         .setGroupSummary(true)
                         .build();
 
-        // TODO: Fazer esquema com que a ID da notificação seja variável para que uma notificação não sobre-escreva a outra
+        String notify_id = notify_id_list.get(notify_id_list.size()-1);
+        String notify_tag = notify_tag_list.get(notify_tag_list.size()-1);
+
         Intent notificationIntent = new Intent(context, BcReceiver.class);
-        notificationIntent.putExtra(BcReceiver.NOTIFICATION_ID, notificationId);
-        notificationIntent.putExtra(BcReceiver.NOTIFICATION, builder.build());
+        notificationIntent.putExtra(BcReceiver.NOTIFICATION_ID, notify_id_list); // Passa lista de ID's
+        notificationIntent.putExtra(BcReceiver.NOTIFICATION, notify_tag_list); // Passa lista de notificação
+        notificationIntent.putExtra(notify_tag, builder.build()); // Passa notificação em construção
+        notificationIntent.putExtra(notify_id, notificationId); // Passa notificação em construção
         notificationIntent.putExtra(BcReceiver.NOTIFICATION_GROUP, summaryNotification);
+        notificationIntent.putExtra(BcReceiver.POSITION, position);
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Date date = new Date();
         long futureInMillis = date.getTime() + delay_milis;

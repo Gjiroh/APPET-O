@@ -32,6 +32,7 @@ import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -439,6 +440,9 @@ public class DatabaseFuncs {
         }
     }
     public void getTaskTimeNotification(){
+        final ArrayList<String> notify_tag_list = new ArrayList<>();
+        final ArrayList<String> notify_id_list = new ArrayList<>();
+
         Set<String> aux = preferences.getStringSet("nomeLogadoProjeto", null);
         ArrayList<String> projetosUser;
         try{
@@ -452,6 +456,7 @@ public class DatabaseFuncs {
             final NotificationService notificationService = new NotificationService();
             DatabaseReference projetos = reference.child("testeProjetos");
             final ArrayList<String> finalProjetosUser = projetosUser;
+            final int[] pos = {0};
             projetos.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -459,23 +464,17 @@ public class DatabaseFuncs {
                         try {
                             Iterable<DataSnapshot> tarefas = dataSnapshot.child(projetoUser+"/DOING").getChildren();
                             for (DataSnapshot tarefa : tarefas){
-                                /* TODO: Corrigir ID de notificação em Notification Service
-                                         Fazer implementar delay correto
-                                         Pedir para o Marketing da Logo do PET uma image 24x24 px para utilizar na notificação
-                                 */
+                                /* TODO: Fazer implementar delay correto com base no dia de conclusão do projeto*/
+                                String notify_tag = BcReceiver.NOTIFICATION+"_"+projetoUser+"_"+tarefa.getKey();
+                                String notify_id = BcReceiver.NOTIFICATION_ID+"_"+projetoUser+"_"+tarefa;
+                                notify_id_list.add(notify_id);
+                                notify_tag_list.add(notify_tag);
                                 notificationService.scheduleNotification(
-                                        context, 5, projetoUser, tarefa.getKey()
+                                        context, 20+(pos[0]*2), projetoUser, tarefa.getKey(), notify_tag_list, notify_id_list, pos[0]
                                 );
-                                Thread.sleep(20);
+                                Thread.sleep(700); // TODO: Implementar Barra de carregamento circular
+                                pos[0] +=1;
                             }
-                            /*notificationService.scheduleNotification(
-                                    context, 20, projetoUser, nomeTarefa
-                            );
-                            Thread.sleep(100);
-                            nomeTarefa = dataSnapshot.child(projetoUser+"/TO DO").getValue().toString();
-                            notificationService.scheduleNotification(
-                                    context, 20, projetoUser, nomeTarefa
-                            );*/
                         }catch (Exception e){
                             Log.e(TAG, "Erro ao localizar uma tarefa");
                             Log.e(TAG, e.getMessage());

@@ -29,7 +29,6 @@ import com.peteleco.appet.MenuInicial.ProjetosActivity;
 import com.peteleco.appet.NotificationService;
 import com.peteleco.appet.R;
 import com.peteleco.appet.DatabaseFuncs;
-import com.peteleco.appet.ReceiverClass;
 
 public class LoginActivity extends AppCompatActivity {
 
