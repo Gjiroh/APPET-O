@@ -163,7 +163,7 @@ public class NotificationService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-                .setContentTitle("APPET - "+nomeProjeto)
+                .setContentTitle("PET - "+nomeProjeto)
                 .setContentText("A "+nomeTarefa+" esta quase no prazo")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
@@ -192,7 +192,7 @@ public class NotificationService extends FirebaseMessagingService {
                         .setGroupSummary(true)
                         .build();
 
-
+        // TODO: Fazer esquema com que a ID da notificação seja variável para que uma notificação não sobre-escreva a outra
         Intent notificationIntent = new Intent(context, BcReceiver.class);
         notificationIntent.putExtra(BcReceiver.NOTIFICATION_ID, notificationId);
         notificationIntent.putExtra(BcReceiver.NOTIFICATION, builder.build());

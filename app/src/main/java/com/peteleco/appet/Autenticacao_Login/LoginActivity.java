@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                                 campo_senha.setText("");
                                 //TODO: Após a implementação do app em background, alocar esse agendamento para lá
                                 //TODO: Ajustar o tempo para verifcação, o delays_sec
-                                bancoDados.agendarConsultaFirebase(60);
+                                //bancoDados.agendarConsultaFirebase(60);
                                 startActivity(intent);
 
                                 if(lembrar_login.isChecked()){

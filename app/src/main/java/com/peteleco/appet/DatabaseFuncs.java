@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.peteleco.appet.MenuInicial.ProjetosModel.ModeloProjetos;
 import com.peteleco.appet.ProjetoEspecifico.MenuInicial.Tarefa;
 import com.peteleco.appet.addNovoProjeto.RecyclerTeste.ModelTeste.ModelTeste;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -39,6 +41,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.sql.DataSource;
 
 import github.nisrulz.stackedhorizontalprogressbar.StackedHorizontalProgressBar;
 
@@ -434,4 +438,59 @@ public class DatabaseFuncs {
             Log.w(TAG, "Alarm manager é null");
         }
     }
+    public void getTaskTimeNotification(){
+        Set<String> aux = preferences.getStringSet("nomeLogadoProjeto", null);
+        ArrayList<String> projetosUser;
+        try{
+            projetosUser = new ArrayList<String>(aux);
+        }catch (Exception e){
+            projetosUser = null;
+            Log.e(TAG, "nomeLogadoProjeto = Null");
+            Log.e(TAG, e.getMessage());
+        }
+        if (projetosUser!=null){
+            final NotificationService notificationService = new NotificationService();
+            DatabaseReference projetos = reference.child("testeProjetos");
+            final ArrayList<String> finalProjetosUser = projetosUser;
+            projetos.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (String projetoUser: finalProjetosUser){
+                        try {
+                            Iterable<DataSnapshot> tarefas = dataSnapshot.child(projetoUser+"/DOING").getChildren();
+                            for (DataSnapshot tarefa : tarefas){
+                                /* TODO: Corrigir ID de notificação em Notification Service
+                                         Fazer implementar delay correto
+                                         Pedir para o Marketing da Logo do PET uma image 24x24 px para utilizar na notificação
+                                 */
+                                notificationService.scheduleNotification(
+                                        context, 5, projetoUser, tarefa.getKey()
+                                );
+                                Thread.sleep(20);
+                            }
+                            /*notificationService.scheduleNotification(
+                                    context, 20, projetoUser, nomeTarefa
+                            );
+                            Thread.sleep(100);
+                            nomeTarefa = dataSnapshot.child(projetoUser+"/TO DO").getValue().toString();
+                            notificationService.scheduleNotification(
+                                    context, 20, projetoUser, nomeTarefa
+                            );*/
+                        }catch (Exception e){
+                            Log.e(TAG, "Erro ao localizar uma tarefa");
+                            Log.e(TAG, e.getMessage());
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    }
+
 }

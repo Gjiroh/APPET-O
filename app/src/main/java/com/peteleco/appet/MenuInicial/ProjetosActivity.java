@@ -69,15 +69,16 @@ public class ProjetosActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.signOut();
             finish();
-        } /*else if (item.getItemId() == R.id.itemNotification) {
-            NotificationService notificationService = new NotificationService();
+        } else if (item.getItemId() == R.id.itemNotification) {
+            /*NotificationService notificationService = new NotificationService();
             NotificationCompat.Builder builder = notificationService.setNotification(this,
                     "APPET",
                     "Teste de notificação",
                     LoginActivity.class);
-            notificationService.showNotification(this, builder);
-            bancoDados.agendarConsultaFirebase(60);
-        }*/
+            notificationService.showNotification(this, builder);*/
+            //bancoDados.agendarConsultaFirebase(60);
+            bancoDados.getTaskTimeNotification();
+        }
         return super.onOptionsItemSelected(item);
     }
 
